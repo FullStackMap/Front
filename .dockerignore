@@ -1,0 +1,25 @@
+# Ignore node_modules directory
+node_modules/
+
+# Ignore .env files
+.env
+
+
+# Ignore build artifacts
+# dist/ do a need to?? scearch
+build/
+
+# Ignore package-lock.json
+# package-lock.json  do i need to ignore this?
+
+
+
+# Ignore editor specific files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Ignore git related files
+.git/
+.gitignore
