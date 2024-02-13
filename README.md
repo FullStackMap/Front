@@ -1,30 +1,41 @@
-# React + TypeScript + Vite
+# FullStackMap
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is built using React, TypeScript, Vite, and Docker.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+## For clone this project
+```bash
+git clone + shh
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Getting Started
+
+To run the project locally, follow these steps:
+
+1. Install Node.js version 20.10.0.
+
+2. Run 
+```bash
+npm install
+```
+ to install the project dependencies.
+
+3. Run to start the development server.
+```bash
+npm run dev
+```
+ to start the development server.
+
+To run the project in a container, follow these steps:
+
+1. Install Docker.
+
+2. Run to start the project container.
+```bash
+docker-compose up -d
+```
+
+That's it! You're now ready to start working with the project.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
