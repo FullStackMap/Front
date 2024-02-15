@@ -1,0 +1,6 @@
+@use '../../variables' as v;
+
+.footerContainer {
+  background-color: v.$primary-color;
+  height: 100px;
+}
