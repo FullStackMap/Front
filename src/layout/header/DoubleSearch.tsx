@@ -10,13 +10,13 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import classes from './HeaderMegaMenu.module.css';
+import { Outlet } from 'react-router-dom';
 
 
-export function DoubleNavbar() {
+const HomeLayout = () => {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
-  const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
-
   return (
+  <div>
     <Box pb={120}>
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
@@ -72,5 +72,9 @@ export function DoubleNavbar() {
         </ScrollArea>
       </Drawer>
     </Box>
+    <Outlet/>
+  </div>
   );
 }
+
+export default HomeLayout;
