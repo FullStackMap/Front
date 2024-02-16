@@ -3,18 +3,24 @@ import './styles.scss';
 import '@mantine/core/styles.css';
 import {
 	AppShell,
-	rem,
-	Text,
 	Burger,
 	UnstyledButton,
 	Group,
+	ActionIcon,
+	Button,
 } from '@mantine/core';
+import { useNavigate } from 'react-router-dom';
+import { User } from 'lucide-react';
+import { IconSquareRoundedPlus } from '@tabler/icons-react';
 
 export default function App() {
 	const [opened, { toggle }] = useDisclosure();
 
-	const lorem =
-		'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos ullam, ex cum repellat alias ea nemo. Ducimus ex nesciunt hic ad saepe molestiae nobis necessitatibus laboriosam officia, reprehenderit, earum fugiat?';
+	const navigate = useNavigate();
+
+	const handleClickLogo = () => {
+		navigate('/');
+	};
 
 	return (
 		<AppShell
@@ -30,32 +36,30 @@ export default function App() {
 				<Group h="100%" px="md">
 					<Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
 					<Group justify="space-between" style={{ flex: 1 }}>
-						<div>Logo</div>
+						<img
+							src="/public/vite.svg"
+							alt="Logo du site"
+							onClick={handleClickLogo}
+						/>
 						<Group ml="xl" gap={0} visibleFrom="sm">
-							<UnstyledButton className="control">Home</UnstyledButton>
-							<UnstyledButton className="control">Blog</UnstyledButton>
-							<UnstyledButton className="control">Contacts</UnstyledButton>
-							<UnstyledButton className="control">Support</UnstyledButton>
+							<Button
+								leftSection={<IconSquareRoundedPlus size={14} />}
+								variant="default">
+								Créer mon voyage
+							</Button>
+							<ActionIcon variant="outline" aria-label="Settings" radius="xl">
+								<User />
+							</ActionIcon>
 						</Group>
 					</Group>
 				</Group>
 			</AppShell.Header>
 			<AppShell.Navbar py="md" px={4}>
-				<UnstyledButton className="control">Home</UnstyledButton>
-				<UnstyledButton className="control">Blog</UnstyledButton>
-				<UnstyledButton className="control">Contacts</UnstyledButton>
-				<UnstyledButton className="control">Support</UnstyledButton>
+				<UnstyledButton className="control">Créer mon voyage</UnstyledButton>
+				<UnstyledButton className="control">Profil</UnstyledButton>
 			</AppShell.Navbar>
 
-			<AppShell.Main pt={`calc(${rem(60)} + var(--mantine-spacing-md))`}>
-				{Array(40)
-					.fill(0)
-					.map((_, index) => (
-						<Text size="lg" key={index} my="md" maw={600} mx="auto">
-							{lorem}
-						</Text>
-					))}
-			</AppShell.Main>
+			<AppShell.Main>MAIN</AppShell.Main>
 			<AppShell.Footer>Footer</AppShell.Footer>
 		</AppShell>
 	);
