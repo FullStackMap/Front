@@ -4,7 +4,7 @@ This project is built using React, TypeScript, Vite, and Docker.
 
 ## To clone this project
 ```bash
-git clone + ${sshLink}
+git clone git@github.com:FullStackMap/Front.git
 ```
 ## Recommending you to use pnpm instead of npm, to install it
 ```bash
