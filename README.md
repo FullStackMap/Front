@@ -2,9 +2,13 @@
 
 This project is built using React, TypeScript, Vite, and Docker.
 
-## For clone this project
+## To clone this project
 ```bash
-git clone + shh
+git clone git@github.com:FullStackMap/Front.git
+```
+## Recommending you to use pnpm instead of npm, to install it
+```bash
+npm install -g pnpm
 ```
 
 ## Getting Started
@@ -15,15 +19,15 @@ To run the project locally, follow these steps:
 
 2. Run 
 ```bash
-npm install
+pnpm install
 ```
- to install the project dependencies.
+To install the project dependencies.
 
 3. Run to start the development server.
 ```bash
-npm run dev
+pnpm run dev
 ```
- to start the development server.
+To start the development server.
 
 To run the project in a container, follow these steps:
 
@@ -31,7 +35,7 @@ To run the project in a container, follow these steps:
 
 2. Run to start the project container.
 ```bash
-docker-compose up -d
+pnpm run start
 ```
 
 That's it! You're now ready to start working with the project.
