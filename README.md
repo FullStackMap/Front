@@ -4,7 +4,11 @@ This project is built using React, TypeScript, Vite, and Docker.
 
 ## For clone this project
 ```bash
-git clone + shh
+git clone + ${shhLink}
+```
+## Recomande you to use pnpm instead npm, for install it
+```bash
+npm install -g pnpm
 ```
 
 ## Getting Started
@@ -15,13 +19,13 @@ To run the project locally, follow these steps:
 
 2. Run 
 ```bash
-npm install
+pnpm install
 ```
  to install the project dependencies.
 
 3. Run to start the development server.
 ```bash
-npm run dev
+pnpm run dev
 ```
  to start the development server.
 
@@ -31,7 +35,7 @@ To run the project in a container, follow these steps:
 
 2. Run to start the project container.
 ```bash
-docker-compose up -d
+pnpm run start
 ```
 
 That's it! You're now ready to start working with the project.
