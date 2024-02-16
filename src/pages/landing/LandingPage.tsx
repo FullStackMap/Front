@@ -3,7 +3,7 @@ import '@mantine/core/styles.css';
 const LandingPage = () => {
 	return (
 		<div>
-			<h1>sss</h1>
+			<h1>home page</h1>
 		</div>
 	);
 };
