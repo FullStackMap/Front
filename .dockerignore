@@ -4,15 +4,16 @@ node_modules/
 # Ignore .env files
 .env
 
-
 # Ignore build artifacts
-# dist/ do a need to?? scearch
 build/
 
-# Ignore package-lock.json
-# package-lock.json  do i need to ignore this?
+# Ignore Dist artifacts
+dist/
 
-
+# Ignore lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
 
 # Ignore editor specific files
 .vscode/
