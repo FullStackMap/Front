@@ -4,7 +4,6 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 
 import { createTheme, MantineProvider } from '@mantine/core';
-import { BrowserRouter } from 'react-router-dom';
 
 const theme = createTheme({
 	white: '#f5f5f5',
