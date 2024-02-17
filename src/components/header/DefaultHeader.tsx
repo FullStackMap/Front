@@ -16,16 +16,11 @@ interface DefaultHeaderProps {
 }
 
 const DefaultHeader = (props: DefaultHeaderProps) => {
-	const isLogged = false;
+	const isLogged = true;
 	const navigate = useNavigate();
 
 	const handleClickLogo = () => {
 		navigate('/');
-	};
-
-	const handleLogin = () => {
-		//TODO: Redirect to login page
-		console.log('Login / Register');
 	};
 
 	const handleCreateTrip = () => {
@@ -65,7 +60,7 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
 						className="cursor-pointer"
 					/>
 					<Group ml="xl" gap={0} visibleFrom="sm">
-						{isLogged ? (
+						{isLogged && (
 							<>
 								<Button
 									mr="sm"
@@ -74,16 +69,9 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
 									onClick={handleCreateTrip}>
 									Créer mon voyage
 								</Button>
-								<ProfileMenu />
 							</>
-						) : (
-							<Button
-								leftSection={<IconLogin />}
-								variant="default"
-								onClick={handleLogin}>
-								Login / Register
-							</Button>
 						)}
+						<ProfileMenu isLogged={isLogged} />
 					</Group>
 				</Group>
 			</Group>
