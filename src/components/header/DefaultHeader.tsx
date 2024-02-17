@@ -16,7 +16,7 @@ interface DefaultHeaderProps {
 }
 
 const DefaultHeader = (props: DefaultHeaderProps) => {
-	const isLogged = true;
+	const isLogged = false;
 	const navigate = useNavigate();
 
 	const handleClickLogo = () => {

@@ -1,7 +1,6 @@
 import { Menu, rem, ActionIcon } from '@mantine/core';
 import {
 	IconUserFilled,
-	IconSquareRoundedPlus,
 	IconLogout,
 	IconUser,
 	IconMapPins,

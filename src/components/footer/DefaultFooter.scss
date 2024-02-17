@@ -1,0 +1,44 @@
+.footerContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.inner {
+  padding: auto;
+  background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+  display: flex;
+  justify-content: space-evenly;
+  align-items: stretch;
+  flex-grow: 1;
+}
+
+
+.groups {
+  display: flex;
+}
+
+.wrapper {
+  width: 160px;
+}
+
+.link {
+  display: block;
+  color: light-dark(var(--mantine-color-gray-6), var(--mantine-color-dark-1));
+  font-size: var(--mantine-font-size-sm);
+  padding-top: 3px;
+  padding-bottom: 3px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.title {
+  font-size: var(--mantine-font-size-lg);
+  font-weight: 700;
+  font-family:
+    Greycliff CF,
+    var(--mantine-font-family);
+  margin-bottom: calc(var(--mantine-spacing-xs) / 2);
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+}
