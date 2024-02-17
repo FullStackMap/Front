@@ -1,17 +1,8 @@
-import {
-	Burger,
-	Button,
-	ActionIcon,
-	Group,
-	AppShell,
-	UnstyledButton,
-} from '@mantine/core';
-import {
-	IconSquareRoundedPlus,
-	IconUser,
-	IconLogin,
-} from '@tabler/icons-react';
+import { Burger, Button, Group, AppShell, UnstyledButton } from '@mantine/core';
+import { IconSquareRoundedPlus, IconLogin } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
+import ProfileMenu from '../profileMenu/ProfileMenu';
+import './DefaultHeader.scss';
 
 interface DefaultHeaderProps {
 	burgerOpened: boolean;
@@ -31,13 +22,9 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
 		console.log('Create trip');
 	};
 
-	const handleProfileDropDownMenu = () => {
-		console.log('Profile');
-	};
-
 	const handleLogin = () => {
 		//TODO: Redirect to login page
-		console.log('Login');
+		console.log('Login / Register');
 	};
 
 	return (
@@ -54,23 +41,19 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
 						src="/public/vite.svg"
 						alt="Logo du site"
 						onClick={handleClickLogo}
+						className="cursor-pointer"
 					/>
 					<Group ml="xl" gap={0} visibleFrom="sm">
 						{isLogged ? (
 							<>
 								<Button
+									mr="sm"
 									leftSection={<IconSquareRoundedPlus size={14} />}
 									variant="default"
 									onClick={handleCreateTrip}>
 									Create my trip
 								</Button>
-								<ActionIcon
-									variant="outline"
-									aria-label="Settings"
-									radius="xl"
-									onClick={handleProfileDropDownMenu}>
-									<IconUser />
-								</ActionIcon>
+								<ProfileMenu />
 							</>
 						) : (
 							<Button
