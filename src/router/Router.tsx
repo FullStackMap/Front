@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import LandingPage from '../pages/landing/LandingPage';
 import LoginPage from '../pages/login/LoginPage';
 import DefaultLayout from '../layout/header/DefaultLayout';
@@ -10,6 +10,7 @@ const Router = () => {
 			<Route element={<DefaultLayout />}>
 				<Route path="/" element={<LandingPage />} />
 				<Route path="/test" element={<TestPage />} />
+				<Route path="/*" element={<Navigate to="/" />} />
 			</Route>
 
 			<Route path="/login" element={<LoginPage />} />

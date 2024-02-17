@@ -4,6 +4,7 @@ import {
 	IconSquareRoundedPlus,
 	IconLogout,
 	IconUser,
+	IconMapPins,
 } from '@tabler/icons-react';
 
 const ProfileMenu = () => {
@@ -43,9 +44,7 @@ const ProfileMenu = () => {
 				</Menu.Item>
 				<Menu.Item
 					leftSection={
-						<IconSquareRoundedPlus
-							style={{ width: rem(14), height: rem(14) }}
-						/>
+						<IconMapPins style={{ width: rem(14), height: rem(14) }} />
 					}
 					onClick={handleTrips}>
 					Mes voyages

@@ -1,7 +1,8 @@
 import { AppShell } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Outlet } from 'react-router-dom';
-import DefaultHeader from '../../components/headers/DefaultHeader';
+import DefaultHeader from '../../components/header/DefaultHeader';
+import DefaultFooter from '../../components/footer/DefaultFooter';
 
 const DefaultLayout = () => {
 	const [opened, { toggle }] = useDisclosure();
@@ -23,7 +24,9 @@ const DefaultLayout = () => {
 			<AppShell.Main>
 				<Outlet />
 			</AppShell.Main>
-			<AppShell.Footer>Footer</AppShell.Footer>
+			<AppShell.Footer>
+				<DefaultFooter />
+			</AppShell.Footer>
 		</AppShell>
 	);
 };
