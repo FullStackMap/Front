@@ -11,9 +11,21 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import classes from './HeaderMegaMenu.module.css';
 import { Outlet } from 'react-router-dom';
+import { LoginDto } from '../../Models/Auth/LoginDto';
+import { AuthController } from '../../services/api/AuthController';
+import { useAuth, AuthProvider, LocalStorageProvider } from "@reactivers/hooks";
 
 
 const HomeLayout = () => {
+
+  const auth = useAuth();
+
+  const handleClickLogin = async () => {
+    const loginDto: LoginDto = { Username: "Dercraker", Password: "NMdRx$HqyT8jX6" }
+    await AuthController.LoginAsync(loginDto)
+  }
+
+
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
   return (
   <div>
@@ -35,7 +47,7 @@ const HomeLayout = () => {
           </Group>
 
           <Group visibleFrom="sm">
-            <Button variant="default">Log in</Button>
+            <Button variant="default" onClick={handleClickLogin}>Log in</Button>
           </Group>
 
           <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />

@@ -15,6 +15,8 @@
     "@mantine/hooks": "^7.5.0",
     "@mantinex/mantine-logo": "^1.0.1",
     "@tabler/icons-react": "^2.46.0",
+    "axios": "^1.6.7",
+    "json2typescript": "^1.5.1",
     "loader-utils": "3.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -24,6 +26,8 @@
     "styled-components": "5.3.9"
   },
   "devDependencies": {
+    "@reactivers/hooks": "^1.0.15",
+    "@types/js-cookie": "^3.0.6",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
@@ -32,6 +36,8 @@
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "js-cookie": "^3.0.5",
+    "jwt-decode": "^4.0.0",
     "postcss": "^8.4.33",
     "postcss-preset-mantine": "^1.12.3",
     "postcss-simple-vars": "^7.0.1",
