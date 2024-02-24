@@ -1,6 +1,6 @@
 export type AuthUser = {
+  User: string
   Email: string
-  UserName: string
   Roles: string[]
   Exp: number
 }

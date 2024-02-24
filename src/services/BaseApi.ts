@@ -1,6 +1,5 @@
-// import { AuthModule } from '@/store/modules/Authentication';
 import axios, { AxiosInstance } from 'axios';
-import { useAuth, AuthProvider, LocalStorageProvider } from "@reactivers/hooks";
+import { useAuth } from '../hook/useAuth';
 
 export default class BaseApi {
   private static baseApi = "http://localhost:32769"
@@ -17,11 +16,11 @@ export default class BaseApi {
 
   private static _appLogged: AxiosInstance | null;
   static get AppLogged() {
-    const { token } = useAuth();
+    const { GetToken } = useAuth();
     if (!this._appLogged) {
       this._appLogged = axios.create({
         baseURL: this.baseApi,
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${GetToken()}` },
       });
     }
     return this._appLogged;

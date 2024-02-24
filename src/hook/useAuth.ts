@@ -1,10 +1,8 @@
+import { JwtPayload, jwtDecode } from "jwt-decode";
 import { AuthUser } from "../Models/Auth/AuthUser";
-import { TokenDto } from "../Models/Auth/TokenDto";
-import { jwtDecode } from "jwt-decode";
-import { JsonConvert } from 'json2typescript';
-import useCookie from "./useCookie";
-import api from '../services/BaseApi'
 import { LoginDto } from "../Models/Auth/LoginDto";
+import api from '../services/BaseApi';
+import useCookie from "./useCookie";
 
 export interface IAuthState {
   Token: string | null
@@ -22,19 +20,19 @@ export const useAuth = () => {
 
   const SaveToken = (token: string) => SaveCookie("Auth-Token", token)
 
-  const GetToken = (): TokenDto => GetCookie("Auth-Token") as unknown as TokenDto;
+  const GetToken = (): string => GetCookie("Auth-Token") as string;
 
   const SaveExpiration = (expire: number) => SaveCookie("Auth-Token-Expire", expire.toString())
 
-  const IsTokenExpired = (encodedToken: TokenDto): boolean => {
-    const token: TokenDto = jwtDecode(encodedToken as unknown as string);
+  const IsTokenExpired = (encodedToken: string): boolean => {
+    const token : JwtPayload = jwtDecode(encodedToken);
 
-    if (!token || !token.Exp) {
+    if (!token || !token.exp) {
       return false;
     }
 
     const date = new Date(0);
-    date.setUTCSeconds(token.Exp);
+    date.setUTCSeconds(token.exp);
     // eslint-disable-next-line
     return date! > new Date();
   }
@@ -46,8 +44,6 @@ export const useAuth = () => {
   const ResetToken = (): void => {
     DeleteCookie("Auth-Token");
     DeleteCookie("Auth-Token-Expire");
-    _user = null;
-    _exipre = null
     _token = null;
   }
 
@@ -107,6 +103,7 @@ export const useAuth = () => {
     api.reset();
   }
   return {
+    GetToken,
     ResetToken,
     GetUserInfo,
     Login,

@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
+import HomeLayout from '../layout/header/HomeLayout';
 import LandingPage from '../pages/landing/LandingPage';
 import LoginPage from '../pages/login/LoginPage';
-import  HomeLayout from '../layout/header/DoubleSearch';
 import TestPage from '../pages/test/TestPage';
 
 const Router = () => {

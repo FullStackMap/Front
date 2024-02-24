@@ -1,24 +1,24 @@
 import {
-  Group,
-  Button,
-  Divider,
   Box,
   Burger,
+  Button,
+  Divider,
   Drawer,
+  Group,
   ScrollArea,
   rem,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import classes from './HeaderMegaMenu.module.css';
 import { Outlet } from 'react-router-dom';
 import { LoginDto } from '../../Models/Auth/LoginDto';
+import { useAuth } from '../../hook/useAuth';
 import { AuthController } from '../../services/api/AuthController';
-import { useAuth, AuthProvider, LocalStorageProvider } from "@reactivers/hooks";
+import classes from './HeaderMegaMenu.module.css';
 
 
 const HomeLayout = () => {
 
-  const auth = useAuth();
+  const { Login } = useAuth();
 
   const handleClickLogin = async () => {
     const loginDto: LoginDto = { Username: "Dercraker", Password: "NMdRx$HqyT8jX6" }
