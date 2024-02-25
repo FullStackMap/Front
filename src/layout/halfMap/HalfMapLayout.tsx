@@ -3,8 +3,9 @@ import { useDisclosure } from '@mantine/hooks';
 import { Outlet } from 'react-router-dom';
 import DefaultFooter from '../../components/footer/DefaultFooter';
 import DefaultHeader from '../../components/header/DefaultHeader';
+import './HalfMapLayout.scss';
 
-const DefaultLayout = () => {
+export const HalfMapLayout = () => {
 	const [opened, { toggle }] = useDisclosure();
 
 	return (
@@ -21,9 +22,12 @@ const DefaultLayout = () => {
 				<DefaultHeader burgerOpened={opened} toggleBurgerState={toggle} />
 			</AppShell.Header>
 
-			<AppShell.Main>
-				<div className="MainContainer">
+			<AppShell.Main style={{ display: 'flex', flex: 1 }}>
+				<div className="Content">
 					<Outlet />
+				</div>
+				<div className="MapContainer">
+					<h1>MapComponent</h1>
 				</div>
 			</AppShell.Main>
 			<AppShell.Footer>
@@ -32,5 +36,3 @@ const DefaultLayout = () => {
 		</AppShell>
 	);
 };
-
-export default DefaultLayout;
