@@ -39,16 +39,16 @@ const HomeLayout = () => {
 							</a>
 
 							<a href="#" className={classes.link}>
-								Profile
+								Profil
 							</a>
 							<a href="#" className={classes.link}>
-								Travel
+								Voyage
 							</a>
 						</Group>
 
 						<Group visibleFrom="sm">
 							<Button variant="default" onClick={handleClickLogin}>
-								Log in
+								Se connecter
 							</Button>
 						</Group>
 
@@ -72,19 +72,19 @@ const HomeLayout = () => {
 						<Divider my="sm" />
 
 						<a href="#" className={classes.link}>
-							Home
+							Accueil
 						</a>
 						<a href="#" className={classes.link}>
-							Learn
+							Apprendre
 						</a>
 						<a href="#" className={classes.link}>
-							Academy
+							Académie
 						</a>
 
 						<Divider my="sm" />
 
 						<Group justify="center" grow pb="xl" px="md">
-							<Button variant="default">Log in</Button>
+							<Button variant="default">Se connecter</Button>
 						</Group>
 					</ScrollArea>
 				</Drawer>
