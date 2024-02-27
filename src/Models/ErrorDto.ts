@@ -1,4 +1,4 @@
 export type ErrorDto = {
-  Code: string
-  Message: string
-}
+  Code: string;
+  Message: string;
+};

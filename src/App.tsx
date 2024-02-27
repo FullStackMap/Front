@@ -5,13 +5,13 @@ import { AuthStore, useAuthStore } from './store/useAuthStore';
 import './styles.css';
 
 export default function App() {
-	const loadUser: () => void = useAuthStore((s: AuthStore) => s.loadUser);
+  const loadUser: () => void = useAuthStore((s: AuthStore) => s.loadUser);
 
-	useEffect(() => loadUser());
+  useEffect(() => loadUser());
 
-	return (
-		<div className="App">
-			<Router />
-		</div>
-	);
+  return (
+    <div className="App">
+      <Router />
+    </div>
+  );
 }
