@@ -5,32 +5,32 @@ import DefaultFooter from '../../components/footer/DefaultFooter';
 import DefaultHeader from '../../components/header/DefaultHeader';
 
 const DefaultLayout = () => {
-	const [opened, { toggle }] = useDisclosure();
+  const [opened, { toggle }] = useDisclosure();
 
-	return (
-		<AppShell
-			header={{ height: 60 }}
-			navbar={{
-				width: 300,
-				breakpoint: 'sm',
-				collapsed: { desktop: true, mobile: !opened },
-			}}
-			footer={{ height: 120 }}
-			padding="md">
-			<AppShell.Header>
-				<DefaultHeader burgerOpened={opened} toggleBurgerState={toggle} />
-			</AppShell.Header>
+  return (
+    <AppShell
+      header={{ height: 60 }}
+      navbar={{
+        width: 300,
+        breakpoint: 'sm',
+        collapsed: { desktop: true, mobile: !opened },
+      }}
+      footer={{ height: 120 }}
+      padding="md">
+      <AppShell.Header>
+        <DefaultHeader burgerOpened={opened} toggleBurgerState={toggle} />
+      </AppShell.Header>
 
-			<AppShell.Main>
-				<div className="MainContainer">
-					<Outlet />
-				</div>
-			</AppShell.Main>
-			<AppShell.Footer>
-				<DefaultFooter />
-			</AppShell.Footer>
-		</AppShell>
-	);
+      <AppShell.Main>
+        <div className="MainContainer">
+          <Outlet />
+        </div>
+      </AppShell.Main>
+      <AppShell.Footer>
+        <DefaultFooter />
+      </AppShell.Footer>
+    </AppShell>
+  );
 };
 
 export default DefaultLayout;
