@@ -11,82 +11,87 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { Outlet } from 'react-router-dom';
 import { LoginDto } from '../../Models/Auth/LoginDto';
-import { useAuth } from '../../hook/useAuth';
-import { AuthController } from '../../services/api/AuthController';
+import { useAuthStore } from '../../store/useAuthStore';
 import classes from './HeaderMegaMenu.module.css';
 
-
 const HomeLayout = () => {
+  const authStore = useAuthStore();
 
-  const { Login } = useAuth();
+  const handleClickLogin: () => Promise<void> = async () => {
+    const loginDto: LoginDto = {
+      Username: 'Dercraker',
+      Password: 'NMdRx$HqyT8jX6',
+    };
 
-  const handleClickLogin = async () => {
-    const loginDto: LoginDto = { Username: "Dercraker", Password: "NMdRx$HqyT8jX6" }
-    await AuthController.LoginAsync(loginDto)
-  }
+    authStore.login(loginDto);
+  };
 
-
-  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
+  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
+    useDisclosure(false);
   return (
-  <div>
-    <Box pb={120}>
-      <header className={classes.header}>
-        <Group justify="space-between" h="100%">
+    <div>
+      <Box pb={120}>
+        <header className={classes.header}>
+          <Group justify="space-between" h="100%">
+            <Group h="100%" gap={0} visibleFrom="sm">
+              <a href="#" className={classes.link}>
+                Accueil
+              </a>
 
-          <Group h="100%" gap={0} visibleFrom="sm">
-            <a href="#" className={classes.link}>
-              Acceuil
-            </a>
-    
-            <a href="#" className={classes.link}>
-              Profile
-            </a>
-            <a href="#" className={classes.link}>
-              Travel
-            </a>
+              <a href="#" className={classes.link}>
+                Profil
+              </a>
+              <a href="#" className={classes.link}>
+                Voyage
+              </a>
+            </Group>
+
+            <Group visibleFrom="sm">
+              <Button variant="default" onClick={handleClickLogin}>
+                Se connecter
+              </Button>
+            </Group>
+
+            <Burger
+              opened={drawerOpened}
+              onClick={toggleDrawer}
+              hiddenFrom="sm"
+            />
           </Group>
+        </header>
 
-          <Group visibleFrom="sm">
-            <Button variant="default" onClick={handleClickLogin}>Log in</Button>
-          </Group>
+        <Drawer
+          opened={drawerOpened}
+          onClose={closeDrawer}
+          size="100%"
+          padding="md"
+          title="Navigation"
+          hiddenFrom="sm"
+          zIndex={1000000}>
+          <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
+            <Divider my="sm" />
 
-          <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
-        </Group>
-      </header>
+            <a href="#" className={classes.link}>
+              Accueil
+            </a>
+            <a href="#" className={classes.link}>
+              Apprendre
+            </a>
+            <a href="#" className={classes.link}>
+              Académie
+            </a>
 
-      <Drawer
-        opened={drawerOpened}
-        onClose={closeDrawer}
-        size="100%"
-        padding="md"
-        title="Navigation"
-        hiddenFrom="sm"
-        zIndex={1000000}
-      >
-        <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
-          <Divider my="sm" />
+            <Divider my="sm" />
 
-          <a href="#" className={classes.link}>
-            Home
-          </a>
-          <a href="#" className={classes.link}>
-            Learn
-          </a>
-          <a href="#" className={classes.link}>
-            Academy
-          </a>
-
-          <Divider my="sm" />
-
-          <Group justify="center" grow pb="xl" px="md">
-            <Button variant="default">Log in</Button>
-          </Group>
-        </ScrollArea>
-      </Drawer>
-    </Box>
-    <Outlet/>
-  </div>
+            <Group justify="center" grow pb="xl" px="md">
+              <Button variant="default">Se connecter</Button>
+            </Group>
+          </ScrollArea>
+        </Drawer>
+      </Box>
+      <Outlet />
+    </div>
   );
-}
+};
 
 export default HomeLayout;
