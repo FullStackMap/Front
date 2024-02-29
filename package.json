@@ -11,8 +11,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mantine/core": "^7.5.3",
-    "@mantine/hooks": "^7.5.3",
+    "@FullStackMap/from-a2b": "0.0.0-Beta",
+    "@mantine/core": "^7.5.0",
+    "@mantine/hooks": "^7.5.0",
     "@mantinex/mantine-logo": "^1.0.1",
     "@tabler/icons-react": "^2.47.0",
     "axios": "^1.6.7",

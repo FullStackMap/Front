@@ -35,4 +35,4 @@ pnpm-lock.yaml
 .env.test
 .env.production
 
-
+.npmrc
