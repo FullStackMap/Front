@@ -1,4 +1,4 @@
-export type TokenDto = {
+export type TokenDecoded = {
   //UserName of the user
   User: string;
   //Email of the user

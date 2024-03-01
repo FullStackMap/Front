@@ -8,7 +8,6 @@ export default function App() {
   const loadUser: () => void = useAuthStore((s: AuthStore) => s.loadUser);
 
   useEffect(() => loadUser());
-
   return (
     <div className="App">
       <Router />
