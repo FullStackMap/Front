@@ -17,7 +17,7 @@ const HomeLayout = () => {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
   return (
   <div>
-    <Box pb={120}>
+    <Box>
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
 
@@ -46,7 +46,6 @@ const HomeLayout = () => {
         opened={drawerOpened}
         onClose={closeDrawer}
         size="100%"
-        padding="md"
         title="Navigation"
         hiddenFrom="sm"
         zIndex={1000000}
