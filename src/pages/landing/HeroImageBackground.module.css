@@ -2,7 +2,7 @@
   position: relative;
   padding-top: rem(100px);
   padding-bottom: rem(130px);
-  background-image: url("./../../../public/bg.png");
+  background-image: url("./../../../bg.png");
   background-size: cover;
   background-position: center;
 
@@ -36,7 +36,8 @@
 .description {
   color: var(--mantine-color-gray-0);
   text-align: center;
-
+  font-weight: 600;
+  
   @media (max-width: $mantine-breakpoint-xs) {
     font-size: var(--mantine-font-size-md);
     text-align: left;
