@@ -1,6 +1,5 @@
 import { Group } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
-import './DefaultHeader.scss';
 
 const LoginHeader = () => {
   const navigate = useNavigate();
