@@ -3,10 +3,10 @@ import { Content } from './Content';
 
 const LandingPage = () => {
   return (
-    <div>
+    <>
       <HeroImageBackground />
       <Content />
-    </div>
+    </>
   );
 };
 

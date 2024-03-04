@@ -2,8 +2,6 @@ import {
   Container,
   Text,
   SimpleGrid,
-  Card,
-  Group,
   Timeline,
   TimelineItem,
   Paper,
@@ -22,7 +20,7 @@ import {
   IconDownload,
   IconTimeline,
 } from '@tabler/icons-react';
-import { useHover } from '@mantine/hooks';
+import { DestinationCard } from '../../components/DestinationCard';
 
 export function Content() {
   return (
@@ -116,32 +114,3 @@ export function Content() {
     </Container>
   );
 }
-
-const DestinationCard = ({
-  icon,
-  title,
-  description,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-}) => {
-  const { hovered, ref } = useHover();
-  return (
-    <Card
-      shadow="sm"
-      padding="lg"
-      radius="md"
-      withBorder
-      ref={ref}
-      style={{ border: hovered ? '2px solid teal' : '2px solid transparent' }}>
-      <Group mb="xs">
-        {icon}
-        <Text>{title}</Text>
-      </Group>
-      <Text size="sm" c="dimmed">
-        {description}
-      </Text>
-    </Card>
-  );
-};
