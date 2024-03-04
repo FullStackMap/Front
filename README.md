@@ -45,6 +45,7 @@ To install the project dependencies.
 ```bash
 pnpm run dev
 ```
+
 To start the development server.
 
 ### To run the project in a container, follow these steps:
