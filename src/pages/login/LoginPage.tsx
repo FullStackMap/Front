@@ -1,3 +1,4 @@
+import { LoginDto } from '@FullStackMap/from-a2b';
 import {
   Anchor,
   Button,
@@ -11,12 +12,20 @@ import {
 import '@mantine/core/styles.css';
 import { useForm } from '@mantine/form';
 import { zodResolver } from 'mantine-form-zod-resolver';
+import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
+import { AuthStore, useAuthStore } from '../../store/useAuthStore';
 import classes from './LoginPage.module.css';
 
 export function LoginPage() {
+  const { login } = useAuthStore()
+  const userIsLogged = useAuthStore((s: AuthStore) => s.isLogged)
+  const navigate = useNavigate()
+
+
   const loginSchema = z.object({
-    username: z
+    email: z
       .string()
       .email('Un email valid est requis'),
     password: z
@@ -26,19 +35,23 @@ export function LoginPage() {
 
   const loginForm = useForm({
   initialValues: {
-    username: '',
+    email: '',
     password: '',
   },
   validate: zodResolver(loginSchema),
   });
+
+  const loginUser = useCallback(async (loginDto: LoginDto) => {
+    console.log(loginDto);
+    
+    await login(loginDto);
+      navigate("/")
+  }, [])
   
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (loginForm.isValid()) {
-      console.log(loginForm.values);
-    }
+    loginUser(loginForm.values)
   }
-
 
   return (
     <div className={classes.wrapper}>
@@ -52,7 +65,7 @@ export function LoginPage() {
           label="Email"
           placeholder="exemple@gmail.com"
             size="md"
-            {...loginForm.getInputProps('username')}
+      {...loginForm.getInputProps('email')}
         />
 
         <PasswordInput
