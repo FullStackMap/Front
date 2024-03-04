@@ -10,6 +10,9 @@ WORKDIR /app
 # Copy package.json
 COPY ./package.json ./
 
+# Copy the rest of the files
+COPY . .
+
 # Install dependencies
 RUN pnpm install
 
