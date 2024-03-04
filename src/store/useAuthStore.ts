@@ -73,7 +73,7 @@ export const useAuthStore: UseBoundStore<StoreApi<AuthStore>> =
           if (err.response && err.response.status === 400)
             errorMessage = err.response.data.Message;
           console.error(errorMessage);
-        });      
+        });
     },
     loadUser: () => {
       const token: string | undefined = Cookies.get('Auth-Token');
