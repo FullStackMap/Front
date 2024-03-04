@@ -8,7 +8,6 @@ import { createTheme, MantineProvider } from '@mantine/core';
 const theme = createTheme({
   fontFamily: 'Poppins, sans-serif',
   primaryColor: 'teal',
-  
 });
 
 const rootElement = document.getElementById('root')!;

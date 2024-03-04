@@ -27,7 +27,7 @@ export function Content() {
   return (
     <Container size="lg" py="xl" mt={50} ta="center">
       <Badge variant="filled" size="xl" mb={50}>
-        Organisez votre prochain voyage en toute sérénité
+        Organisez votre prochain voyage
       </Badge>
       <Timeline color="gray" active={1} lineWidth={6} bulletSize={40}>
         <TimelineItem bullet={<IconPhoto size={18} />}>
