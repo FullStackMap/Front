@@ -22,6 +22,7 @@ import {
   IconDownload,
   IconTimeline,
 } from '@tabler/icons-react';
+import { useHover } from '@mantine/hooks';
 
 export function Content() {
   return (
@@ -125,13 +126,20 @@ const DestinationCard = ({
   title: string;
   description: string;
 }) => {
+  const { hovered, ref } = useHover();
   return (
-    <Card shadow="sm" padding="lg" radius="md" withBorder>
+    <Card
+      shadow="sm"
+      padding="lg"
+      radius="md"
+      withBorder
+      ref={ref}
+      style={{ border: hovered ? '2px solid teal' : '2px solid transparent' }}>
       <Group mb="xs">
         {icon}
         <Text>{title}</Text>
       </Group>
-      <Text size="sm" c="dimmed" color="">
+      <Text size="sm" c="dimmed">
         {description}
       </Text>
     </Card>
