@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import './DefaultFooter.scss';
 
-import { Container, Divider, Group, Text } from '@mantine/core';
+import { Container, Group, Text, Image, Title, Divider } from '@mantine/core';
 
 const data = [
   {
@@ -35,46 +35,56 @@ const DefaultFooter = () => {
     Navigate('/');
   };
 
-  const groups = data.map(group => {
+  const groups = data.map((group) => {
     const links = group.links.map((link, index) => (
       <Text<'a'>
         key={index}
-        className="link"
-        component="a"
+        className="footer__link"
         href={link.link}
-        onClick={event => event.preventDefault()}>
+        pt={5}
+        onClick={(event) => event.preventDefault()}>
         {link.label}
       </Text>
     ));
 
     return (
-      <div className="wrapper" key={group.title}>
-        <Text className="title">{group.title}</Text>
+      <div key={group.title}>
+        <Text className="footer__title">{group.title}</Text>
         {links}
       </div>
     );
   });
 
+  const isMobile = window.innerWidth < 768;
+
   return (
     <>
-      <Group h="100%" className="footer-container">
+      <Group className="footer" py={20}>
         <Container>
-          <img
+          <Image
             src="/public/vite.svg"
             alt="Logo du site"
             onClick={handleGoLandingPage}
             className="cursor-pointer"
+            height={50}
+            width={50}
           />
         </Container>
-        <Divider orientation="vertical" />
-        <Container className="inner">{groups}</Container>
-        <Divider orientation="vertical" />
+        <Divider
+          size="md"
+          orientation="vertical"
+          display={isMobile ? 'none' : 'block'}
+        />
+        <Container className="footer__inner">{groups}</Container>
+        <Divider
+          size="md"
+          orientation="vertical"
+          display={isMobile ? 'none' : 'block'}
+        />
         <Container>
-          <h2
-            className="cursor-pointer webSiteName"
-            onClick={handleGoLandingPage}>
+          <Title className="cursor-pointer" onClick={handleGoLandingPage}>
             From A2B
-          </h2>
+          </Title>
         </Container>
       </Group>
     </>

@@ -1,4 +1,4 @@
-import { AppShell, Burger, Button, Group } from '@mantine/core';
+import { AppShell, Burger, Button, Group, Image } from '@mantine/core';
 import {
   IconLogout,
   IconMapPins,
@@ -7,7 +7,6 @@ import {
 } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import ProfileMenu from '../profileMenu/ProfileMenu';
-import './DefaultHeader.scss';
 
 interface DefaultHeaderProps {
   burgerOpened: boolean;
@@ -44,27 +43,26 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
 
   return (
     <>
-      <Group h="100%" px="md">
+      <Group py={10} mx={10} justify="space-between">
         <Burger
           opened={props.burgerOpened}
           onClick={props.toggleBurgerState}
           hiddenFrom="sm"
           size="sm"
         />
-        <Group justify="space-between" style={{ flex: 1 }}>
-          <img
-            src="/public/vite.svg"
-            alt="Logo du site"
-            onClick={handleClickLogo}
-            className="cursor-pointer"
-          />
-          <Group ml="xl" gap={0} visibleFrom="sm">
+        <Image
+          src="/public/vite.svg"
+          alt="Logo du site"
+          onClick={handleClickLogo}
+          className="cursor-pointer"
+        />
+        <Group>
+          <Group visibleFrom="sm">
             {isLogged && (
               <>
                 <Button
-                  mr="sm"
-                  leftSection={<IconSquareRoundedPlus size={14} />}
-                  variant="default"
+                  leftSection={<IconSquareRoundedPlus size={20} />}
+                  variant="light"
                   onClick={handleCreateTrip}>
                   Créer mon voyage
                 </Button>
@@ -76,30 +74,29 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
       </Group>
       <AppShell.Navbar py="md" px={4}>
         <Button
-          mt="xs"
           leftSection={<IconSquareRoundedPlus size={14} />}
-          variant="default"
+          variant="subtle"
           onClick={handleCreateTrip}>
           Créer mon voyage
         </Button>
         <Button
           mt="xs"
           leftSection={<IconUserFilled size={14} />}
-          variant="default"
+          variant="subtle"
           onClick={handleAccount}>
           Mon compte
         </Button>
         <Button
           mt="xs"
           leftSection={<IconMapPins size={14} />}
-          variant="default"
+          variant="subtle"
           onClick={handleTrips}>
           Mes voyages
         </Button>
         <Button
           mt="xs"
           leftSection={<IconLogout size={14} />}
-          variant="default"
+          variant="subtle"
           onClick={handleLogout}>
           Se déconnecter
         </Button>

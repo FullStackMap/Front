@@ -10,7 +10,7 @@ const LoginLayout = () => {
         <LoginHeader />
       </AppShell.Header>
       <AppShell.Main>
-        <div className="MainContainer">
+        <div>
           <Outlet />
         </div>
       </AppShell.Main>

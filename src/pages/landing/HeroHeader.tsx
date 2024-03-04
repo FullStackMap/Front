@@ -1,23 +1,23 @@
 import { Title, Text, Container, Button, Overlay } from '@mantine/core';
-import classes from './HeroImageBackground.module.scss';
+import './HeroImageBackground.scss';
 
 export function HeroImageBackground() {
   return (
-    <div className={classes.wrapper}>
+    <div className="hero__wrapper">
       <Overlay color="#000" opacity={0.65} zIndex={1} />
 
-      <div className={classes.inner}>
-        <Title className={classes.title}>Créez votre voyage de rêve</Title>
+      <div className="hero__inner">
+        <Title className="hero__title">Créez votre voyage de rêve</Title>
 
         <Container size={640}>
-          <Text size="lg" className={classes.description}>
+          <Text size="lg" className="hero__description">
             Explorez, planifiez et réservez votre prochaine aventure
           </Text>
         </Container>
 
-        <div className={classes.controls}>
+        <div className="hero__controls">
           <Button
-            className={classes.control}
+            className="hero__control"
             variant="outline"
             color="white"
             size="lg">
