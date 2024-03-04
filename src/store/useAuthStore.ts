@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { LoginDto, TokenDto } from '@FullStackMap/from-a2b';
+import { LoginDto } from '@FullStackMap/from-a2b';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
 import { StoreApi, UseBoundStore, create } from 'zustand';
@@ -30,9 +30,9 @@ export const useAuthStore: UseBoundStore<StoreApi<AuthStore>> =
     login: async (userInfo: LoginDto) => {
       await AnoAuthController.loginPOST(userInfo)
         .then(resp => {
-          console.log('🚀 ~ login: ~ resp:', (resp.data as TokenDto)?.token);
-          const token: string | null | undefined = resp.data.value?.token;
+          const token: string | null | undefined = resp.data?.token;
           if (token) {
+            console.log('🚀 ~ login: ~ token:', token);
             const decodeToken = jwtDecode(token) as TokenDecoded;
             Cookies.set('Auth-Token', token, {
               secure: false,
