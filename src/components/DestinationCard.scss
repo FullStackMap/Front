@@ -1,0 +1,4 @@
+@import '../_variables.scss';
+.card-hover:hover {
+  box-shadow: 0 0 0 1px $tertiaire-color, 0 0 0 3px var(--mantine-color-gray-4);
+}

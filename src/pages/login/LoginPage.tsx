@@ -1,14 +1,14 @@
-import '@mantine/core/styles.css';
 import {
-  Paper,
-  TextInput,
-  PasswordInput,
-  Checkbox,
-  Button,
-  Title,
-  Text,
   Anchor,
+  Button,
+  Checkbox,
+  Paper,
+  PasswordInput,
+  Text,
+  TextInput,
+  Title,
 } from '@mantine/core';
+import '@mantine/core/styles.css';
 import React, { useState } from 'react';
 import classes from './LoginPage.module.css';
 

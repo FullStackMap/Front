@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, Group, Text } from '@mantine/core';
-import { useHover } from '@mantine/hooks';
-
+import './DestinationCard.scss';
 interface DestinationCardProps {
   icon: React.ReactNode;
   title: string;
@@ -13,15 +12,13 @@ export function DestinationCard({
   title,
   description,
 }: DestinationCardProps) {
-  const { hovered, ref } = useHover();
   return (
     <Card
       shadow="sm"
       padding="lg"
       radius="md"
       withBorder
-      ref={ref}
-      style={{ border: hovered ? '2px solid teal' : '2px solid transparent' }}>
+      className="card-hover">
       <Group mb="xs">
         {icon}
         <Text>{title}</Text>

@@ -1,5 +1,5 @@
 import { Title, Text, Container, Button, Overlay } from '@mantine/core';
-import classes from './HeroImageBackground.module.css';
+import classes from './HeroImageBackground.module.scss';
 
 export function HeroImageBackground() {
   return (
