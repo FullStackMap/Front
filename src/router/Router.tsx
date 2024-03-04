@@ -1,20 +1,25 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import DefaultLayout from '../layout/default/DefaultLayout';
+import { HalfMapLayout } from '../layout/halfMap/HalfMapLayout';
+import LoginLayout from '../layout/login/LoginLayout';
 import LandingPage from '../pages/landing/LandingPage';
 import LoginPage from '../pages/login/LoginPage';
-import  HomeLayout from '../layout/header/DoubleSearch';
-import TestPage from '../pages/test/TestPage';
 
 const Router = () => {
-	return (
-		<Routes>
-			<Route element={<HomeLayout/>}>
-				<Route path="/" element={<LandingPage />} />
-				<Route path="/test" element={<TestPage />} />
-			</Route>
+  return (
+    <Routes>
+      <Route element={<DefaultLayout />}>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/*" element={<Navigate to="/" />} />
+      </Route>
 
-			<Route path="/login" element={<LoginPage />} />
-		</Routes>
-	);
+      <Route element={<HalfMapLayout />}></Route>
+
+      <Route element={<LoginLayout />}>
+        <Route path="/login" element={<LoginPage />} />
+      </Route>
+    </Routes>
+  );
 };
 
 export default Router;
