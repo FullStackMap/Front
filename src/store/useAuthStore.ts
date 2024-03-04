@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { LoginDto } from '@FullStackMap/from-a2b';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
 import { StoreApi, UseBoundStore, create } from 'zustand';
-import { AuthUser } from '../Models/Auth/AuthUser';
-import { LoginDto } from '../Models/Auth/LoginDto';
-import { TokenDto } from '../Models/Auth/TokenDto';
-import BaseApi from '../services/BaseApi';
+import { AnoAuthController } from '../services/BaseApi';
+import { AuthUser } from '../services/api/Models/Auth/AuthUser';
+import { TokenDecoded } from '../services/api/Models/Auth/TokenDto';
 
 export type AuthStore = {
   token: string | undefined;
@@ -27,14 +28,14 @@ export const useAuthStore: UseBoundStore<StoreApi<AuthStore>> =
     isAdmin: false,
 
     login: async (userInfo: LoginDto) => {
-      await BaseApi.AppAnonymous.post('/api/v1/Auth/Login', userInfo)
+      await AnoAuthController.loginPOST(userInfo)
         .then(resp => {
-          const token: string = resp.data.token;
+          const token: string | null | undefined = resp.data?.token;
           if (token) {
-            const decodeToken = jwtDecode(token) as TokenDto;
+            console.log('🚀 ~ login: ~ token:', token);
+            const decodeToken = jwtDecode(token) as TokenDecoded;
             Cookies.set('Auth-Token', token, {
               secure: false,
-              expires: decodeToken.exp,
             });
             const user: AuthUser = {
               Id: decodeToken.Id,
@@ -78,7 +79,7 @@ export const useAuthStore: UseBoundStore<StoreApi<AuthStore>> =
       const token: string | undefined = Cookies.get('Auth-Token');
 
       if (token) {
-        const decodeToken: TokenDto = jwtDecode(token);
+        const decodeToken: TokenDecoded = jwtDecode(token);
 
         const user: AuthUser = {
           Id: decodeToken.Id,

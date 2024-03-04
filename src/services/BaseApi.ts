@@ -1,34 +1,26 @@
-import axios, { AxiosInstance } from 'axios';
+import * as client from '@FullStackMap/from-a2b';
 import { AuthStore, useAuthStore } from '../store/useAuthStore';
 
-export default class BaseApi {
-  private static baseApi = 'http://localhost:32769';
+const basePath :string = "http://localhost:32771"
 
-  private static _appAnonymous: AxiosInstance | null;
-  static get AppAnonymous() {
-    if (!this._appAnonymous) {
-      this._appAnonymous = axios.create({
-        baseURL: this.baseApi,
-      });
-    }
-    return this._appAnonymous;
-  }
+const configAno = new client.Configuration({
+  basePath: basePath,
+});
 
-  private static _appLogged: AxiosInstance | null;
-  static get AppLogged() {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const token: string | undefined = useAuthStore((s: AuthStore) => s.token);
-    if (!this._appLogged) {
-      this._appLogged = axios.create({
-        baseURL: this.baseApi,
-        headers: { Authorization: `Bearer ${token}` },
-      });
-    }
-    return this._appLogged;
-  }
+export const TripController = () => {
+  const token: string | undefined = useAuthStore(
+    (state: AuthStore) => state.token,
+  );
 
-  static reset() {
-    this._appAnonymous = null;
-    this._appLogged = null;
-  }
-}
+  const configLogged = new client.Configuration({
+    basePath: basePath,
+    baseOptions: {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  });
+  return client.TripApiFactory(configLogged);
+};
+
+export const AnoAuthController = client.AuthApiFactory(configAno);
