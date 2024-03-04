@@ -6,6 +6,7 @@ export default defineConfig({
 	plugins: [react()],
 	server: {
 		port: 3000,
+//Need Fix to work with docker
 		// proxy: {
 		// 	'/server': {
 		// 		target: 'http://localhost:32771',
