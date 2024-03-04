@@ -5,7 +5,8 @@ import {
   IconSquareRoundedPlus,
   IconUserFilled,
 } from '@tabler/icons-react';
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { AuthStore, useAuthStore } from '../../store/useAuthStore';
 import ProfileMenu from '../profileMenu/ProfileMenu';
 import './DefaultHeader.scss';
 
@@ -15,8 +16,8 @@ interface DefaultHeaderProps {
 }
 
 const DefaultHeader = (props: DefaultHeaderProps) => {
-  const isLogged = true;
-  const navigate = useNavigate();
+  const isLogged: boolean = useAuthStore((s: AuthStore ) => s.isLogged);
+  const navigate: NavigateFunction = useNavigate();
 
   const handleClickLogo = () => {
     navigate('/');
@@ -70,7 +71,7 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
                 </Button>
               </>
             )}
-            <ProfileMenu isLogged={isLogged} />
+            <ProfileMenu/>
           </Group>
         </Group>
       </Group>

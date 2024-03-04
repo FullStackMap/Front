@@ -9,86 +9,72 @@ import {
   Title,
 } from '@mantine/core';
 import '@mantine/core/styles.css';
-import React, { useState } from 'react';
+import { useForm } from '@mantine/form';
+import { zodResolver } from 'mantine-form-zod-resolver';
+import { z } from 'zod';
 import classes from './LoginPage.module.css';
 
-// ... autres imports
 export function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState<string>('');
+  const loginSchema = z.object({
+    username: z
+      .string()
+      .email('Un email valid est requis'),
+    password: z
+      .string()
+      .min(8, {message:"Le mot de passe doit faire au minimum 8 caractères"})
+  });
 
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const enteredEmail = event.target.value;
-    setEmail(enteredEmail);
-
-    // Validation de l'email à chaque changement
-    const isValidEmail = validateEmail(enteredEmail);
-
-    if (!isValidEmail) {
-      setEmailError('Veuillez entrer un email valide');
-    } else {
-      setEmailError('');
+  const loginForm = useForm({
+  initialValues: {
+    username: '',
+    password: '',
+  },
+  validate: zodResolver(loginSchema),
+  });
+  
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (loginForm.isValid()) {
+      console.log(loginForm.values);
     }
-  };
+  }
 
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
-
-  const handleLogin = () => {
-    // Validation de l'email
-    const isValidEmail = validateEmail(email);
-
-    if (!isValidEmail) {
-      setEmailError('Veuillez entrer un email valide');
-      return;
-    }
-
-    // Autres traitements de connexion ici
-    // ...
-  };
-
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
 
   return (
     <div className={classes.wrapper}>
       <Paper className={classes.form} radius={0} p={30}>
-        <Title order={2} className={classes.title} ta="center" mt="md" mb={50}>
+        <form onSubmit={handleSubmit} onReset={() => loginForm.reset()}>
+          <Title order={2} className={classes.title} ta="center" mt="md" mb={50}>
           Se Connecter
         </Title>
 
         <TextInput
           label="Email"
           placeholder="exemple@gmail.com"
-          size="md"
-          value={email}
-          onChange={handleEmailChange}
-          error={emailError}
+            size="md"
+            {...loginForm.getInputProps('username')}
         />
 
         <PasswordInput
           label="Mot de passe"
           placeholder="Votre mot de passe"
           mt="md"
-          size="md"
-          value={password}
-          onChange={handlePasswordChange}
+            size="md"
+            {...loginForm.getInputProps('password')}
         />
 
-        <Checkbox label="Se souvenir de moi" mt="xl" size="md" />
+        <Checkbox label="Se souvenir de moi" mt="xl" size="md"/>
 
         <Button
           fullWidth
           mt="xl"
           size="md"
-          onClick={handleLogin}
-          color="#DDAA00">
+            color="#DDAA00"
+            type='submit'
+          >
           Se connecter
         </Button>
+        </form>
 
         <Text ta="center" mt="md">
           <span>
