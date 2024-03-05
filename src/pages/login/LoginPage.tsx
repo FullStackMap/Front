@@ -12,22 +12,13 @@ import {
 import '@mantine/core/styles.css';
 import { useForm } from '@mantine/form';
 import { zodResolver } from 'mantine-form-zod-resolver';
-import { useCallback, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useCallback } from 'react';
 import { z } from 'zod';
 import { AuthStore, useAuthStore } from '../../store/useAuthStore';
 import classes from './LoginPage.module.css';
 
 export function LoginPage() {
-  const navigate = useNavigate();
-
   const login = useAuthStore((s: AuthStore) => s.login);
-  const isLogged = useAuthStore((s: AuthStore) => s.isLogged);
-  useEffect(() => {
-    if (isLogged) {
-      navigate('/');
-    }
-  }, [isLogged]);
 
   const loginSchema = z.object({
     email: z.string().email('Un email valid est requis'),
@@ -45,8 +36,6 @@ export function LoginPage() {
   });
 
   const loginUser = useCallback(async (loginDto: LoginDto) => {
-    console.log(loginDto);
-
     await login(loginDto);
   }, []);
 

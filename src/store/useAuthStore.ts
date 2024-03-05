@@ -11,12 +11,12 @@ export type AuthStore = {
   token: string | undefined;
   expire: number;
   user: AuthUser | undefined;
-  isLogged: boolean;
-  isAdmin: boolean;
 
   login: (userInfo: LoginDto) => void;
   loadUser: () => void;
   logOut: () => void;
+  isLogged: () => boolean;
+  isAdmin: () => boolean;
 };
 
 export const useAuthStore: UseBoundStore<StoreApi<AuthStore>> =
@@ -24,15 +24,12 @@ export const useAuthStore: UseBoundStore<StoreApi<AuthStore>> =
     token: '',
     expire: -1,
     user: undefined,
-    isLogged: false,
-    isAdmin: false,
 
     login: async (userInfo: LoginDto) => {
       await AnoAuthController.loginPOST(userInfo)
         .then(resp => {
           const token: string | null | undefined = resp.data?.token;
           if (token) {
-            console.log('🚀 ~ login: ~ token:', token);
             const decodeToken = jwtDecode(token) as TokenDecoded;
             Cookies.set('Auth-Token', token, {
               secure: false,
@@ -44,16 +41,10 @@ export const useAuthStore: UseBoundStore<StoreApi<AuthStore>> =
               Roles: decodeToken.Roles,
             };
 
-            const isLogged: boolean =
-              new Date(0).setUTCSeconds(decodeToken.exp) > new Date().getTime();
-            const isAdmin: boolean = decodeToken.Roles.includes('Admin');
-
             set({
               token: token,
               expire: decodeToken.exp,
               user: user,
-              isLogged: isLogged,
-              isAdmin: isAdmin,
             });
           }
         })
@@ -64,8 +55,6 @@ export const useAuthStore: UseBoundStore<StoreApi<AuthStore>> =
             token: '',
             expire: -1,
             user: undefined,
-            isLogged: false,
-            isAdmin: false,
           });
 
           let errorMessage =
@@ -88,16 +77,10 @@ export const useAuthStore: UseBoundStore<StoreApi<AuthStore>> =
           Roles: decodeToken.Roles,
         };
 
-        const isLogged: boolean =
-          new Date(0).setUTCSeconds(decodeToken.exp) > new Date().getTime();
-        const isAdmin: boolean = decodeToken.Roles.includes('Admin');
-
         set({
           token: token,
           expire: decodeToken.exp,
           user: user,
-          isLogged: isLogged,
-          isAdmin: isAdmin,
         });
       }
     },
@@ -107,8 +90,30 @@ export const useAuthStore: UseBoundStore<StoreApi<AuthStore>> =
         token: '',
         expire: -1,
         user: undefined,
-        isLogged: false,
-        isAdmin: false,
       });
+    },
+    isLogged: () => {
+      const token: string | undefined = Cookies.get('Auth-Token');
+
+      if (token) {
+        const decodeToken: TokenDecoded = jwtDecode(token);
+        const isLogged: boolean =
+          new Date(0).setUTCSeconds(decodeToken.exp) > new Date().getTime();
+
+        return isLogged;
+      }
+      return false;
+    },
+
+    isAdmin: () => {
+      const token: string | undefined = Cookies.get('Auth-Token');
+
+      if (token) {
+        const decodeToken: TokenDecoded = jwtDecode(token);
+        const isAdmin: boolean = decodeToken.Roles.includes('Admin');
+
+        return isAdmin;
+      }
+      return false;
     },
   }));

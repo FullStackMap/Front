@@ -16,7 +16,7 @@ interface DefaultHeaderProps {
 }
 
 const DefaultHeader = (props: DefaultHeaderProps) => {
-  const isLogged: boolean = useAuthStore((s: AuthStore ) => s.isLogged);
+  const isLogged: () => boolean = useAuthStore((s: AuthStore) => s.isLogged);
   const navigate: NavigateFunction = useNavigate();
 
   const handleClickLogo = () => {
@@ -60,7 +60,7 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
             className="cursor-pointer"
           />
           <Group ml="xl" gap={0} visibleFrom="sm">
-            {isLogged && (
+            {isLogged() && (
               <>
                 <Button
                   mr="sm"
@@ -71,7 +71,7 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
                 </Button>
               </>
             )}
-            <ProfileMenu/>
+            <ProfileMenu />
           </Group>
         </Group>
       </Group>

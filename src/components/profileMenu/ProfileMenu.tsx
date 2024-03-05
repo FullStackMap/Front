@@ -13,7 +13,7 @@ import { AuthStore, useAuthStore } from '../../store/useAuthStore';
 
 const ProfileMenu = () => {
   const navigate: NavigateFunction = useNavigate()
-  const isLogged: boolean = useAuthStore((s: AuthStore) => s.isLogged)
+  const isLogged: () => boolean = useAuthStore((s: AuthStore) => s.isLogged);
 
   const handleAccount = () => {
     throw new Error('handleAccount Not implemented');
@@ -35,7 +35,7 @@ const ProfileMenu = () => {
       shadow="md"
       width={200}
       transitionProps={{ transition: 'skew-up', duration: 150 }}>
-      {isLogged ? (
+      {isLogged() ? (
         <>
           <Menu.Target>
             <ActionIcon variant="outline" aria-label="Settings" radius="xl">
