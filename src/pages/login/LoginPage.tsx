@@ -12,12 +12,14 @@ import '@mantine/core/styles.css';
 import { useForm } from '@mantine/form';
 import { zodResolver } from 'mantine-form-zod-resolver';
 import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { AuthStore, useAuthStore } from '../../store/useAuthStore';
 import classes from './LoginPage.module.css';
 
 export function LoginPage() {
   const login = useAuthStore((s: AuthStore) => s.login);
+  const navigate = useNavigate();
 
   const loginSchema = z.object({
     email: z.string().email('Un email valid est requis'),
@@ -40,6 +42,11 @@ export function LoginPage() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     loginUser(loginForm.values);
+  };
+
+  const handleRegisterPage = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    navigate('/register');
   };
 
   return (
@@ -80,10 +87,7 @@ export function LoginPage() {
             Vous n'avez pas de compte?
             <br></br>{' '}
           </span>
-          <Anchor<'a'>
-            href="#"
-            fw={700}
-            onClick={event => event.preventDefault()}>
+          <Anchor<'a'> fw={700} onClick={handleRegisterPage}>
             Créer un compte
           </Anchor>
         </Text>
