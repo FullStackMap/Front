@@ -7,13 +7,18 @@ import {
   IconUser,
   IconUserFilled,
 } from '@tabler/icons-react';
+import { useCallback } from 'react';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { AuthStore, useAuthStore } from '../../store/useAuthStore';
 
-
 const ProfileMenu = () => {
-  const navigate: NavigateFunction = useNavigate()
+  const navigate: NavigateFunction = useNavigate();
   const isLogged: () => boolean = useAuthStore((s: AuthStore) => s.isLogged);
+  const logOut = useAuthStore((s: AuthStore) => s.logOut);
+
+  const logOutUser = useCallback(async () => {
+    await logOut();
+  }, []);
 
   const handleAccount = () => {
     throw new Error('handleAccount Not implemented');
@@ -24,7 +29,8 @@ const ProfileMenu = () => {
   };
 
   const handleLogout = () => {
-    throw new Error('handleLogout Not implemented');
+    logOutUser();
+    navigate('/');
   };
 
   return (
@@ -85,12 +91,10 @@ const ProfileMenu = () => {
           </Menu.Target>
 
           <Menu.Dropdown>
-            <Menu.Item
-              onClick={() => navigate("/login")}>
+            <Menu.Item onClick={() => navigate('/login')}>
               Se connecter
             </Menu.Item>
-            <Menu.Item
-              onClick={() => navigate("/register")}>
+            <Menu.Item onClick={() => navigate('/register')}>
               S'inscrire
             </Menu.Item>
           </Menu.Dropdown>
