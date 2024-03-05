@@ -1,4 +1,3 @@
-import '@mantine/core/styles.css';
 import { useEffect } from 'react';
 import Router from './router/Router';
 import { useAuthStore } from './store/useAuthStore';

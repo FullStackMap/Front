@@ -1,9 +1,11 @@
+import { createTheme, MantineProvider } from '@mantine/core';
+import '@mantine/core/styles.css';
+import { Notifications } from '@mantine/notifications';
+import '@mantine/notifications/styles.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
-
-import { createTheme, MantineProvider } from '@mantine/core';
 
 const theme = createTheme({
   white: '#f5f5f5',
@@ -29,6 +31,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <MantineProvider theme={theme}>
+        <Notifications limit={5} />
         <App />
       </MantineProvider>
     </BrowserRouter>
