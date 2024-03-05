@@ -1,7 +1,7 @@
 import { ActionIcon, useMantineColorScheme, useComputedColorScheme } from '@mantine/core';
 import { IconSun, IconMoon } from '@tabler/icons-react';
 
-function SwitchThemeIcon() {
+const  SwitchThemeIcon = () => {
     const { setColorScheme } = useMantineColorScheme();
     const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
 
@@ -15,5 +15,4 @@ function SwitchThemeIcon() {
         </ActionIcon>
     );
 }
-
 export default SwitchThemeIcon;
