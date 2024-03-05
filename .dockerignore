@@ -9,6 +9,7 @@ build/
 
 # Ignore Dist artifacts
 dist/
+src/
 
 # Ignore lock files
 package-lock.json
