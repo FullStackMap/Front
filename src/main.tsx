@@ -28,7 +28,7 @@ const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <MantineProvider theme={theme}>
+      <MantineProvider defaultColorScheme="auto" theme={theme}>
         <App />
       </MantineProvider>
     </BrowserRouter>
