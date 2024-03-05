@@ -2,7 +2,6 @@ import { LoginDto } from '@FullStackMap/from-a2b';
 import {
   Anchor,
   Button,
-  Checkbox,
   Paper,
   PasswordInput,
   Text,
@@ -22,12 +21,11 @@ export function LoginPage() {
 
   const loginSchema = z.object({
     email: z.string().email('Un email valid est requis'),
-    password: z.string().min(8, {
-      message: 'Le mot de passe doit faire au minimum 8 caractères',
-    }),
+    password: z.string().min(1, 'Le mot de passe est requis'),
   });
 
   const loginForm = useForm({
+    validateInputOnChange: true,
     initialValues: {
       email: '',
       password: '',
@@ -71,8 +69,6 @@ export function LoginPage() {
             size="md"
             {...loginForm.getInputProps('password')}
           />
-
-          <Checkbox label="Se souvenir de moi" mt="xl" size="md" />
 
           <Button fullWidth mt="xl" size="md" color="#DDAA00" type="submit">
             Se connecter
