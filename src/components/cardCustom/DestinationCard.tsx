@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Group, Text } from '@mantine/core';
 import './DestinationCard.scss';
+
 interface DestinationCardProps {
   icon: React.ReactNode;
   title: string;
