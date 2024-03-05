@@ -7,6 +7,7 @@ import {
 } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import ProfileMenu from '../profileMenu/ProfileMenu';
+import SwitchThemeIcon from '../switchThemeIcon/SwitchThemeIcon';
 
 interface DefaultHeaderProps {
   burgerOpened: boolean;
@@ -68,6 +69,7 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
                 </Button>
               </>
             )}
+            <SwitchThemeIcon />
             <ProfileMenu isLogged={isLogged} />
           </Group>
         </Group>
@@ -100,6 +102,7 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
           onClick={handleLogout}>
           Se déconnecter
         </Button>
+        <SwitchThemeIcon asButton />
       </AppShell.Navbar>
     </>
   );
