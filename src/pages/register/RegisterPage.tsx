@@ -1,16 +1,26 @@
 import { RegisterDto } from '@FullStackMap/from-a2b';
 import { Button, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import { zodResolver } from 'mantine-form-zod-resolver';
-import { useCallback } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { AnoAuthController } from '../../services/BaseApi';
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
+  const [
+    isRegisterButtonLoading,
+    {
+      toggle: toggleRegisterButtonLoading,
+      close: disableLoadingButtonRegister,
+    },
+  ] = useDisclosure(false);
+  const [isRegisterButtonDisabled, { toggle: toggleRegisterButtonDisabled }] =
+    useDisclosure(false);
 
   const registerSchema = z
     .object({
@@ -64,10 +74,18 @@ export const RegisterPage = () => {
     validate: zodResolver(registerSchema),
   });
 
-  const registerUser = useCallback(async (registerDto: RegisterDto) => {
-    await AnoAuthController.registerPOST(registerDto)
-      .then(res => {
-        console.log(res);
+  useEffect(() => {
+    toggleRegisterButtonDisabled();
+  }, [registerFrom.isValid()]);
+
+  const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    toggleRegisterButtonLoading();
+
+    if (!registerFrom.isValid()) return;
+
+    await AnoAuthController.registerPOST(registerFrom.values as RegisterDto)
+      .then(() => {
         notifications.show({
           title: 'Enregistrement réussi',
           message:
@@ -79,73 +97,63 @@ export const RegisterPage = () => {
         navigate('/');
       })
       .catch(err => {
-        err;
-        console.log('🚀 ~ registerUser ~ err:', err.response.data);
-        console.log();
-        err.response.data.map(data => {
-          notifications.show({
-            title: "Erreur dans l'inscription",
-            message: data.message,
-            autoClose: 10000,
-            color: 'red',
-            icon: <IconX />,
+        disableLoadingButtonRegister();
+
+        err.response.data
+          .map((data: any) => data.message)
+          .forEach((message: string) => {
+            notifications.show({
+              title: "Erreur dans l'inscription",
+              message: message,
+              autoClose: 5000,
+              color: 'red',
+              icon: <IconX />,
+            });
           });
-        });
       });
-  }, []);
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (registerFrom.isValid()) registerUser(registerFrom.values);
-  };
-
-  const handleShowNotif = () => {
-    notifications.show({
-      title: 'Enregistrement réussi',
-      message: 'Hey there, your code is awesome! 🤥',
-      autoClose: 5000,
-      color: 'teal',
-      icon: <IconCheck />,
-    });
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit} onReset={() => registerFrom.reset()}>
-        <TextInput
-          label="Identifiant"
-          placeholder="Identifiant"
-          size="md"
-          {...registerFrom.getInputProps('username')}
-        />
+    <form onReset={() => registerFrom.reset()}>
+      <TextInput
+        label="Identifiant"
+        placeholder="Identifiant"
+        size="md"
+        {...registerFrom.getInputProps('username')}
+      />
 
-        <TextInput
-          label="Email"
-          placeholder="exemple@gmail.com"
-          size="md"
-          {...registerFrom.getInputProps('email')}
-        />
+      <TextInput
+        label="Email"
+        placeholder="exemple@gmail.com"
+        size="md"
+        {...registerFrom.getInputProps('email')}
+      />
 
-        <TextInput
-          label="Mot de passe"
-          placeholder="Votre mot de passe"
-          mt="md"
-          size="md"
-          {...registerFrom.getInputProps('password')}
-        />
-        <TextInput
-          label="Confirmation de mot de passe"
-          placeholder="Confirmation de mot de passe"
-          mt="md"
-          size="md"
-          {...registerFrom.getInputProps('confirmPassword')}
-        />
+      <TextInput
+        label="Mot de passe"
+        placeholder="Votre mot de passe"
+        mt="md"
+        size="md"
+        {...registerFrom.getInputProps('password')}
+      />
+      <TextInput
+        label="Confirmation de mot de passe"
+        placeholder="Confirmation de mot de passe"
+        mt="md"
+        size="md"
+        {...registerFrom.getInputProps('confirmPassword')}
+      />
 
-        <Button fullWidth mt="xl" size="md" color="#DDAA00" type="submit">
-          S'inscrire
-        </Button>
-      </form>
-      <Button onClick={handleShowNotif}>notif</Button>
-    </>
+      <Button
+        fullWidth
+        mt="xl"
+        size="md"
+        color="#DDAA00"
+        disabled={isRegisterButtonDisabled}
+        loading={isRegisterButtonLoading}
+        onClick={handleSubmit}>
+        S'inscrire
+      </Button>
+    </form>
   );
 };
