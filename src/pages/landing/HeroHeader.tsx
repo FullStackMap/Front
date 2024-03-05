@@ -1,7 +1,7 @@
 import { Title, Text, Container, Button, Overlay } from '@mantine/core';
 import './HeroImageBackground.scss';
 
-export function HeroImageBackground() {
+const HeroImageBackground = () => {
   return (
     <div className="hero__wrapper">
       <Overlay color="#000" opacity={0.65} zIndex={1} />
@@ -28,3 +28,5 @@ export function HeroImageBackground() {
     </div>
   );
 }
+
+export default HeroImageBackground;

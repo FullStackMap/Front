@@ -1,22 +1,16 @@
 import { AppShell } from '@mantine/core';
 import { Outlet } from 'react-router-dom';
-import DefaultFooter from '../../components/footer/DefaultFooter';
 import LoginHeader from '../../components/header/LoginHeader';
 
 const LoginLayout = () => {
   return (
-    <AppShell header={{ height: 60 }} footer={{ height: 120 }} padding="md">
+    <AppShell header={{ height: 60 }}>
       <AppShell.Header>
         <LoginHeader />
       </AppShell.Header>
       <AppShell.Main>
-        <div>
-          <Outlet />
-        </div>
+        <Outlet />
       </AppShell.Main>
-      <AppShell.Footer>
-        <DefaultFooter />
-      </AppShell.Footer>
     </AppShell>
   );
 };

@@ -22,7 +22,7 @@ import {
 } from '@tabler/icons-react';
 import { DestinationCard } from '../../components/cardCustom/DestinationCard';
 
-export function Content() {
+const Content = () =>  {
   return (
     <Container size="lg" py="xl" mt={50} ta="center">
       <Badge variant="filled" size="xl" mb={50}>
@@ -114,3 +114,5 @@ export function Content() {
     </Container>
   );
 }
+
+export default Content;

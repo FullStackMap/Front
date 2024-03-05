@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import './DefaultFooter.scss';
 
 import { Container, Group, Text, Image, Title, Divider } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 
 const data = [
   {
@@ -30,6 +31,7 @@ const data = [
 
 const DefaultFooter = () => {
   const Navigate = useNavigate();
+  const isMobile = useMediaQuery('(max-width: 768px)'); // Définissez la largeur maximale pour le format mobile
 
   const handleGoLandingPage = () => {
     Navigate('/');
@@ -55,8 +57,6 @@ const DefaultFooter = () => {
     );
   });
 
-  const isMobile = window.innerWidth < 768;
-
   return (
     <>
       <Group className="footer" py={20}>
@@ -70,17 +70,9 @@ const DefaultFooter = () => {
             width={50}
           />
         </Container>
-        <Divider
-          size="md"
-          orientation="vertical"
-          display={isMobile ? 'none' : 'block'}
-        />
+        {!isMobile && <Divider size="md" orientation="vertical" />}
         <Container className="footer__inner">{groups}</Container>
-        <Divider
-          size="md"
-          orientation="vertical"
-          display={isMobile ? 'none' : 'block'}
-        />
+        {!isMobile && <Divider size="md" orientation="vertical" />}
         <Container>
           <Title className="cursor-pointer" onClick={handleGoLandingPage}>
             From A2B
