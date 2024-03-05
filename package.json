@@ -11,10 +11,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mantine/core": "^7.6.1",
-    "@mantine/hooks": "^7.6.1",
+    "@FullStackMap/from-a2b": "0.0.0-Beta",
+    "@mantine/core": "^7.5.0",
+    "@mantine/hooks": "^7.5.0",
     "@mantinex/mantine-logo": "^1.0.1",
     "@tabler/icons-react": "^2.47.0",
+    "axios": "^1.6.7",
+    "json2typescript": "^1.5.1",
     "loader-utils": "3.2.1",
     "lucide-react": "^0.341.0",
     "react": "^18.2.0",
@@ -22,22 +25,26 @@
     "react-icons": "^5.0.1",
     "react-router-dom": "^6.22.1",
     "react-scripts": "5.0.1",
-    "styled-components": "6.1.8"
+    "sass": "^1.71.1",
+    "styled-components": "6.1.8",
+    "zustand": "^4.5.1"
   },
   "devDependencies": {
-    "@types/react": "^18.2.60",
+    "@reactivers/hooks": "^1.0.15",
+    "@types/js-cookie": "^3.0.6",
+    "@types/react": "^18.2.58",
     "@types/react-dom": "^18.2.19",
-    "@typescript-eslint/eslint-plugin": "^7.1.0",
-    "@typescript-eslint/parser": "^7.1.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.2",
+    "@typescript-eslint/parser": "^7.0.2",
     "@vitejs/plugin-react": "^4.2.1",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "js-cookie": "^3.0.5",
+    "jwt-decode": "^4.0.0",
     "postcss": "^8.4.35",
     "postcss-preset-mantine": "^1.13.0",
     "postcss-simple-vars": "^7.0.1",
-    "sass": "^1.71.1",
-    "scss": "^0.2.4",
     "typescript": "5.3.3",
     "vite": "^5.1.4"
   }
