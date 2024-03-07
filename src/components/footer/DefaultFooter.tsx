@@ -15,7 +15,7 @@ const data = [
   {
     title: 'Votre compte',
     links: [
-      { label: 'Voire mon profil', link: '#' },
+      { label: 'Voire mon profile', link: '#' },
       { label: 'Mes voyages', link: '#' },
       { label: 'CGU', link: '#' },
     ],

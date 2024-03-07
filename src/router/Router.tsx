@@ -4,11 +4,13 @@ import { HalfMapLayout } from '../layout/halfMap/HalfMapLayout';
 import LoginLayout from '../layout/login/LoginLayout';
 import LandingPage from '../pages/landing/LandingPage';
 import LoginPage from '../pages/login/LoginPage';
+import ProfilePage from "../pages/profile/ProfilePage.tsx";
 
 const Router = () => {
   return (
     <Routes>
       <Route element={<DefaultLayout />}>
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="/" element={<LandingPage />} />
         <Route path="/*" element={<Navigate to="/" />} />
       </Route>
