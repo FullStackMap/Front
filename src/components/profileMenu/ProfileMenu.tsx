@@ -7,12 +7,14 @@ import {
   IconUser,
   IconUserFilled,
 } from '@tabler/icons-react';
+import {useNavigate} from "react-router-dom";
 
 interface ProfileMenuProps {
   isLogged: boolean;
 }
 
 const ProfileMenu = (props: ProfileMenuProps) => {
+  const navigate = useNavigate();
   const handleAccount = () => {
     throw new Error('handleAccount Not implemented');
   };
@@ -46,7 +48,7 @@ const ProfileMenu = (props: ProfileMenuProps) => {
               leftSection={
                 <IconUserFilled style={{ width: rem(14), height: rem(14) }} />
               }
-              onClick={handleAccount}>
+              onClick={()=>navigate('/profile')}>
               Mon compte
             </Menu.Item>
             <Menu.Divider />

@@ -27,11 +27,6 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
     throw new Error('CreateTrip Not implemented');
   };
 
-  const handleAccount = () => {
-    //TODO: Redirect to account page
-    throw new Error('handleAccount Not implemented');
-  };
-
   const handleTrips = () => {
     //TODO: Redirect to Trips list page
     throw new Error('handleTrips Not implemented');
@@ -85,7 +80,7 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
           mt="xs"
           leftSection={<IconUserFilled size={14} />}
           variant="subtle"
-          onClick={handleAccount}>
+          onClick={()=>navigate('profile')}>
           Mon compte
         </Button>
         <Button
