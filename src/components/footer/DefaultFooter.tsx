@@ -61,7 +61,7 @@ const DefaultFooter = () => {
       <Group className="footer" py={20}>
         <Container>
           <Image
-            src="/public/vite.svg"
+            src="/vite.svg"
             alt="Logo du site"
             onClick={handleGoLandingPage}
             className="cursor-pointer"

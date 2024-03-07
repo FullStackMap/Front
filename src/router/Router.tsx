@@ -7,6 +7,7 @@ import LoginPage from '../pages/login/LoginPage';
 import NoticePage from '../pages/notice/NoticePage';
 import CguPage from '../pages/cgu/CguPage';
 import FaqPage from '../pages/faq/FaqPage';
+import ContactPage from '../pages/contact/ContactPage';
 
 const Router = () => {
   return (
@@ -17,7 +18,7 @@ const Router = () => {
         <Route path="/notice" element={<NoticePage />} />
         <Route path="/profile" element={<Navigate to="/profile" />} />
         <Route path="/cgu" element={<CguPage />} />
-        <Route path="/contact" element={<Navigate to="/contact" />} />
+        <Route path="/contact" element={<ContactPage />} />
         <Route path="/faq" element={<FaqPage />} />
       </Route>
 

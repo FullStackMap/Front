@@ -1,0 +1,78 @@
+.contact {
+  display: flex;
+  background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-8));
+  border-radius: var(--mantine-radius-lg);
+  padding: 4px;
+  border: 1px solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-8));
+
+  @media (max-width: 36em) {
+    flex-direction: column;
+  }
+
+  &__form {
+    flex: 1;
+    padding: var(--mantine-spacing-xl);
+    padding-left: calc(var(--mantine-spacing-xl) * 2);
+    border-left: 0;
+  
+    @media (max-width: 36em) {
+      padding: var(--mantine-spacing-md);
+      padding-left: var(--mantine-spacing-md);
+    }
+  }
+  
+  &__fields {
+    margin-top: -12px;
+  }
+  
+  &__fieldInput {
+    flex: 1;
+  
+    & + & {
+      margin-left: var(--mantine-spacing-md);
+  
+      @media (max-width: 36em) {
+        margin-left: 0;
+        margin-top: var(--mantine-spacing-md);
+      }
+    }
+  }
+  
+  &__fieldsGroup {
+    display: flex;
+  
+    @media (max-width: 36em) {
+      flex-direction: column;
+    }
+  }
+  
+  &__contacts {
+    box-sizing: border-box;
+    position: relative;
+    border-radius: var(--mantine-radius-lg);
+    background-size: cover;
+    background-position: center;
+    border: 1px solid transparent;
+    padding: var(--mantine-spacing-xl);
+    flex: 0 0 280px;
+  
+    @media (max-width: 36em) {
+      margin-bottom: var(--mantine-spacing-sm);
+      padding-left: var(--mantine-spacing-md);
+    }
+  }
+  
+  &__title {
+    margin-bottom: calc(var(--mantine-spacing-xl) * 1.5);
+  
+    @media (max-width: 36em) {
+      margin-bottom: var(--mantine-spacing-xl);
+    }
+  }
+  
+  &__control {
+    @media (max-width: 36em) {
+      flex: 1;
+    }
+  }
+}

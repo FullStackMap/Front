@@ -1,4 +1,5 @@
 import '@mantine/core/styles.css';
+import '@mantine/carousel/styles.css';
 import { useEffect } from 'react';
 import Router from './router/Router';
 import { AuthStore, useAuthStore } from './store/useAuthStore';

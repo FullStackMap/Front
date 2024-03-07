@@ -92,7 +92,12 @@ const NoticePage = () => {
                     {new Date(review.date).toLocaleDateString()}
                   </Text>
                 </Group>
-                <Rating color="teal" value={review.rating} readOnly title='Note attribuée par le client' />
+                <Rating
+                  color="teal"
+                  value={review.rating}
+                  readOnly
+                  title="Note attribuée par le client"
+                />
               </Group>
             </Card>
           </Carousel.Slide>
@@ -105,10 +110,11 @@ const NoticePage = () => {
         <Textarea
           label="Votre commentaire"
           value={comment}
-          onChange={handleCommentChange}
           minRows={4}
+          resize="both"
           required
-          placeholder='Ex: "J’ai adoré mon séjour, je recommande vivement !"'></Textarea>
+          placeholder='Ex: "J’ai adoré mon séjour, je recommande vivement !"'
+          onChange={handleCommentChange}></Textarea>
         <Center mt="sm">
           <Rating
             fractions={2}

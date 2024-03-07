@@ -52,7 +52,7 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
           size="sm"
         />
         <Image
-          src="/public/vite.svg"
+          src="/vite.svg"
           alt="Logo du site"
           onClick={handleClickLogo}
           className="cursor-pointer"
