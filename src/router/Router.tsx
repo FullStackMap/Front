@@ -6,6 +6,8 @@ import LandingPage from '../pages/landing/LandingPage';
 import LoginPage from '../pages/login/LoginPage';
 import ShowTravelsLayout from "../layout/showTravels/ShowTravelsLayout.tsx";
 import HistoryPage from "../pages/showTravels/history/HistoryPage.tsx";
+import StatisticsPage from "../pages/showTravels/statistics/StatisticsPage.tsx";
+import MyTrips from "../pages/showTravels/myTrips/MyTrips.tsx";
 
 const Router = () => {
   return (
@@ -21,8 +23,10 @@ const Router = () => {
         <Route path="/login" element={<LoginPage />} />
       </Route>
 
-        <Route element={<ShowTravelsLayout />}>
-            <Route path="/voyages/historique" element={<HistoryPage />} />
+        <Route path="/voyages" element={<ShowTravelsLayout />}>
+            <Route path="historique" element={<HistoryPage />} />
+            <Route path="statistique" element={<StatisticsPage/>}/>
+            <Route path="mesvoyages" element={<MyTrips/>}/>
         </Route>
 
     </Routes>
