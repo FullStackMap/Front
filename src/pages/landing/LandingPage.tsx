@@ -1,10 +1,12 @@
-import '@mantine/core/styles.css';
+import HeroImageBackground from './HeroHeader';
+import Content from './Content';
 
 const LandingPage = () => {
   return (
-    <div>
-      <h1>home page</h1>
-    </div>
+    <>
+      <HeroImageBackground />
+      <Content />
+    </>
   );
 };
 

@@ -23,10 +23,10 @@ export const HalfMapLayout = () => {
       </AppShell.Header>
 
       <AppShell.Main style={{ display: 'flex', flex: 1 }}>
-        <div className="Content">
+        <div className="content">
           <Outlet />
         </div>
-        <div className="MapContainer">
+        <div className="map-container">
           <h1>MapComponent</h1>
         </div>
       </AppShell.Main>

@@ -6,10 +6,11 @@ import App from './App';
 import { createTheme, MantineProvider } from '@mantine/core';
 
 const theme = createTheme({
+  fontFamily: 'Poppins, sans-serif',
+  primaryColor: 'teal',
   white: '#f5f5f5',
   black: '#272727',
   colors: {},
-  fontFamily: 'Arial, sans-serif',
   // radius: {},
   // spacing: ,
   // fontSizes: [],
@@ -32,5 +33,5 @@ root.render(
         <App />
       </MantineProvider>
     </BrowserRouter>
-  </React.StrictMode>,
+  </React.StrictMode>
 );

@@ -2,7 +2,7 @@ import {
   Anchor,
   Button,
   Checkbox,
-  Paper,
+  Container,
   PasswordInput,
   Text,
   TextInput,
@@ -10,7 +10,6 @@ import {
 } from '@mantine/core';
 import '@mantine/core/styles.css';
 import React, { useState } from 'react';
-import classes from './LoginPage.module.css';
 
 // ... autres imports
 export function LoginPage() {
@@ -55,12 +54,11 @@ export function LoginPage() {
   };
 
   return (
-    <div className={classes.wrapper}>
-      <Paper className={classes.form} radius={0} p={30}>
-        <Title order={2} className={classes.title} ta="center" mt="md" mb={50}>
+    <>
+      <Container>
+        <Title order={2} ta="center">
           Se Connecter
         </Title>
-
         <TextInput
           label="Email"
           placeholder="exemple@gmail.com"
@@ -69,7 +67,6 @@ export function LoginPage() {
           onChange={handleEmailChange}
           error={emailError}
         />
-
         <PasswordInput
           label="Mot de passe"
           placeholder="Votre mot de passe"
@@ -78,32 +75,26 @@ export function LoginPage() {
           value={password}
           onChange={handlePasswordChange}
         />
-
         <Checkbox label="Se souvenir de moi" mt="xl" size="md" />
-
-        <Button
-          fullWidth
-          mt="xl"
-          size="md"
-          onClick={handleLogin}
-          color="#DDAA00">
+        <Button fullWidth mt="xl" size="md" onClick={handleLogin}>
           Se connecter
         </Button>
-
         <Text ta="center" mt="md">
           <span>
             Vous n'avez pas de compte?
-            <br></br>{' '}
+            <br></br>
           </span>
           <Anchor<'a'>
             href="#"
             fw={700}
-            onClick={event => event.preventDefault()}>
+            onClick={(event: React.MouseEvent<HTMLAnchorElement>) => {
+              event.preventDefault();
+            }}>
             Créer un compte
           </Anchor>
         </Text>
-      </Paper>
-    </div>
+      </Container>
+    </>
   );
 }
 

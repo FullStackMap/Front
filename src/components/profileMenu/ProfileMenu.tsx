@@ -32,7 +32,7 @@ const ProfileMenu = (props: ProfileMenuProps) => {
       closeDelay={400}
       shadow="md"
       width={200}
-      transitionProps={{ transition: 'skew-up', duration: 150 }}>
+      transitionProps={{ transition: 'fade' }}>
       {props.isLogged ? (
         <>
           <Menu.Target>
