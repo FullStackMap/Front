@@ -1,4 +1,3 @@
-import { LoginDto } from '@FullStackMap/from-a2b';
 import {
   Anchor,
   Button,
@@ -11,15 +10,27 @@ import {
 import '@mantine/core/styles.css';
 import { useForm } from '@mantine/form';
 import { zodResolver } from 'mantine-form-zod-resolver';
-import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
+import { useEffect } from 'react';
 import { AuthStore, useAuthStore } from '../../store/useAuthStore';
 import classes from './LoginPage.module.css';
+import {useDisclosure} from "@mantine/hooks";
+import {notifications} from "@mantine/notifications";
 
 export function LoginPage() {
   const login = useAuthStore((s: AuthStore) => s.login);
   const navigate = useNavigate();
+
+  const [
+    isLoginButtonLoading,
+    {
+      toggle: toggleLoginButtonLoading,
+      close: disableLoadingButtonLogin,
+    },
+  ] = useDisclosure(false);
+  const [isLoginButtonDisabled, { toggle: toggleLoginButtonDisabled }] =
+      useDisclosure(false);
 
   const loginSchema = z.object({
     email: z.string().email('Un email valid est requis'),
@@ -35,20 +46,48 @@ export function LoginPage() {
     validate: zodResolver(loginSchema),
   });
 
-  const loginUser = useCallback(async (loginDto: LoginDto) => {
-    await login(loginDto);
-  }, []);
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    toggleLoginButtonDisabled();
+  }, [loginForm.isValid()]);
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    loginUser(loginForm.values);
+    toggleLoginButtonLoading();
+    try {
+      await login(loginForm.values);
+    }catch (e: any) {
+
+      const reponseStatus: number | undefined = e.response.status;
+      switch (reponseStatus) {
+        case 400:
+          console.log("caca");
+          break;
+        case 401:
+          throwErrorNotification();
+          break;
+        default:
+          console.error(
+              "Impossible de se connecter au serveur d'authentification"
+          );
+          break;
+      }
+      disableLoadingButtonLogin();
+
+    }
   };
 
   const handleRegisterPage = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     navigate('/register');
   };
-
+  const throwErrorNotification = ()=>{
+    notifications.show({
+      title: 'Erreur de connexion',
+      message: 'Vôtre mot de passe ou identifiant sont incorrect!',
+      color: 'red',
+      icon: 'X',
+      autoClose: 5000,
+    })
+  }
   return (
     <div className={classes.wrapper}>
       <Paper className={classes.form} radius={0} p={30}>
@@ -77,7 +116,15 @@ export function LoginPage() {
             {...loginForm.getInputProps('password')}
           />
 
-          <Button fullWidth mt="xl" size="md" color="#DDAA00" type="submit">
+          <Button
+              fullWidth
+              mt="xl"
+              size="md"
+              color="#DDAA00"
+              type="submit"
+              disabled={isLoginButtonDisabled}
+              loading={isLoginButtonLoading}
+          >
             Se connecter
           </Button>
         </form>

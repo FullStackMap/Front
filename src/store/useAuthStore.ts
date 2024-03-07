@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { LoginDto } from '@FullStackMap/from-a2b';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
@@ -56,12 +55,7 @@ export const useAuthStore: UseBoundStore<StoreApi<AuthStore>> =
             expire: -1,
             user: undefined,
           });
-
-          let errorMessage =
-            "Impossible de se connecter au serveur d'authentification";
-          if (err.response && err.response.status === 400)
-            errorMessage = err.response.data.Message;
-          console.error(errorMessage);
+            throw err;
         });
     },
     loadUser: () => {
