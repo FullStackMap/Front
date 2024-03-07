@@ -4,6 +4,9 @@ import { HalfMapLayout } from '../layout/halfMap/HalfMapLayout';
 import LoginLayout from '../layout/login/LoginLayout';
 import LandingPage from '../pages/landing/LandingPage';
 import LoginPage from '../pages/login/LoginPage';
+import NoticePage from '../pages/notice/NoticePage';
+import CguPage from '../pages/cgu/CguPage';
+import FaqPage from '../pages/faq/FaqPage';
 
 const Router = () => {
   return (
@@ -11,6 +14,11 @@ const Router = () => {
       <Route element={<DefaultLayout />}>
         <Route path="/" element={<LandingPage />} />
         <Route path="/*" element={<Navigate to="/" />} />
+        <Route path="/notice" element={<NoticePage />} />
+        <Route path="/profile" element={<Navigate to="/profile" />} />
+        <Route path="/cgu" element={<CguPage />} />
+        <Route path="/contact" element={<Navigate to="/contact" />} />
+        <Route path="/faq" element={<FaqPage />} />
       </Route>
 
       <Route element={<HalfMapLayout />}></Route>

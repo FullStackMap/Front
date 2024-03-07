@@ -12,11 +12,13 @@
   },
   "dependencies": {
     "@FullStackMap/from-a2b": "0.0.0-Beta",
+    "@mantine/carousel": "^7.6.1",
     "@mantine/core": "^7.5.0",
     "@mantine/hooks": "^7.5.0",
     "@mantinex/mantine-logo": "^1.0.1",
     "@tabler/icons-react": "^2.47.0",
     "axios": "^1.6.7",
+    "embla-carousel-react": "^7.1.0",
     "json2typescript": "^1.5.1",
     "loader-utils": "3.2.1",
     "lucide-react": "^0.341.0",
