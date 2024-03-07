@@ -1,5 +1,5 @@
 import { RegisterDto } from '@FullStackMap/from-a2b';
-import { Button, TextInput } from '@mantine/core';
+import {Button, PasswordInput, TextInput, Text, Anchor} from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
@@ -129,21 +129,26 @@ export const RegisterPage = () => {
         {...registerFrom.getInputProps('email')}
       />
 
-      <TextInput
+      <PasswordInput
         label="Mot de passe"
         placeholder="Votre mot de passe"
         mt="md"
         size="md"
         {...registerFrom.getInputProps('password')}
       />
-      <TextInput
+      <PasswordInput
         label="Confirmation de mot de passe"
         placeholder="Confirmation de mot de passe"
         mt="md"
         size="md"
         {...registerFrom.getInputProps('confirmPassword')}
       />
-
+        <Text ta="center" mt="md">
+            <text>Vous posédez déjà un compte? </text>
+            <Anchor<'a'> fw={700} onClick={()=>navigate('/login')} >
+                Connectez-vous
+            </Anchor>
+        </Text>
       <Button
         fullWidth
         mt="xl"
