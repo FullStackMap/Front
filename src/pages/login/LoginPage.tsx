@@ -12,7 +12,7 @@ import '@mantine/core/styles.css';
 import React, { useState } from 'react';
 
 // ... autres imports
-export function LoginPage() {
+const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState<string>('');

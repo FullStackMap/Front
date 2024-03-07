@@ -4,6 +4,8 @@ import { HalfMapLayout } from '../layout/halfMap/HalfMapLayout';
 import LoginLayout from '../layout/login/LoginLayout';
 import LandingPage from '../pages/landing/LandingPage';
 import LoginPage from '../pages/login/LoginPage';
+import ShowTravelsLayout from "../layout/showTravels/ShowTravelsLayout.tsx";
+import HistoryPage from "../pages/showTravels/history/HistoryPage.tsx";
 
 const Router = () => {
   return (
@@ -18,6 +20,11 @@ const Router = () => {
       <Route element={<LoginLayout />}>
         <Route path="/login" element={<LoginPage />} />
       </Route>
+
+        <Route element={<ShowTravelsLayout />}>
+            <Route path="/voyages/historique" element={<HistoryPage />} />
+        </Route>
+
     </Routes>
   );
 };
