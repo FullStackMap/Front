@@ -1,5 +1,5 @@
 import { RegisterDto } from '@FullStackMap/from-a2b';
-import {Button, PasswordInput, TextInput, Text, Anchor} from '@mantine/core';
+import {Button, Container, PasswordInput, TextInput, Title, Text, Anchor} from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
@@ -37,28 +37,28 @@ export const RegisterPage = () => {
         .min(8, 'le mot de passe doit contenir au moins 8 caractères')
         .refine(
           (value: string) => new Set(value).size >= 4,
-          'Le mot de passe doit contenir au moins 4 caractères uniques',
+          'Le mot de passe doit contenir au moins 4 caractères uniques'
         )
         .refine(
           (value: string) => /[^0-9a-zA-Z]/.test(value),
-          'Le mot de passe doit contenir au moins un caractère spécial',
+          'Le mot de passe doit contenir au moins un caractère spécial'
         )
         .refine(
           (value: string) => /[0-9]/.test(value),
-          'Le mot de passe doit contenir au moins un chiffre',
+          'Le mot de passe doit contenir au moins un chiffre'
         )
         .refine(
           (value: string) => /[A-Z]/.test(value),
-          'Le mot de passe doit contenir au moins une majuscule',
+          'Le mot de passe doit contenir au moins une majuscule'
         )
         .refine(
           (value: string) => /[a-z]/.test(value),
-          'Le mot de passe doit contenir au moins une minuscule',
+          'Le mot de passe doit contenir au moins une minuscule'
         ),
 
       confirmPassword: z.string(),
     })
-    .refine(data => data.password === data.confirmPassword, {
+    .refine((data) => data.password === data.confirmPassword, {
       message: 'Les mots de passe ne correspondent pas',
       path: ['confirmPassword'],
     });
@@ -115,50 +115,56 @@ export const RegisterPage = () => {
 
   return (
     <form onReset={() => registerFrom.reset()}>
-      <TextInput
-        label="Identifiant"
-        placeholder="Identifiant"
-        size="md"
-        {...registerFrom.getInputProps('username')}
-      />
-
-      <TextInput
-        label="Email"
-        placeholder="exemple@gmail.com"
-        size="md"
-        {...registerFrom.getInputProps('email')}
-      />
-
-      <PasswordInput
-        label="Mot de passe"
-        placeholder="Votre mot de passe"
-        mt="md"
-        size="md"
-        {...registerFrom.getInputProps('password')}
-      />
-      <PasswordInput
-        label="Confirmation de mot de passe"
-        placeholder="Confirmation de mot de passe"
-        mt="md"
-        size="md"
-        {...registerFrom.getInputProps('confirmPassword')}
-      />
+      <Container>
+        <Title order={2} ta="center">
+          Créer mon compte
+        </Title>
+        <Text ta="center" c="dimmed">
+          Veuillez remplir les champs ci-dessous pour bénéficier de nos services
+        </Text>
+        <TextInput
+          label="Identifiant"
+          placeholder="Identifiant"
+          size="md"
+          {...registerFrom.getInputProps('username')}
+        />
+        <TextInput
+          label="Email"
+          placeholder="exemple@gmail.com"
+          mt="md"
+          size="md"
+          {...registerFrom.getInputProps('email')}
+        />
+        <PasswordInput
+          label="Mot de passe"
+          placeholder="Votre mot de passe"
+          mt="md"
+          size="md"
+          {...registerFrom.getInputProps('password')}
+        />
+        <PasswordInput
+          label="Confirmation de mot de passe"
+          placeholder="Confirmation de mot de passe"
+          mt="md"
+          size="md"
+          {...registerFrom.getInputProps('confirmPassword')}
+        />
         <Text ta="center" mt="md">
             <text>Vous posédez déjà un compte? </text>
             <Anchor<'a'> fw={700} onClick={()=>navigate('/login')} >
                 Connectez-vous
             </Anchor>
         </Text>
-      <Button
-        fullWidth
-        mt="xl"
-        size="md"
-        color="#DDAA00"
-        disabled={isRegisterButtonDisabled}
-        loading={isRegisterButtonLoading}
-        onClick={handleSubmit}>
-        S'inscrire
-      </Button>
+        <Button
+          fullWidth
+          mt="xl"
+          size="md"
+          disabled={isRegisterButtonDisabled}
+          loading={isRegisterButtonLoading}
+          onClick={handleSubmit}>
+          S'inscrire
+        </Button>
+      </Container>
     </form>
   );
 };
