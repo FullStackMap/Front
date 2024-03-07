@@ -1,5 +1,13 @@
 import { RegisterDto } from '@FullStackMap/from-a2b';
-import {Button, Container, PasswordInput, TextInput, Title, Text, Anchor} from '@mantine/core';
+import {
+  Anchor,
+  Button,
+  Container,
+  PasswordInput,
+  Text,
+  TextInput,
+  Title,
+} from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
@@ -37,28 +45,28 @@ export const RegisterPage = () => {
         .min(8, 'le mot de passe doit contenir au moins 8 caractères')
         .refine(
           (value: string) => new Set(value).size >= 4,
-          'Le mot de passe doit contenir au moins 4 caractères uniques'
+          'Le mot de passe doit contenir au moins 4 caractères uniques',
         )
         .refine(
           (value: string) => /[^0-9a-zA-Z]/.test(value),
-          'Le mot de passe doit contenir au moins un caractère spécial'
+          'Le mot de passe doit contenir au moins un caractère spécial',
         )
         .refine(
           (value: string) => /[0-9]/.test(value),
-          'Le mot de passe doit contenir au moins un chiffre'
+          'Le mot de passe doit contenir au moins un chiffre',
         )
         .refine(
           (value: string) => /[A-Z]/.test(value),
-          'Le mot de passe doit contenir au moins une majuscule'
+          'Le mot de passe doit contenir au moins une majuscule',
         )
         .refine(
           (value: string) => /[a-z]/.test(value),
-          'Le mot de passe doit contenir au moins une minuscule'
+          'Le mot de passe doit contenir au moins une minuscule',
         ),
 
       confirmPassword: z.string(),
     })
-    .refine((data) => data.password === data.confirmPassword, {
+    .refine(data => data.password === data.confirmPassword, {
       message: 'Les mots de passe ne correspondent pas',
       path: ['confirmPassword'],
     });
@@ -150,10 +158,10 @@ export const RegisterPage = () => {
           {...registerFrom.getInputProps('confirmPassword')}
         />
         <Text ta="center" mt="md">
-            <text>Vous posédez déjà un compte? </text>
-            <Anchor<'a'> fw={700} onClick={()=>navigate('/login')} >
-                Connectez-vous
-            </Anchor>
+          <Text>Vous possédez déjà un compte? </Text>
+          <Anchor<'a'> fw={700} onClick={() => navigate('/login')}>
+            Connectez-vous
+          </Anchor>
         </Text>
         <Button
           fullWidth

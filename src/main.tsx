@@ -31,7 +31,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <MantineProvider theme={theme}>
-        <Notifications limit={5} />
+        <Notifications limit={5} position="top-center" />
         <App />
       </MantineProvider>
     </BrowserRouter>
