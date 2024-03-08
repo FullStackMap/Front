@@ -20,6 +20,7 @@
     "@mantinex/mantine-logo": "^1.0.1",
     "@tabler/icons-react": "^2.47.0",
     "axios": "^1.6.7",
+    "embla-carousel-autoplay": "^7.1.0",
     "embla-carousel-react": "^7.1.0",
     "json2typescript": "^1.5.1",
     "loader-utils": "3.2.1",

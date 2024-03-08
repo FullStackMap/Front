@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import {
   Container,
   Title,
@@ -9,6 +10,7 @@ import {
   Badge,
 } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
+import Autoplay from 'embla-carousel-autoplay';
 import FormFeedback from '../../components/feedback/FormFeedback';
 
 const reviews = [
@@ -49,6 +51,8 @@ const reviews = [
 ];
 
 const FeedbackPage = () => {
+  const autoplay = useRef(Autoplay({ delay: 5000 }));
+
   return (
     <Container size="md">
       <Title order={1} ta="center" mt="md">
@@ -67,7 +71,16 @@ const FeedbackPage = () => {
           title="Note moyenne"
         />
       </Center>
-      <Carousel slideSize="70%" height={200} slideGap="md" loop mt="md" mb="md">
+      <Carousel
+        slideSize="70%"
+        plugins={[autoplay.current]}
+        onMouseEnter={autoplay.current.stop}
+        onMouseLeave={autoplay.current.reset}
+        height={200}
+        slideGap="md"
+        loop
+        mt="md"
+        mb="md">
         {reviews.map((review) => (
           <Carousel.Slide key={review.pseudo}>
             <Card shadow="sm" radius="md" withBorder h={190}>
