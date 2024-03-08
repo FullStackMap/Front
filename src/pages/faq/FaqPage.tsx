@@ -1,6 +1,9 @@
-import { Accordion, Container, Paper, Title } from '@mantine/core';
+import { Accordion, Button, Container, Paper, Title } from '@mantine/core';
+import { useNavigate } from 'react-router-dom';
 
 const FaqPage = () => {
+  const navigate = useNavigate();
+
   return (
     <Container ta="center" size="md">
       <Paper shadow="lg" mt="xl" p="xl">
@@ -56,7 +59,25 @@ const FaqPage = () => {
               protéger vos informations personnelles.
             </Accordion.Panel>
           </Accordion.Item>
+          <Accordion.Item value="change-email">
+            <Accordion.Control>
+              Comment puis-je changer mon adresse e-mail ?
+            </Accordion.Control>
+            <Accordion.Panel>
+              Vous pouvez changer votre adresse e-mail dans les paramètres de
+              votre compte. Connectez-vous à votre compte et cliquez sur
+              "Modifier les paramètres du compte".
+            </Accordion.Panel>
+          </Accordion.Item>
         </Accordion>
+        <Button
+          variant="gradient"
+          gradient={{ from: 'teal', to: 'dark', deg: 200 }}
+          mt="xl"
+          size="lg"
+          onClick={() => navigate('/contact')}>
+          Besoin de nous contacter ?
+        </Button>
       </Paper>
     </Container>
   );

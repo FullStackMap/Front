@@ -1,3 +1,5 @@
+@import '../../_variables.scss';
+
 .contact {
   display: flex;
   background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-8));
@@ -52,15 +54,15 @@
     border-radius: var(--mantine-radius-lg);
     background-size: cover;
     background-position: center;
-    border: 1px solid transparent;
     padding: var(--mantine-spacing-xl);
     flex: 0 0 280px;
+    background-image: linear-gradient(to top right, $secondary-color, $tertiaire-color);
   
     @media (max-width: 36em) {
       margin-bottom: var(--mantine-spacing-sm);
       padding-left: var(--mantine-spacing-md);
     }
-  }
+}
   
   &__title {
     margin-bottom: calc(var(--mantine-spacing-xl) * 1.5);

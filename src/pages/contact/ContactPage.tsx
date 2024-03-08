@@ -7,6 +7,7 @@ import {
   Text,
   TextInput,
   Textarea,
+  Title,
 } from '@mantine/core';
 import { ContactIconsList } from './ContactIconsList';
 import './ContactPage.scss';
@@ -14,7 +15,10 @@ import './ContactPage.scss';
 const ContactPage = () => {
   return (
     <Container>
-      <Paper shadow="md" radius="lg">
+      <Title order={1} mb="lg" ta="center" mt="lg">
+        Contactez-nous
+      </Title>
+      <Paper shadow="md" radius="lg" mt="xl" p="xl">
         <div className="contact">
           <div className="contact__contacts">
             <Text className="contact__title" fz="lg" fw={700} c="#fff">
@@ -30,12 +34,8 @@ const ContactPage = () => {
             </Text>
             <div className="contact__fields">
               <SimpleGrid cols={{ base: 1, sm: 2 }}>
-                <TextInput label="Votre nom" placeholder="Votre nom" />
-                <TextInput
-                  label="Votre email"
-                  placeholder="hello@mantine.dev"
-                  required
-                />
+                <TextInput label="Nom" placeholder="Votre nom" />
+                <TextInput label="Email" placeholder="Votre email" required />
               </SimpleGrid>
               <TextInput
                 mt="md"
@@ -45,7 +45,7 @@ const ContactPage = () => {
               />
               <Textarea
                 mt="md"
-                label="Votre message"
+                label="Message"
                 placeholder="Merci de nous laisser un message"
                 minRows={3}
                 resize="both"

@@ -17,22 +17,36 @@ const reviews = [
   {
     pseudo: 'John Doe',
     date: '2023-02-01',
-    comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    rating: 4,
+    comment: 'La plateforme est très intuitive, je suis très satisfait !',
+    rating: 5,
   },
   {
     pseudo: 'Jane Doe',
     date: '2023-01-15',
     comment:
-      'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    rating: 5,
+      'J’ai eu un problème avec ma réservation, mais le service client a été très réactif et m’a aidé à trouver une solution.',
+    rating: 4,
   },
   {
     pseudo: 'Bob Smith',
     date: '2022-12-20',
     comment:
-      'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      'Je suis un peu déçu par la qualité des services proposés, mais le rapport qualité-prix est correct.',
     rating: 3,
+  },
+  {
+    pseudo: 'Alice Smith',
+    date: '2022-12-01',
+    comment:
+      'Je recommande vivement cette plateforme, j’ai passé un excellent séjour !',
+    rating: 5,
+  },
+  {
+    pseudo: 'Eva Brown',
+    date: '2022-11-15',
+    comment:
+      'Je suis très satisfaite de ma réservation, je n’hésiterai pas à revenir !',
+    rating: 5,
   },
 ];
 
