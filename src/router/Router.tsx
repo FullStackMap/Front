@@ -10,6 +10,7 @@ import { RegisterPage } from '../pages/register/RegisterPage';
 import { TripsPage } from '../pages/test/TripsPage';
 import { AuthStore, useAuthStore } from '../store/useAuthStore';
 import { PrivateRoute } from './PrivateRoute';
+import { ConfirmMailPage } from '../pages/confirmMail/ConfirmMailPage';
 
 const Router = () => {
   const loadUser: () => void = useAuthStore((s: AuthStore) => s.loadUser);
@@ -52,6 +53,16 @@ const Router = () => {
               authRequired={false}
               redirectPath="/"
               element={<RegisterPage />}
+            />
+          }
+        />
+        <Route
+          path="/confirmMail"
+          element={
+            <PrivateRoute
+              authRequired={false}
+              redirectPath="/"
+              element={<ConfirmMailPage />}
             />
           }
         />
