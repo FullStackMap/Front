@@ -1,101 +1,131 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Anchor,
   Button,
-  Checkbox,
   Container,
   PasswordInput,
+  Space,
   Text,
   TextInput,
   Title,
 } from '@mantine/core';
 import '@mantine/core/styles.css';
-import React, { useState } from 'react';
+import { useForm } from '@mantine/form';
+import { useDisclosure } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
+import { zodResolver } from 'mantine-form-zod-resolver';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
+import { AuthStore, useAuthStore } from '../../store/useAuthStore';
 
-// ... autres imports
 export function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState<string>('');
+  const login = useAuthStore((s: AuthStore) => s.login);
+  const navigate = useNavigate();
 
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const enteredEmail = event.target.value;
-    setEmail(enteredEmail);
+  const [
+    isLoginButtonLoading,
+    { toggle: toggleLoginButtonLoading, close: disableLoadingButtonLogin },
+  ] = useDisclosure(false);
+  const [isLoginButtonDisabled, { toggle: toggleLoginButtonDisabled }] =
+    useDisclosure(false);
 
-    // Validation de l'email à chaque changement
-    const isValidEmail = validateEmail(enteredEmail);
+  const loginSchema = z.object({
+    email: z.string().email('Un email valid est requis'),
+    password: z.string().min(1, 'Le mot de passe est requis'),
+  });
 
-    if (!isValidEmail) {
-      setEmailError('Veuillez entrer un email valide');
-    } else {
-      setEmailError('');
+  const loginForm = useForm({
+    validateInputOnChange: true,
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validate: zodResolver(loginSchema),
+  });
+
+  useEffect(() => {
+    toggleLoginButtonDisabled();
+  }, [loginForm.isValid()]);
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    toggleLoginButtonLoading();
+    try {
+      await login(loginForm.values);
+    } catch (e: any) {
+      const responseStatus: number | undefined = e.response.status;
+      switch (responseStatus) {
+        case 400:
+          console.log('caca');
+          break;
+        case 401:
+          throwErrorNotification();
+          break;
+        default:
+          console.error(
+            "Impossible de se connecter au serveur d'authentification",
+          );
+          break;
+      }
+      disableLoadingButtonLogin();
     }
   };
 
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
+  const handleRegisterPage = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    navigate('/register');
   };
-
-  const handleLogin = () => {
-    // Validation de l'email
-    const isValidEmail = validateEmail(email);
-
-    if (!isValidEmail) {
-      setEmailError('Veuillez entrer un email valide');
-      return;
-    }
-
-    // Autres traitements de connexion ici
-    // ...
+  const throwErrorNotification = () => {
+    notifications.show({
+      title: 'Erreur de connexion',
+      message: 'Vôtre mot de passe ou identifiant sont incorrect!',
+      color: 'red',
+      icon: 'X',
+      autoClose: 5000,
+    });
   };
-
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
   return (
-    <>
-      <Container>
+    <Container>
+      <form onSubmit={handleSubmit} onReset={() => loginForm.reset()}>
         <Title order={2} ta="center">
           Se Connecter
         </Title>
+
         <TextInput
           label="Email"
           placeholder="exemple@gmail.com"
           size="md"
-          value={email}
-          onChange={handleEmailChange}
-          error={emailError}
+          {...loginForm.getInputProps('email')}
         />
+
         <PasswordInput
           label="Mot de passe"
           placeholder="Votre mot de passe"
           mt="md"
           size="md"
-          value={password}
-          onChange={handlePasswordChange}
+          {...loginForm.getInputProps('password')}
         />
-        <Checkbox label="Se souvenir de moi" mt="xl" size="md" />
-        <Button fullWidth mt="xl" size="md" onClick={handleLogin}>
+
+        <Button
+          fullWidth
+          mt="xl"
+          size="md"
+          color="#DDAA00"
+          type="submit"
+          disabled={isLoginButtonDisabled}
+          loading={isLoginButtonLoading}>
           Se connecter
         </Button>
-        <Text ta="center" mt="md">
-          <span>
-            Vous n'avez pas de compte?
-            <br></br>
-          </span>
-          <Anchor<'a'>
-            href="#"
-            fw={700}
-            onClick={(event: React.MouseEvent<HTMLAnchorElement>) => {
-              event.preventDefault();
-            }}>
-            Créer un compte
-          </Anchor>
-        </Text>
-      </Container>
-    </>
+      </form>
+
+      <Text ta="center" mt="md">
+        <span>Vous n'avez pas de compte?</span>
+        {/* TODO Space Mantine */}
+        <Space h="xs" />
+        <Anchor<'a'> fw={700} onClick={handleRegisterPage}>
+          Créer un compte
+        </Anchor>
+      </Text>
+    </Container>
   );
 }
-
-export default LoginPage;
