@@ -1,14 +1,17 @@
 import '@mantine/core/styles.css';
 import '@mantine/carousel/styles.css';
+import '@mantine/notifications/styles.css';
 import { useEffect } from 'react';
 import Router from './router/Router';
-import { AuthStore, useAuthStore } from './store/useAuthStore';
+import { useAuthStore } from './store/useAuthStore';
 import './styles.scss';
 
 export default function App() {
-  const loadUser: () => void = useAuthStore((s: AuthStore) => s.loadUser);
+  const { loadUser } = useAuthStore();
+  useEffect(() => {
+    loadUser();
+  }, []);
 
-  useEffect(() => loadUser());
   return (
     <div className="App">
       <Router />

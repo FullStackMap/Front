@@ -9,7 +9,7 @@ const data = [
     title: 'Voyages',
     links: [
       { label: 'Planifiez votre voyage', url: '#' },
-      { label: 'Avis', url: '/notice' },
+      { label: 'Avis', url: '/feedback' },
     ],
   },
   {

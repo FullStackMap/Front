@@ -57,7 +57,8 @@
     padding: var(--mantine-spacing-xl);
     flex: 0 0 280px;
     background-image: linear-gradient(to top right, $secondary-color, $tertiaire-color);
-  
+    height: fit-content;
+    
     @media (max-width: 36em) {
       margin-bottom: var(--mantine-spacing-sm);
       padding-left: var(--mantine-spacing-md);

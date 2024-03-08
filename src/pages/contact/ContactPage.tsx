@@ -1,15 +1,6 @@
-import {
-  Button,
-  Container,
-  Group,
-  Paper,
-  SimpleGrid,
-  Text,
-  TextInput,
-  Textarea,
-  Title,
-} from '@mantine/core';
-import { ContactIconsList } from './ContactIconsList';
+import { Container, Paper, Text, Title } from '@mantine/core';
+import { ContactIconsList } from '../../components/contact/ContactIconsList';
+import FormContact from '../../components/contact/FormContact';
 import './ContactPage.scss';
 
 const ContactPage = () => {
@@ -26,37 +17,7 @@ const ContactPage = () => {
             </Text>
             <ContactIconsList />
           </div>
-          <form
-            className="contact__form"
-            onSubmit={(event) => event.preventDefault()}>
-            <Text className="contact__title" fz="lg" fw={700}>
-              Envoyez-nous un message
-            </Text>
-            <div className="contact__fields">
-              <SimpleGrid cols={{ base: 1, sm: 2 }}>
-                <TextInput label="Nom" placeholder="Votre nom" />
-                <TextInput label="Email" placeholder="Votre email" required />
-              </SimpleGrid>
-              <TextInput
-                mt="md"
-                label="Sujet"
-                placeholder="Sujet de votre message"
-                required
-              />
-              <Textarea
-                mt="md"
-                label="Message"
-                placeholder="Merci de nous laisser un message"
-                minRows={3}
-                resize="both"
-              />
-              <Group justify="flex-end" mt="md">
-                <Button className="contact__control" type="submit">
-                  Envoyer
-                </Button>
-              </Group>
-            </div>
-          </form>
+          <FormContact />
         </div>
       </Paper>
     </Container>

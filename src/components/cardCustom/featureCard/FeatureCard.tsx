@@ -1,18 +1,14 @@
 import React from 'react';
 import { Card, Group, Text } from '@mantine/core';
-import './DestinationCard.scss';
+import './FeatureCard.scss';
 
-interface DestinationCardProps {
+interface FeatureCardProps {
   icon: React.ReactNode;
   title: string;
   description: string;
 }
 
-export function DestinationCard({
-  icon,
-  title,
-  description,
-}: DestinationCardProps) {
+export function FeatureCard({ icon, title, description }: FeatureCardProps) {
   return (
     <Card
       shadow="sm"
