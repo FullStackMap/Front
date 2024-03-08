@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import DefaultLayout from '../layout/default/DefaultLayout';
 import { HalfMapLayout } from '../layout/halfMap/HalfMapLayout';
 import LoginLayout from '../layout/login/LoginLayout';
+import { ForgotPasswordPage } from '../pages/forgotPassword/ForgotPasswordPage';
 import { LandingPage } from '../pages/landing/LandingPage';
 import { LoginPage } from '../pages/login/LoginPage';
 import { RegisterPage } from '../pages/register/RegisterPage';
@@ -51,6 +52,16 @@ const Router = () => {
               authRequired={false}
               redirectPath="/"
               element={<RegisterPage />}
+            />
+          }
+        />
+        <Route
+          path="/forgotPassword"
+          element={
+            <PrivateRoute
+              authRequired={false}
+              redirectPath="/"
+              element={<ForgotPasswordPage />}
             />
           }
         />
