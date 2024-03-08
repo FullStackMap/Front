@@ -1,50 +1,81 @@
 import { useState } from 'react';
-import { IconGauge, } from '@tabler/icons-react';
-import { Box, NavLink } from '@mantine/core';
-import ProfileForm from "../../components/profile/profileForm/ProfileForm.tsx";
-import ChangePasswordForm from "../../components/profile/changePasswordForm/ChangePasswordForm.tsx";
-import ChangeEmailForm from "../../components/profile/changeEmailForm/ChangeEmailForm.tsx";
-import CGU from "../../components/profile/CGU/CGU.tsx";
+import { useNavigate } from 'react-router-dom';
+import { useMediaQuery } from '@mantine/hooks';
+
+import {
+  IconUser,
+  IconLock,
+  IconMail,
+  IconFileText,
+  IconTrash,
+  IconChevronRight,
+} from '@tabler/icons-react';
+import { NavLink, Container, Grid, Paper } from '@mantine/core';
+import ProfileForm from '../../components/profile/profileForm/ProfileForm.tsx';
+import ChangePasswordForm from '../../components/profile/changePasswordForm/ChangePasswordForm.tsx';
+import ChangeEmailForm from '../../components/profile/changeEmailForm/ChangeEmailForm.tsx';
+import DeleteForm from '../../components/profile/DeleteForm /DeleteForm.tsx';
 
 const data = [
-    { icon: IconGauge, label: 'Mon Compte'},
-    {icon: IconGauge, label: 'Changer Mon Mot De Passe'},
-    {icon: IconGauge, label: 'Changer Mon Email'},
-    {icon: IconGauge, label: 'Condition Générale D\'utilisation'},
-    {icon: IconGauge, label: 'Supprimer Mon Compte'},
+  { icon: IconUser, label: 'Mon Compte' },
+  { icon: IconLock, label: 'Changer Mon Mot De Passe' },
+  { icon: IconMail, label: 'Changer Mon Email' },
+  { icon: IconFileText, label: "Condition Générale D'utilisation" },
+  { icon: IconTrash, label: 'Supprimer Mon Compte' },
 ];
+
 const ProfilePage = () => {
-    const [active, setActive] = useState(0);
-    const [actualForm, setActualForm] = useState(0);
+  const [active, setActive] = useState(0);
+  const [actualForm, setActualForm] = useState(0);
+  const navigate = useNavigate();
 
-    const selectForm = (index: number,) => {
-        setActive(index);
-        setActualForm(index);
-        console.log(actualForm);
-    }
+  const selectForm = (index: number) => {
+    setActive(index);
+    setActualForm(index);
+  };
 
-    const items = data.map((item, index) => (
-        <NavLink
-            key={item.label}
-            active={index === active}
-            label={item.label}
-            leftSection={<item.icon size="1rem" stroke={1.5} />}
-            onClick={() => selectForm(index)}
-            color="yellow"
-        />
-    ));
+  const navigateToCGU = () => {
+    setActualForm(3);
+    navigate('/cgu');
+  };
 
-    return(
-        <div>
-            <div>
-                <Box w={220}>{items}</Box>
-                {actualForm === 0 && <ProfileForm/>}
-                {actualForm === 1 && <ChangePasswordForm/>}
-                {actualForm === 2 && <ChangeEmailForm/>}
-                {actualForm === 3 && <CGU/>}
-            </div>
-        </div>
-    )
-}
+  const items = data.map((item, index) => (
+    <NavLink
+      key={item.label}
+      active={index === active}
+      label={item.label}
+      leftSection={<item.icon size={18} />}
+      rightSection={<IconChevronRight size={18} />}
+      onClick={index === 3 ? navigateToCGU : () => selectForm(index)}
+      autoContrast
+    />
+  ));
+
+  const isMobile = useMediaQuery('(max-width: 768px)');
+
+  return (
+    <Container size="xl">
+      <Paper shadow="md" radius="lg" mt="xl" p="xl">
+        <Grid grow justify="center" align="center">
+          <Grid.Col
+            span={3}
+            h={isMobile ? 'auto' : '500'}
+            style={{
+              borderRight: isMobile ? 'none' : '2px solid #eaeaea',
+              borderBottom: isMobile ? '2px solid #eaeaea' : 'none',
+            }}>
+            <Container>{items}</Container>
+          </Grid.Col>
+          <Grid.Col span={9}>
+            {actualForm === 0 && <ProfileForm />}
+            {actualForm === 1 && <ChangePasswordForm />}
+            {actualForm === 2 && <ChangeEmailForm />}
+            {actualForm === 4 && <DeleteForm />}
+          </Grid.Col>
+        </Grid>
+      </Paper>
+    </Container>
+  );
+};
 
 export default ProfilePage;

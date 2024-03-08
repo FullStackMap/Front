@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useForm } from '@mantine/form';
-import { TextInput, Group, Button, Container } from '@mantine/core';
+import { TextInput, Group, Button, Container, Checkbox } from '@mantine/core';
 
-const ChangeEmailForm = () => {
+const DeleteForm = () => {
   const form = useForm({
     initialValues: {
       email: '',
@@ -15,6 +15,7 @@ const ChangeEmailForm = () => {
   });
 
   const [emailError, setEmailError] = useState<string>('');
+  const [isChecked, setIsChecked] = useState<boolean>(false);
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -34,11 +35,8 @@ const ChangeEmailForm = () => {
     }
   };
 
-  const handleConfirmEmailChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const enteredConfirmEmail = event.target.value;
-    form.setFieldValue('confirmEmail', enteredConfirmEmail);
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
   };
 
   return (
@@ -52,23 +50,20 @@ const ChangeEmailForm = () => {
           error={emailError}
           required
         />
-
-        <TextInput
-          mt="sm"
-          label="Confirm Email"
-          placeholder="Confirm Email"
-          value={form.values.confirmEmail}
-          onChange={handleConfirmEmailChange}
-          error={form.errors.confirmEmail}
-          required
+        <Checkbox
+          label="Confirmer la suppression du compte"
+          mt="lg"
+          checked={isChecked}
+          onChange={handleCheckboxChange}
         />
-
         <Group justify="flex-end" mt="md">
-          <Button type="submit">Send</Button>
+          <Button type="submit" disabled={!isChecked || !!emailError}>
+            Confirmer
+          </Button>
         </Group>
       </form>
     </Container>
   );
 };
 
-export default ChangeEmailForm;
+export default DeleteForm;
