@@ -6,12 +6,14 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
+import UseScrollTop from './hooks/useScrollTop.tsx';
 
 const theme = createTheme({
+  fontFamily: 'Poppins, sans-serif',
+  primaryColor: 'teal',
   white: '#f5f5f5',
   black: '#272727',
   colors: {},
-  fontFamily: 'Arial, sans-serif',
   // radius: {},
   // spacing: ,
   // fontSizes: [],
@@ -30,8 +32,9 @@ const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <MantineProvider theme={theme}>
-        <Notifications limit={5} position="top-center" />
+      <UseScrollTop />
+      <MantineProvider defaultColorScheme="auto" theme={theme}>
+        <Notifications limit={5} position="top-right" />
         <App />
       </MantineProvider>
     </BrowserRouter>

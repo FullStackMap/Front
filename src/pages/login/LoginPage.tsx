@@ -1,22 +1,23 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Anchor,
   Button,
-  Paper,
+  Container,
   PasswordInput,
+  Space,
   Text,
   TextInput,
   Title,
 } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { useForm } from '@mantine/form';
+import { useDisclosure } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
 import { zodResolver } from 'mantine-form-zod-resolver';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
-import { useEffect } from 'react';
 import { AuthStore, useAuthStore } from '../../store/useAuthStore';
-import classes from './LoginPage.module.css';
-import {useDisclosure} from "@mantine/hooks";
-import {notifications} from "@mantine/notifications";
 
 export function LoginPage() {
   const login = useAuthStore((s: AuthStore) => s.login);
@@ -24,13 +25,10 @@ export function LoginPage() {
 
   const [
     isLoginButtonLoading,
-    {
-      toggle: toggleLoginButtonLoading,
-      close: disableLoadingButtonLogin,
-    },
+    { toggle: toggleLoginButtonLoading, close: disableLoadingButtonLogin },
   ] = useDisclosure(false);
   const [isLoginButtonDisabled, { toggle: toggleLoginButtonDisabled }] =
-      useDisclosure(false);
+    useDisclosure(false);
 
   const loginSchema = z.object({
     email: z.string().email('Un email valid est requis'),
@@ -54,24 +52,22 @@ export function LoginPage() {
     toggleLoginButtonLoading();
     try {
       await login(loginForm.values);
-    }catch (e: any) {
-
-      const reponseStatus: number | undefined = e.response.status;
-      switch (reponseStatus) {
+    } catch (e: any) {
+      const responseStatus: number | undefined = e.response.status;
+      switch (responseStatus) {
         case 400:
-          console.log("caca");
+          console.log('caca');
           break;
         case 401:
           throwErrorNotification();
           break;
         default:
           console.error(
-              "Impossible de se connecter au serveur d'authentification"
+            "Impossible de se connecter au serveur d'authentification",
           );
           break;
       }
       disableLoadingButtonLogin();
-
     }
   };
 
@@ -79,66 +75,57 @@ export function LoginPage() {
     event.preventDefault();
     navigate('/register');
   };
-  const throwErrorNotification = ()=>{
+  const throwErrorNotification = () => {
     notifications.show({
       title: 'Erreur de connexion',
       message: 'Vôtre mot de passe ou identifiant sont incorrect!',
       color: 'red',
       icon: 'X',
       autoClose: 5000,
-    })
-  }
+    });
+  };
   return (
-    <div className={classes.wrapper}>
-      <Paper className={classes.form} radius={0} p={30}>
-        <form onSubmit={handleSubmit} onReset={() => loginForm.reset()}>
-          <Title
-            order={2}
-            className={classes.title}
-            ta="center"
-            mt="md"
-            mb={50}>
-            Se Connecter
-          </Title>
+    <Container>
+      <form onSubmit={handleSubmit} onReset={() => loginForm.reset()}>
+        <Title order={2} ta="center">
+          Se Connecter
+        </Title>
 
-          <TextInput
-            label="Email"
-            placeholder="exemple@gmail.com"
-            size="md"
-            {...loginForm.getInputProps('email')}
-          />
+        <TextInput
+          label="Email"
+          placeholder="exemple@gmail.com"
+          size="md"
+          {...loginForm.getInputProps('email')}
+        />
 
-          <PasswordInput
-            label="Mot de passe"
-            placeholder="Votre mot de passe"
-            mt="md"
-            size="md"
-            {...loginForm.getInputProps('password')}
-          />
+        <PasswordInput
+          label="Mot de passe"
+          placeholder="Votre mot de passe"
+          mt="md"
+          size="md"
+          {...loginForm.getInputProps('password')}
+        />
 
-          <Button
-              fullWidth
-              mt="xl"
-              size="md"
-              color="#DDAA00"
-              type="submit"
-              disabled={isLoginButtonDisabled}
-              loading={isLoginButtonLoading}
-          >
-            Se connecter
-          </Button>
-        </form>
+        <Button
+          fullWidth
+          mt="xl"
+          size="md"
+          color="#DDAA00"
+          type="submit"
+          disabled={isLoginButtonDisabled}
+          loading={isLoginButtonLoading}>
+          Se connecter
+        </Button>
+      </form>
 
-        <Text ta="center" mt="md">
-          <span>
-            Vous n'avez pas de compte?
-            <br></br>{' '}
-          </span>
-          <Anchor<'a'> fw={700} onClick={handleRegisterPage}>
-            Créer un compte
-          </Anchor>
-        </Text>
-      </Paper>
-    </div>
+      <Text ta="center" mt="md">
+        <span>Vous n'avez pas de compte?</span>
+        {/* TODO Space Mantine */}
+        <Space h="xs" />
+        <Anchor<'a'> fw={700} onClick={handleRegisterPage}>
+          Créer un compte
+        </Anchor>
+      </Text>
+    </Container>
   );
 }

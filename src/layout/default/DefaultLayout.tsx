@@ -14,15 +14,13 @@ const DefaultLayout = () => {
         width: 300,
         breakpoint: 'sm',
         collapsed: { desktop: true, mobile: !opened },
-      }}
-      footer={{ height: 120 }}
-      padding="md">
+      }}>
       <AppShell.Header>
         <DefaultHeader burgerOpened={opened} toggleBurgerState={toggle} />
       </AppShell.Header>
 
       <AppShell.Main>
-        <div className="MainContainer">
+        <div>
           <Outlet />
         </div>
       </AppShell.Main>
