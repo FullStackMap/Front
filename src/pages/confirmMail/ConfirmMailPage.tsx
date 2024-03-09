@@ -1,4 +1,6 @@
 import { ConfirmMailDto } from '@FullStackMap/from-a2b';
+import { notifications } from '@mantine/notifications';
+import { IconCheck, IconX } from '@tabler/icons-react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQueryParams } from '../../hooks/useQueryParams';
@@ -18,8 +20,29 @@ export const ConfirmMailPage = () => {
       token: queryParams.token,
       email: queryParams.mail,
     };
-    const res = await AnoAuthController.confirmEmailPOST(confirmMailDto);
-    console.log('🚀 ~ confirmAccount ~ res:', res);
+    await AnoAuthController.confirmEmailPOST(confirmMailDto)
+      .then(() => {
+        notifications.show({
+          title: 'Votre requête a bien été prise en compte',
+          message:
+            'Si un compte est associé à cet email, vous recevrez un email de réinitialisation de mot de passe.',
+          autoClose: 5000,
+          color: 'teal',
+          icon: <IconCheck />,
+        });
+        navigate('/login');
+      })
+      .catch(error => {
+        console.error(error);
+        notifications.show({
+          title: "Une erreur s'est produite",
+          message: "Votre demande n'a pas pu être prise en compte",
+          autoClose: 5000,
+          color: 'red',
+          icon: <IconX />,
+        });
+        navigate('/');
+      });
   };
 
   return <></>;
