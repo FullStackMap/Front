@@ -40,8 +40,7 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
   };
 
   const handleTrips = () => {
-    //TODO: Redirect to Trips list page
-    throw new Error('handleTrips Not implemented');
+    navigate('/trips');
   };
 
   const handleLogout = () => {

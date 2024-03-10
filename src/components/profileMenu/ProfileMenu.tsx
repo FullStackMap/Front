@@ -24,8 +24,12 @@ const ProfileMenu = () => {
     throw new Error('handleAccount Not implemented');
   };
 
+  const handleTripsHistory = () => {
+    navigate('/trips/history');
+  };
+
   const handleTrips = () => {
-    throw new Error('handleTrips Not implemented');
+    navigate('/trips');
   };
 
   const handleLogout = () => {
@@ -69,7 +73,7 @@ const ProfileMenu = () => {
               leftSection={
                 <IconHistory style={{ width: rem(14), height: rem(14) }} />
               }
-              onClick={handleTrips}>
+              onClick={handleTripsHistory}>
               Historique
             </Menu.Item>
             <Menu.Divider />
