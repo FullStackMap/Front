@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js with PNPM
         uses: pnpm/action-setup@v3
@@ -28,6 +28,6 @@ jobs:
         run: pnpm run build
 
       - name: Prettier
-        uses: prettier/prettier-action
+        uses: creyD/prettier_action@v4.3
         with:
-          args: . --write
+          prettier_options: --write **/*.{tsx,md}
