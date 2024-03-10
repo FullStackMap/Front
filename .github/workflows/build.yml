@@ -28,6 +28,6 @@ jobs:
         run: pnpm run build
 
       - name: Prettier
-        uses: prettier/prettier-action@v3
+        uses: prettier/prettier-action
         with:
           args: . --write
