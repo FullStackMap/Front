@@ -1,0 +1,33 @@
+name: Build
+
+on:
+  #  pull_request:
+  #    branches:
+  #      - main
+  #      - develop
+
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js with PNPM
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Prettier
+        uses: prettier/prettier-action@v3
+        with:
+          args: . --write
