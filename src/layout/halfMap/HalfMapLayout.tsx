@@ -5,7 +5,7 @@ import DefaultFooter from '../../components/footer/DefaultFooter';
 import DefaultHeader from '../../components/header/DefaultHeader';
 import './HalfMapLayout.scss';
 
-export const HalfMapLayout = () => {
+const HalfMapLayout = () => {
   const [opened, { toggle }] = useDisclosure();
 
   return (
@@ -36,3 +36,5 @@ export const HalfMapLayout = () => {
     </AppShell>
   );
 };
+
+export default HalfMapLayout;

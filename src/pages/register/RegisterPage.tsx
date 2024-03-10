@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { AnoAuthController } from '../../services/BaseApi';
 
-export const RegisterPage = () => {
+const RegisterPage = () => {
   const navigate = useNavigate();
   const [
     isRegisterButtonLoading,
@@ -176,3 +176,5 @@ export const RegisterPage = () => {
     </form>
   );
 };
+
+export default RegisterPage;

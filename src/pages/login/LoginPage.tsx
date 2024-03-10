@@ -19,7 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { AuthStore, useAuthStore } from '../../store/useAuthStore';
 
-export function LoginPage() {
+const LoginPage = () => {
   const login = useAuthStore((s: AuthStore) => s.login);
   const navigate = useNavigate();
 
@@ -128,4 +128,6 @@ export function LoginPage() {
       </Text>
     </Container>
   );
-}
+};
+
+export default LoginPage;
