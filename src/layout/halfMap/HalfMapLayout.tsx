@@ -1,12 +1,12 @@
-import { AppShell } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { Outlet } from 'react-router-dom';
-import DefaultFooter from '../../components/footer/DefaultFooter';
-import DefaultHeader from '../../components/header/DefaultHeader';
-import './HalfMapLayout.scss';
+import { AppShell } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
+import { Outlet } from 'react-router-dom'
+import DefaultFooter from '../../components/footer/DefaultFooter'
+import DefaultHeader from '../../components/header/DefaultHeader'
+import './HalfMapLayout.scss'
 
 export const HalfMapLayout = () => {
-  const [opened, { toggle }] = useDisclosure();
+  const [opened, { toggle }] = useDisclosure()
 
   return (
     <AppShell
@@ -17,7 +17,8 @@ export const HalfMapLayout = () => {
         collapsed: { desktop: true, mobile: !opened },
       }}
       footer={{ height: 120 }}
-      padding="md">
+      padding="md"
+    >
       <AppShell.Header>
         <DefaultHeader burgerOpened={opened} toggleBurgerState={toggle} />
       </AppShell.Header>
@@ -34,5 +35,5 @@ export const HalfMapLayout = () => {
         <DefaultFooter />
       </AppShell.Footer>
     </AppShell>
-  );
-};
+  )
+}

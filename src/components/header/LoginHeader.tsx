@@ -1,12 +1,12 @@
-import { Group } from '@mantine/core';
-import { useNavigate } from 'react-router-dom';
+import { Group } from '@mantine/core'
+import { useNavigate } from 'react-router-dom'
 
 const LoginHeader = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleClickLogo = () => {
-    navigate('/');
-  };
+    navigate('/')
+  }
 
   return (
     <>
@@ -19,7 +19,7 @@ const LoginHeader = () => {
         />
       </Group>
     </>
-  );
-};
+  )
+}
 
-export default LoginHeader;
+export default LoginHeader

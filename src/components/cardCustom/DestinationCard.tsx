@@ -1,11 +1,11 @@
-import React from 'react';
-import { Card, Group, Text } from '@mantine/core';
-import './DestinationCard.scss';
+import React from 'react'
+import { Card, Group, Text } from '@mantine/core'
+import './DestinationCard.scss'
 
 interface DestinationCardProps {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
+  icon: React.ReactNode
+  title: string
+  description: string
 }
 
 export function DestinationCard({
@@ -19,7 +19,8 @@ export function DestinationCard({
       padding="lg"
       radius="md"
       withBorder
-      className="card-hover">
+      className="card-hover"
+    >
       <Group mb="xs">
         {icon}
         <Text>{title}</Text>
@@ -28,5 +29,5 @@ export function DestinationCard({
         {description}
       </Text>
     </Card>
-  );
+  )
 }

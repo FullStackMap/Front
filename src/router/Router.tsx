@@ -1,18 +1,18 @@
-import { useEffect } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
-import DefaultLayout from '../layout/default/DefaultLayout';
-import { HalfMapLayout } from '../layout/halfMap/HalfMapLayout';
-import LoginLayout from '../layout/login/LoginLayout';
-import { LandingPage } from '../pages/landing/LandingPage';
-import { LoginPage } from '../pages/login/LoginPage';
-import { RegisterPage } from '../pages/register/RegisterPage';
-import { TripsPage } from '../pages/test/TripsPage';
-import { AuthStore, useAuthStore } from '../store/useAuthStore';
-import { PrivateRoute } from './PrivateRoute';
+import { useEffect } from 'react'
+import { Navigate, Route, Routes } from 'react-router-dom'
+import DefaultLayout from '../layout/default/DefaultLayout'
+import { HalfMapLayout } from '../layout/halfMap/HalfMapLayout'
+import LoginLayout from '../layout/login/LoginLayout'
+import { LandingPage } from '../pages/landing/LandingPage'
+import { LoginPage } from '../pages/login/LoginPage'
+import { RegisterPage } from '../pages/register/RegisterPage'
+import { TripsPage } from '../pages/test/TripsPage'
+import { AuthStore, useAuthStore } from '../store/useAuthStore'
+import { PrivateRoute } from './PrivateRoute'
 
 const Router = () => {
-  const loadUser: () => void = useAuthStore((s: AuthStore) => s.loadUser);
-  useEffect(() => loadUser(), []);
+  const loadUser: () => void = useAuthStore((s: AuthStore) => s.loadUser)
+  useEffect(() => loadUser(), [])
 
   return (
     <Routes>
@@ -56,7 +56,7 @@ const Router = () => {
         />
       </Route>
     </Routes>
-  );
-};
+  )
+}
 
-export default Router;
+export default Router

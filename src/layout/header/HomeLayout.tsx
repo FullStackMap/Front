@@ -7,27 +7,27 @@ import {
   Group,
   ScrollArea,
   rem,
-} from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { Outlet } from 'react-router-dom';
-import { LoginDto } from '../../Models/Auth/LoginDto';
-import { useAuthStore } from '../../store/useAuthStore';
-import classes from './HeaderMegaMenu.module.css';
+} from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
+import { Outlet } from 'react-router-dom'
+import { LoginDto } from '../../Models/Auth/LoginDto'
+import { useAuthStore } from '../../store/useAuthStore'
+import classes from './HeaderMegaMenu.module.css'
 
 const HomeLayout = () => {
-  const authStore = useAuthStore();
+  const authStore = useAuthStore()
 
   const handleClickLogin: () => Promise<void> = async () => {
     const loginDto: LoginDto = {
       Username: 'Dercraker',
       Password: 'NMdRx$HqyT8jX6',
-    };
+    }
 
-    authStore.login(loginDto);
-  };
+    authStore.login(loginDto)
+  }
 
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
-    useDisclosure(false);
+    useDisclosure(false)
   return (
     <div>
       <Box pb={120}>
@@ -67,7 +67,8 @@ const HomeLayout = () => {
           padding="md"
           title="Navigation"
           hiddenFrom="sm"
-          zIndex={1000000}>
+          zIndex={1000000}
+        >
           <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
             <Divider my="sm" />
 
@@ -91,7 +92,7 @@ const HomeLayout = () => {
       </Box>
       <Outlet />
     </div>
-  );
-};
+  )
+}
 
-export default HomeLayout;
+export default HomeLayout

@@ -7,7 +7,7 @@ import {
   Paper,
   Title,
   Badge,
-} from '@mantine/core';
+} from '@mantine/core'
 import {
   IconPhoto,
   IconMapPin,
@@ -19,10 +19,10 @@ import {
   IconTicket,
   IconDownload,
   IconTimeline,
-} from '@tabler/icons-react';
-import { DestinationCard } from '../../components/cardCustom/DestinationCard';
+} from '@tabler/icons-react'
+import { DestinationCard } from '../../components/cardCustom/DestinationCard'
 
-const Content = () =>  {
+const Content = () => {
   return (
     <Container size="lg" py="xl" mt={50} ta="center">
       <Badge variant="filled" size="xl" mb={50}>
@@ -112,7 +112,7 @@ const Content = () =>  {
         />
       </SimpleGrid>
     </Container>
-  );
+  )
 }
 
-export default Content;
+export default Content

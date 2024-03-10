@@ -1,5 +1,5 @@
-import { Title, Text, Container, Button, Overlay } from '@mantine/core';
-import './HeroImageBackground.scss';
+import { Title, Text, Container, Button, Overlay } from '@mantine/core'
+import './HeroImageBackground.scss'
 
 const HeroImageBackground = () => {
   return (
@@ -20,13 +20,14 @@ const HeroImageBackground = () => {
             className="hero__control"
             variant="outline"
             color="white"
-            size="lg">
+            size="lg"
+          >
             Commencer
           </Button>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default HeroImageBackground;
+export default HeroImageBackground

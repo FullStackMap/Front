@@ -1,4 +1,4 @@
-import { RegisterDto } from '@FullStackMap/from-a2b';
+import { RegisterDto } from '@FullStackMap/from-a2b'
 import {
   Anchor,
   Button,
@@ -7,28 +7,28 @@ import {
   Text,
   TextInput,
   Title,
-} from '@mantine/core';
-import { useForm } from '@mantine/form';
-import { useDisclosure } from '@mantine/hooks';
-import { notifications } from '@mantine/notifications';
-import { IconCheck, IconX } from '@tabler/icons-react';
-import { zodResolver } from 'mantine-form-zod-resolver';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { z } from 'zod';
-import { AnoAuthController } from '../../services/BaseApi';
+} from '@mantine/core'
+import { useForm } from '@mantine/form'
+import { useDisclosure } from '@mantine/hooks'
+import { notifications } from '@mantine/notifications'
+import { IconCheck, IconX } from '@tabler/icons-react'
+import { zodResolver } from 'mantine-form-zod-resolver'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { z } from 'zod'
+import { AnoAuthController } from '../../services/BaseApi'
 
 export const RegisterPage = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const [
     isRegisterButtonLoading,
     {
       toggle: toggleRegisterButtonLoading,
       close: disableLoadingButtonRegister,
     },
-  ] = useDisclosure(false);
+  ] = useDisclosure(false)
   const [isRegisterButtonDisabled, { toggle: toggleRegisterButtonDisabled }] =
-    useDisclosure(false);
+    useDisclosure(false)
 
   const registerSchema = z
     .object({
@@ -66,10 +66,10 @@ export const RegisterPage = () => {
 
       confirmPassword: z.string(),
     })
-    .refine(data => data.password === data.confirmPassword, {
+    .refine((data) => data.password === data.confirmPassword, {
       message: 'Les mots de passe ne correspondent pas',
       path: ['confirmPassword'],
-    });
+    })
 
   const registerFrom = useForm({
     validateInputOnChange: true,
@@ -80,17 +80,17 @@ export const RegisterPage = () => {
       confirmPassword: '',
     },
     validate: zodResolver(registerSchema),
-  });
+  })
 
   useEffect(() => {
-    toggleRegisterButtonDisabled();
-  }, [registerFrom.isValid()]);
+    toggleRegisterButtonDisabled()
+  }, [registerFrom.isValid()])
 
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    toggleRegisterButtonLoading();
+    event.preventDefault()
+    toggleRegisterButtonLoading()
 
-    if (!registerFrom.isValid()) return;
+    if (!registerFrom.isValid()) return
 
     await AnoAuthController.registerPOST(registerFrom.values as RegisterDto)
       .then(() => {
@@ -101,11 +101,11 @@ export const RegisterPage = () => {
           autoClose: 5000,
           color: 'teal',
           icon: <IconCheck />,
-        });
-        navigate('/');
+        })
+        navigate('/')
       })
-      .catch(err => {
-        disableLoadingButtonRegister();
+      .catch((err) => {
+        disableLoadingButtonRegister()
 
         err.response.data
           .map((data: any) => data.message)
@@ -116,10 +116,10 @@ export const RegisterPage = () => {
               autoClose: 5000,
               color: 'red',
               icon: <IconX />,
-            });
-          });
-      });
-  };
+            })
+          })
+      })
+  }
 
   return (
     <form onReset={() => registerFrom.reset()}>
@@ -169,10 +169,11 @@ export const RegisterPage = () => {
           size="md"
           disabled={isRegisterButtonDisabled}
           loading={isRegisterButtonLoading}
-          onClick={handleSubmit}>
+          onClick={handleSubmit}
+        >
           S'inscrire
         </Button>
       </Container>
     </form>
-  );
-};
+  )
+}

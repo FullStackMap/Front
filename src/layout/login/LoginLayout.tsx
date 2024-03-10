@@ -1,6 +1,6 @@
-import { AppShell } from '@mantine/core';
-import { Outlet } from 'react-router-dom';
-import LoginHeader from '../../components/header/LoginHeader';
+import { AppShell } from '@mantine/core'
+import { Outlet } from 'react-router-dom'
+import LoginHeader from '../../components/header/LoginHeader'
 
 const LoginLayout = () => {
   return (
@@ -12,7 +12,7 @@ const LoginLayout = () => {
         <Outlet />
       </AppShell.Main>
     </AppShell>
-  );
-};
+  )
+}
 
-export default LoginLayout;
+export default LoginLayout

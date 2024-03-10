@@ -7,17 +7,20 @@ This project is built using React, TypeScript, Vite, and Docker.
 ```bash
 git clone git@github.com:FullStackMap/Front.git
 ```
+
 ## Add the .npmrc file to the root of the project
 
 ### First need to create a classic_token in your Github account
+
 just need write and read package permissions
 use this documentation to create a token
 [Github documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)
 
 after you do that, you need to create a .npmrc file in the root of the project and add the following code
+
 ```bash
 echo "//npm.pkg.github.com/:_authToken=your_token_classic_here
-@FullStackMap:registry=https://npm.pkg.github.com" | cat - > .npmrc 
+@FullStackMap:registry=https://npm.pkg.github.com" | cat - > .npmrc
 ```
 
 ## Recommending you to use pnpm instead of npm, to install it

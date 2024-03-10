@@ -1,18 +1,18 @@
 export type TokenDecoded = {
   //UserName of the user
-  User: string;
+  User: string
   //Email of the user
-  Email: string;
+  Email: string
   //GUID Id of the user
-  Id: string;
+  Id: string
   //JWT ID (unique identifier for the token)
-  jti: string;
+  jti: string
   //Roles of the user
-  Roles: string[];
+  Roles: string[]
   //Not Valid Before (Seconds since Unix Epoch)
-  nbf: number;
+  nbf: number
   //Expiration Time (Seconds since Unix Epoch)
-  exp: number;
+  exp: number
   //Issued At (Seconds since Unix Epoch)
-  iat: number;
-};
+  iat: number
+}

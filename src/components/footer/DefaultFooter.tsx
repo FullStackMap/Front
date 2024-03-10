@@ -1,8 +1,8 @@
-import { useNavigate } from 'react-router-dom';
-import './DefaultFooter.scss';
+import { useNavigate } from 'react-router-dom'
+import './DefaultFooter.scss'
 
-import { Container, Group, Text, Image, Title, Divider } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
+import { Container, Group, Text, Image, Title, Divider } from '@mantine/core'
+import { useMediaQuery } from '@mantine/hooks'
 
 const data = [
   {
@@ -27,15 +27,15 @@ const data = [
       { label: 'FAQ', link: '#' },
     ],
   },
-];
+]
 
 const DefaultFooter = () => {
-  const Navigate = useNavigate();
-  const isMobile = useMediaQuery('(max-width: 768px)'); // Définissez la largeur maximale pour le format mobile
+  const Navigate = useNavigate()
+  const isMobile = useMediaQuery('(max-width: 768px)') // Définissez la largeur maximale pour le format mobile
 
   const handleGoLandingPage = () => {
-    Navigate('/');
-  };
+    Navigate('/')
+  }
 
   const groups = data.map((group) => {
     const links = group.links.map((link, index) => (
@@ -44,18 +44,19 @@ const DefaultFooter = () => {
         className="footer__link"
         href={link.link}
         pt={5}
-        onClick={(event) => event.preventDefault()}>
+        onClick={(event) => event.preventDefault()}
+      >
         {link.label}
       </Text>
-    ));
+    ))
 
     return (
       <div key={group.title}>
         <Text className="footer__title">{group.title}</Text>
         {links}
       </div>
-    );
-  });
+    )
+  })
 
   return (
     <>
@@ -80,7 +81,7 @@ const DefaultFooter = () => {
         </Container>
       </Group>
     </>
-  );
-};
+  )
+}
 
-export default DefaultFooter;
+export default DefaultFooter

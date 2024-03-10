@@ -8,32 +8,32 @@ import {
   Text,
   TextInput,
   Title,
-} from '@mantine/core';
-import '@mantine/core/styles.css';
-import { useForm } from '@mantine/form';
-import { useDisclosure } from '@mantine/hooks';
-import { notifications } from '@mantine/notifications';
-import { zodResolver } from 'mantine-form-zod-resolver';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { z } from 'zod';
-import { AuthStore, useAuthStore } from '../../store/useAuthStore';
+} from '@mantine/core'
+import '@mantine/core/styles.css'
+import { useForm } from '@mantine/form'
+import { useDisclosure } from '@mantine/hooks'
+import { notifications } from '@mantine/notifications'
+import { zodResolver } from 'mantine-form-zod-resolver'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { z } from 'zod'
+import { AuthStore, useAuthStore } from '../../store/useAuthStore'
 
 export function LoginPage() {
-  const login = useAuthStore((s: AuthStore) => s.login);
-  const navigate = useNavigate();
+  const login = useAuthStore((s: AuthStore) => s.login)
+  const navigate = useNavigate()
 
   const [
     isLoginButtonLoading,
     { toggle: toggleLoginButtonLoading, close: disableLoadingButtonLogin },
-  ] = useDisclosure(false);
+  ] = useDisclosure(false)
   const [isLoginButtonDisabled, { toggle: toggleLoginButtonDisabled }] =
-    useDisclosure(false);
+    useDisclosure(false)
 
   const loginSchema = z.object({
     email: z.string().email('Un email valid est requis'),
     password: z.string().min(1, 'Le mot de passe est requis'),
-  });
+  })
 
   const loginForm = useForm({
     validateInputOnChange: true,
@@ -42,39 +42,39 @@ export function LoginPage() {
       password: '',
     },
     validate: zodResolver(loginSchema),
-  });
+  })
 
   useEffect(() => {
-    toggleLoginButtonDisabled();
-  }, [loginForm.isValid()]);
+    toggleLoginButtonDisabled()
+  }, [loginForm.isValid()])
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    toggleLoginButtonLoading();
+    event.preventDefault()
+    toggleLoginButtonLoading()
     try {
-      await login(loginForm.values);
+      await login(loginForm.values)
     } catch (e: any) {
-      const responseStatus: number | undefined = e.response.status;
+      const responseStatus: number | undefined = e.response.status
       switch (responseStatus) {
         case 400:
-          console.log('caca');
-          break;
+          console.log('caca')
+          break
         case 401:
-          throwErrorNotification();
-          break;
+          throwErrorNotification()
+          break
         default:
           console.error(
             "Impossible de se connecter au serveur d'authentification",
-          );
-          break;
+          )
+          break
       }
-      disableLoadingButtonLogin();
+      disableLoadingButtonLogin()
     }
-  };
+  }
 
   const handleRegisterPage = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-    navigate('/register');
-  };
+    event.preventDefault()
+    navigate('/register')
+  }
   const throwErrorNotification = () => {
     notifications.show({
       title: 'Erreur de connexion',
@@ -82,8 +82,8 @@ export function LoginPage() {
       color: 'red',
       icon: 'X',
       autoClose: 5000,
-    });
-  };
+    })
+  }
   return (
     <Container>
       <form onSubmit={handleSubmit} onReset={() => loginForm.reset()}>
@@ -113,7 +113,8 @@ export function LoginPage() {
           color="#DDAA00"
           type="submit"
           disabled={isLoginButtonDisabled}
-          loading={isLoginButtonLoading}>
+          loading={isLoginButtonLoading}
+        >
           Se connecter
         </Button>
       </form>
@@ -127,5 +128,5 @@ export function LoginPage() {
         </Anchor>
       </Text>
     </Container>
-  );
+  )
 }

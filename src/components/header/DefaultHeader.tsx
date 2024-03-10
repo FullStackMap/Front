@@ -1,53 +1,53 @@
-import { AppShell, Burger, Button, Group, Image } from '@mantine/core';
+import { AppShell, Burger, Button, Group, Image } from '@mantine/core'
 import {
   IconLogout,
   IconMapPins,
   IconSquareRoundedPlus,
   IconUserFilled,
-} from '@tabler/icons-react';
-import { useCallback } from 'react';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
-import { AuthStore, useAuthStore } from '../../store/useAuthStore';
-import ProfileMenu from '../profileMenu/ProfileMenu';
-import SwitchThemeIcon from '../switchThemeIcon/SwitchThemeIcon';
+} from '@tabler/icons-react'
+import { useCallback } from 'react'
+import { NavigateFunction, useNavigate } from 'react-router-dom'
+import { AuthStore, useAuthStore } from '../../store/useAuthStore'
+import ProfileMenu from '../profileMenu/ProfileMenu'
+import SwitchThemeIcon from '../switchThemeIcon/SwitchThemeIcon'
 
 interface DefaultHeaderProps {
-  burgerOpened: boolean;
-  toggleBurgerState: () => void;
+  burgerOpened: boolean
+  toggleBurgerState: () => void
 }
 
 const DefaultHeader = (props: DefaultHeaderProps) => {
-  const isLogged: () => boolean = useAuthStore((s: AuthStore) => s.isLogged);
-  const logOut = useAuthStore((s: AuthStore) => s.logOut);
-  const navigate: NavigateFunction = useNavigate();
+  const isLogged: () => boolean = useAuthStore((s: AuthStore) => s.isLogged)
+  const logOut = useAuthStore((s: AuthStore) => s.logOut)
+  const navigate: NavigateFunction = useNavigate()
 
   const logOutUser = useCallback(async () => {
-    await logOut();
-  }, []);
+    await logOut()
+  }, [])
 
   const handleClickLogo = () => {
-    navigate('/');
-  };
+    navigate('/')
+  }
 
   const handleCreateTrip = () => {
     //TODO: Redirect to create trip page
-    throw new Error('CreateTrip Not implemented');
-  };
+    throw new Error('CreateTrip Not implemented')
+  }
 
   const handleAccount = () => {
     //TODO: Redirect to account page
-    throw new Error('handleAccount Not implemented');
-  };
+    throw new Error('handleAccount Not implemented')
+  }
 
   const handleTrips = () => {
     //TODO: Redirect to Trips list page
-    throw new Error('handleTrips Not implemented');
-  };
+    throw new Error('handleTrips Not implemented')
+  }
 
   const handleLogout = () => {
-    logOutUser();
-    navigate('/');
-  };
+    logOutUser()
+    navigate('/')
+  }
 
   return (
     <>
@@ -71,7 +71,8 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
                 <Button
                   leftSection={<IconSquareRoundedPlus size={20} />}
                   variant="light"
-                  onClick={handleCreateTrip}>
+                  onClick={handleCreateTrip}
+                >
                   Créer mon voyage
                 </Button>
               </>
@@ -85,34 +86,38 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
         <Button
           leftSection={<IconSquareRoundedPlus size={14} />}
           variant="subtle"
-          onClick={handleCreateTrip}>
+          onClick={handleCreateTrip}
+        >
           Créer mon voyage
         </Button>
         <Button
           mt="xs"
           leftSection={<IconUserFilled size={14} />}
           variant="subtle"
-          onClick={handleAccount}>
+          onClick={handleAccount}
+        >
           Mon compte
         </Button>
         <Button
           mt="xs"
           leftSection={<IconMapPins size={14} />}
           variant="subtle"
-          onClick={handleTrips}>
+          onClick={handleTrips}
+        >
           Mes voyages
         </Button>
         <Button
           mt="xs"
           leftSection={<IconLogout size={14} />}
           variant="subtle"
-          onClick={handleLogout}>
+          onClick={handleLogout}
+        >
           Se déconnecter
         </Button>
         <SwitchThemeIcon asButton />
       </AppShell.Navbar>
     </>
-  );
-};
+  )
+}
 
-export default DefaultHeader;
+export default DefaultHeader

@@ -1,16 +1,16 @@
-import * as client from '@FullStackMap/from-a2b';
-import { AuthStore, useAuthStore } from '../store/useAuthStore';
+import * as client from '@FullStackMap/from-a2b'
+import { AuthStore, useAuthStore } from '../store/useAuthStore'
 
-const basePath: string = 'http://localhost:32769';
+const basePath: string = 'http://localhost:32769'
 
 const configAno = new client.Configuration({
   basePath: basePath,
-});
+})
 
 export const TripController = () => {
   const token: string | undefined = useAuthStore(
     (state: AuthStore) => state.token,
-  );
+  )
 
   const configLogged = new client.Configuration({
     basePath: basePath,
@@ -19,8 +19,8 @@ export const TripController = () => {
         Authorization: `Bearer ${token}`,
       },
     },
-  });
-  return client.TripApiFactory(configLogged);
-};
+  })
+  return client.TripApiFactory(configLogged)
+}
 
-export const AnoAuthController = client.AuthApiFactory(configAno);
+export const AnoAuthController = client.AuthApiFactory(configAno)

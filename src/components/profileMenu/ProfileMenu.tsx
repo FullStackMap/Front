@@ -1,4 +1,4 @@
-import { ActionIcon, Menu, rem } from '@mantine/core';
+import { ActionIcon, Menu, rem } from '@mantine/core'
 import {
   IconHistory,
   IconLogin,
@@ -6,32 +6,32 @@ import {
   IconMapPins,
   IconUser,
   IconUserFilled,
-} from '@tabler/icons-react';
-import { useCallback } from 'react';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
-import { AuthStore, useAuthStore } from '../../store/useAuthStore';
+} from '@tabler/icons-react'
+import { useCallback } from 'react'
+import { NavigateFunction, useNavigate } from 'react-router-dom'
+import { AuthStore, useAuthStore } from '../../store/useAuthStore'
 
 const ProfileMenu = () => {
-  const navigate: NavigateFunction = useNavigate();
-  const isLogged: () => boolean = useAuthStore((s: AuthStore) => s.isLogged);
-  const logOut = useAuthStore((s: AuthStore) => s.logOut);
+  const navigate: NavigateFunction = useNavigate()
+  const isLogged: () => boolean = useAuthStore((s: AuthStore) => s.isLogged)
+  const logOut = useAuthStore((s: AuthStore) => s.logOut)
 
   const logOutUser = useCallback(async () => {
-    await logOut();
-  }, []);
+    await logOut()
+  }, [])
 
   const handleAccount = () => {
-    throw new Error('handleAccount Not implemented');
-  };
+    throw new Error('handleAccount Not implemented')
+  }
 
   const handleTrips = () => {
-    throw new Error('handleTrips Not implemented');
-  };
+    throw new Error('handleTrips Not implemented')
+  }
 
   const handleLogout = () => {
-    logOutUser();
-    navigate('/');
-  };
+    logOutUser()
+    navigate('/')
+  }
 
   return (
     <Menu
@@ -40,7 +40,8 @@ const ProfileMenu = () => {
       closeDelay={400}
       shadow="md"
       width={200}
-      transitionProps={{ transition: 'skew-up', duration: 150 }}>
+      transitionProps={{ transition: 'skew-up', duration: 150 }}
+    >
       {isLogged() ? (
         <>
           <Menu.Target>
@@ -54,7 +55,8 @@ const ProfileMenu = () => {
               leftSection={
                 <IconUserFilled style={{ width: rem(14), height: rem(14) }} />
               }
-              onClick={handleAccount}>
+              onClick={handleAccount}
+            >
               Mon compte
             </Menu.Item>
             <Menu.Divider />
@@ -62,14 +64,16 @@ const ProfileMenu = () => {
               leftSection={
                 <IconMapPins style={{ width: rem(14), height: rem(14) }} />
               }
-              onClick={handleTrips}>
+              onClick={handleTrips}
+            >
               Mes voyages
             </Menu.Item>
             <Menu.Item
               leftSection={
                 <IconHistory style={{ width: rem(14), height: rem(14) }} />
               }
-              onClick={handleTrips}>
+              onClick={handleTrips}
+            >
               Historique
             </Menu.Item>
             <Menu.Divider />
@@ -77,7 +81,8 @@ const ProfileMenu = () => {
               leftSection={
                 <IconLogout style={{ width: rem(14), height: rem(14) }} />
               }
-              onClick={handleLogout}>
+              onClick={handleLogout}
+            >
               Se déconnecter
             </Menu.Item>
           </Menu.Dropdown>
@@ -101,7 +106,7 @@ const ProfileMenu = () => {
         </>
       )}
     </Menu>
-  );
-};
+  )
+}
 
-export default ProfileMenu;
+export default ProfileMenu

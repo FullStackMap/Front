@@ -1,11 +1,11 @@
-import { AppShell } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { Outlet } from 'react-router-dom';
-import DefaultFooter from '../../components/footer/DefaultFooter';
-import DefaultHeader from '../../components/header/DefaultHeader';
+import { AppShell } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
+import { Outlet } from 'react-router-dom'
+import DefaultFooter from '../../components/footer/DefaultFooter'
+import DefaultHeader from '../../components/header/DefaultHeader'
 
 const DefaultLayout = () => {
-  const [opened, { toggle }] = useDisclosure();
+  const [opened, { toggle }] = useDisclosure()
 
   return (
     <AppShell
@@ -14,7 +14,8 @@ const DefaultLayout = () => {
         width: 300,
         breakpoint: 'sm',
         collapsed: { desktop: true, mobile: !opened },
-      }}>
+      }}
+    >
       <AppShell.Header>
         <DefaultHeader burgerOpened={opened} toggleBurgerState={toggle} />
       </AppShell.Header>
@@ -28,7 +29,7 @@ const DefaultLayout = () => {
         <DefaultFooter />
       </AppShell.Footer>
     </AppShell>
-  );
-};
+  )
+}
 
-export default DefaultLayout;
+export default DefaultLayout

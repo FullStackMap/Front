@@ -3,18 +3,18 @@ import {
   Button,
   useMantineColorScheme,
   useComputedColorScheme,
-} from '@mantine/core';
-import { IconSun, IconMoon } from '@tabler/icons-react';
+} from '@mantine/core'
+import { IconSun, IconMoon } from '@tabler/icons-react'
 
 const SwitchThemeIcon = ({ asButton = false }) => {
-  const { setColorScheme } = useMantineColorScheme();
+  const { setColorScheme } = useMantineColorScheme()
   const computedColorScheme = useComputedColorScheme('light', {
     getInitialValueInEffect: true,
-  });
+  })
 
   const handleChangeTheme = () => {
-    setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light');
-  };
+    setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')
+  }
 
   if (asButton) {
     return (
@@ -28,10 +28,11 @@ const SwitchThemeIcon = ({ asButton = false }) => {
           ) : (
             <IconMoon stroke={1.5} />
           )
-        }>
+        }
+      >
         Changer de thème
       </Button>
-    );
+    )
   }
 
   return (
@@ -42,7 +43,7 @@ const SwitchThemeIcon = ({ asButton = false }) => {
         <IconMoon stroke={1.5} />
       )}
     </ActionIcon>
-  );
-};
+  )
+}
 
-export default SwitchThemeIcon;
+export default SwitchThemeIcon
