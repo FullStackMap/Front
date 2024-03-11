@@ -28,11 +28,15 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20.10
-
-      - name: Build
-        run: npm run build
+      - name: Install dependencies
+        run: |
+          npm install
 
       - name: Prettier
         uses: creyD/prettier_action@v4.3
         with:
           prettier_options: --write **/*.{tsx,md}
+
+      - name: Build app
+        run: |
+          npm run build -- --max-warnings=0
