@@ -1,9 +1,12 @@
+import { Container, Paper } from '@mantine/core';
 
 const StatisticsPage = () => {
-    return (
-        <div>
+  return (
+    <Container size="xl">
+      <Paper shadow="md" radius="lg" mt="xl">
         <h1>Statistics</h1>
-        </div>
-    );
-}
+      </Paper>
+    </Container>
+  );
+};
 export default StatisticsPage;

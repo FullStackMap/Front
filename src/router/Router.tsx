@@ -53,8 +53,8 @@ const Router = () => {
         path="/trips"
         element={
           <PrivateRoute
-            authRequired
-            redirectPath="/login"
+            // authRequired
+            // redirectPath="/login"
             element={<ShowTravelsLayout />}
           />
         }>
