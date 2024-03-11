@@ -1,7 +1,7 @@
 import HeroImageBackground from './HeroHeader';
 import Content from './Content';
 
-const LandingPage = () => {
+export const LandingPage = () => {
   return (
     <>
       <HeroImageBackground />
@@ -9,5 +9,3 @@ const LandingPage = () => {
     </>
   );
 };
-
-export default LandingPage;

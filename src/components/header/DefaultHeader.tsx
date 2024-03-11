@@ -5,7 +5,9 @@ import {
   IconSquareRoundedPlus,
   IconUserFilled,
 } from '@tabler/icons-react';
-import { useNavigate } from 'react-router-dom';
+import { useCallback } from 'react';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { AuthStore, useAuthStore } from '../../store/useAuthStore';
 import ProfileMenu from '../profileMenu/ProfileMenu';
 import SwitchThemeIcon from '../switchThemeIcon/SwitchThemeIcon';
 
@@ -15,8 +17,13 @@ interface DefaultHeaderProps {
 }
 
 const DefaultHeader = (props: DefaultHeaderProps) => {
-  const isLogged = true;
-  const navigate = useNavigate();
+  const isLogged: () => boolean = useAuthStore((s: AuthStore) => s.isLogged);
+  const logOut = useAuthStore((s: AuthStore) => s.logOut);
+  const navigate: NavigateFunction = useNavigate();
+
+  const logOutUser = useCallback(async () => {
+    await logOut();
+  }, []);
 
   const handleClickLogo = () => {
     navigate('/');
@@ -33,8 +40,8 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
   };
 
   const handleLogout = () => {
-    //TODO: Redirect to logout page
-    throw new Error('handleLogout Not implemented');
+    logOutUser();
+    navigate('/');
   };
 
   return (
@@ -65,7 +72,7 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
               </>
             )}
             <SwitchThemeIcon />
-            <ProfileMenu isLogged={isLogged} />
+            <ProfileMenu />
           </Group>
         </Group>
       </Group>

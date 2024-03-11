@@ -1,7 +1,7 @@
 import * as client from '@FullStackMap/from-a2b';
 import { AuthStore, useAuthStore } from '../store/useAuthStore';
 
-const basePath :string = "http://localhost:32771"
+const basePath: string = 'http://localhost:32769';
 
 const configAno = new client.Configuration({
   basePath: basePath,

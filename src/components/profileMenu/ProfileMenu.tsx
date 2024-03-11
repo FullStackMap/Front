@@ -7,24 +7,26 @@ import {
   IconUser,
   IconUserFilled,
 } from '@tabler/icons-react';
-import {useNavigate} from "react-router-dom";
+import { useCallback } from 'react';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { AuthStore, useAuthStore } from '../../store/useAuthStore';
 
-interface ProfileMenuProps {
-  isLogged: boolean;
-}
+const ProfileMenu = () => {
+  const navigate: NavigateFunction = useNavigate();
+  const isLogged: () => boolean = useAuthStore((s: AuthStore) => s.isLogged);
+  const logOut = useAuthStore((s: AuthStore) => s.logOut);
 
-const ProfileMenu = (props: ProfileMenuProps) => {
-  const navigate = useNavigate();
-  const handleAccount = () => {
-    throw new Error('handleAccount Not implemented');
-  };
+  const logOutUser = useCallback(async () => {
+    await logOut();
+  }, []);
 
   const handleTrips = () => {
     throw new Error('handleTrips Not implemented');
   };
 
   const handleLogout = () => {
-    throw new Error('handleLogout Not implemented');
+    logOutUser();
+    navigate('/');
   };
 
   return (
@@ -34,8 +36,8 @@ const ProfileMenu = (props: ProfileMenuProps) => {
       closeDelay={400}
       shadow="md"
       width={200}
-      transitionProps={{ transition: 'fade' }}>
-      {props.isLogged ? (
+      transitionProps={{ transition: 'skew-up', duration: 150 }}>
+      {isLogged() ? (
         <>
           <Menu.Target>
             <ActionIcon variant="outline" aria-label="Settings" radius="xl">
@@ -48,7 +50,7 @@ const ProfileMenu = (props: ProfileMenuProps) => {
               leftSection={
                 <IconUserFilled style={{ width: rem(14), height: rem(14) }} />
               }
-              onClick={()=>navigate('/profile')}>
+              onClick={() => navigate('/profile')}>
               Mon compte
             </Menu.Item>
             <Menu.Divider />
@@ -85,18 +87,10 @@ const ProfileMenu = (props: ProfileMenuProps) => {
           </Menu.Target>
 
           <Menu.Dropdown>
-            <Menu.Item
-              // leftSection={
-              // 	<IconLogin style={{ width: rem(14), height: rem(14) }} />
-              // }
-              onClick={handleAccount}>
+            <Menu.Item onClick={() => navigate('/login')}>
               Se connecter
             </Menu.Item>
-            <Menu.Item
-              // leftSection={
-              // 	<IconMapPins style={{ width: rem(14), height: rem(14) }} />
-              // }
-              onClick={handleTrips}>
+            <Menu.Item onClick={() => navigate('/register')}>
               S'inscrire
             </Menu.Item>
           </Menu.Dropdown>
