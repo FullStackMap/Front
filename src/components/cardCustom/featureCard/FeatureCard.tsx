@@ -8,7 +8,7 @@ interface FeatureCardProps {
   description: string;
 }
 
-export function FeatureCard({ icon, title, description }: FeatureCardProps) {
+export const FeatureCard = (props: FeatureCardProps)  => {  
   return (
     <Card
       shadow="sm"
@@ -17,11 +17,11 @@ export function FeatureCard({ icon, title, description }: FeatureCardProps) {
       withBorder
       className="card-hover">
       <Group mb="xs">
-        {icon}
-        <Text>{title}</Text>
+        {props.icon}
+        <Text>{props.title}</Text>
       </Group>
       <Text size="sm" color="dimmed">
-        {description}
+        {props.description}
       </Text>
     </Card>
   );

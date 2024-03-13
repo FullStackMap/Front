@@ -1,6 +1,6 @@
 import { Container, Paper, Text, Title } from '@mantine/core';
 import { ContactIconsList } from '../../components/contact/ContactIconsList';
-import FormContact from '../../components/contact/FormContact';
+import { FormContact } from '../../components/contact/FormContact';
 import './ContactPage.scss';
 
 const ContactPage = () => {

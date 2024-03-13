@@ -34,7 +34,6 @@ const Router = () => {
         />
         <Route path="/*" element={<Navigate to="/" />} />
         <Route path="/feedback" element={<FeedbackPage />} />
-        <Route path="/profile" element={<Navigate to="/profile" />} />
         <Route path="/cgu" element={<CguPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/faq" element={<FaqPage />} />

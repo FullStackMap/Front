@@ -9,22 +9,17 @@ interface ContactIconProps
   description: React.ReactNode;
 }
 
-function ContactIcon({
-  icon: Icon,
-  title,
-  description,
-  ...others
-}: ContactIconProps) {
+const ContactIcon = (props : ContactIconProps) => {
   return (
-    <div className="wrapper" {...others}>
+    <div className="wrapper">
       <Box mr="md">
-        <Icon />
+        <props.icon size={24} />
       </Box>
       <div>
         <Text size="xs" className="title">
-          {title}
+          {props.title}
         </Text>
-        <Text className="description">{description}</Text>
+        <Text className="description">{props.description}</Text>
       </div>
     </div>
   );
@@ -37,7 +32,7 @@ const data = [
   { title: 'Horaire', description: 'Lun - Ven: 9:00 - 18:00', icon: IconSun },
 ];
 
-export function ContactIconsList() {
+export const ContactIconsList = () => {  
   const items = data.map((item, index) => (
     <ContactIcon key={index} {...item} />
   ));
