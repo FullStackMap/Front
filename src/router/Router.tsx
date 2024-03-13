@@ -3,12 +3,14 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import DefaultLayout from '../layout/default/DefaultLayout';
 import { HalfMapLayout } from '../layout/halfMap/HalfMapLayout';
 import LoginLayout from '../layout/login/LoginLayout';
+import { ForgotPasswordPage } from '../pages/forgotPassword/ForgotPasswordPage';
 import { LandingPage } from '../pages/landing/LandingPage';
 import { LoginPage } from '../pages/login/LoginPage';
 import { RegisterPage } from '../pages/register/RegisterPage';
 import TestPage from '../pages/test/TestPage';
 import { AuthStore, useAuthStore } from '../store/useAuthStore';
 import { PrivateRoute } from './PrivateRoute';
+import { ConfirmMailPage } from '../pages/confirmMail/ConfirmMailPage';
 
 const Router = () => {
   const loadUser: () => void = useAuthStore((s: AuthStore) => s.loadUser);
@@ -42,6 +44,26 @@ const Router = () => {
               authRequired={false}
               redirectPath="/"
               element={<RegisterPage />}
+            />
+          }
+        />
+        <Route
+          path="/confirmMail"
+          element={
+            <PrivateRoute
+              authRequired={false}
+              redirectPath="/"
+              element={<ConfirmMailPage />}
+            />
+          }
+        />
+        <Route
+          path="/forgotPassword"
+          element={
+            <PrivateRoute
+              authRequired={false}
+              redirectPath="/"
+              element={<ForgotPasswordPage />}
             />
           }
         />

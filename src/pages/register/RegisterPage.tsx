@@ -158,7 +158,8 @@ export const RegisterPage = () => {
           {...registerFrom.getInputProps('confirmPassword')}
         />
         <Text ta="center" mt="md">
-          <Text>Vous possédez déjà un compte? </Text>
+          Vous possédez déjà un compte?
+          <br />
           <Anchor<'a'> fw={700} onClick={() => navigate('/login')}>
             Connectez-vous
           </Anchor>

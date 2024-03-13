@@ -7,7 +7,7 @@ const configAno = new client.Configuration({
   basePath: basePath,
 });
 
-export const TripController = () => {
+export const TripControllerFunc = () => {
   const token: string | undefined = useAuthStore(
     (state: AuthStore) => state.token,
   );

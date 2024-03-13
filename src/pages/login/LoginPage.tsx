@@ -5,6 +5,7 @@ import {
   Container,
   PasswordInput,
   Space,
+  Stack,
   Text,
   TextInput,
   Title,
@@ -17,11 +18,17 @@ import { zodResolver } from 'mantine-form-zod-resolver';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
+import { RequestResetPasswordModal } from '../../components/passwordReset/RequestResetPasswordModal';
 import { AuthStore, useAuthStore } from '../../store/useAuthStore';
 
 export function LoginPage() {
   const login = useAuthStore((s: AuthStore) => s.login);
   const navigate = useNavigate();
+
+  const [
+    resetPasswordRequestModalIsOpen,
+    { toggle: toggleResetPasswordRequestModalIsOpen },
+  ] = useDisclosure(false);
 
   const [
     isLoginButtonLoading,
@@ -78,54 +85,66 @@ export function LoginPage() {
   const throwErrorNotification = () => {
     notifications.show({
       title: 'Erreur de connexion',
-      message: 'Vôtre mot de passe ou identifiant sont incorrect!',
+      message: 'Votre mot de passe ou identifiant sont incorrect!',
       color: 'red',
       icon: 'X',
       autoClose: 5000,
     });
   };
   return (
-    <Container>
-      <form onSubmit={handleSubmit} onReset={() => loginForm.reset()}>
-        <Title order={2} ta="center">
-          Se Connecter
-        </Title>
+    <>
+      <Container>
+        <form onSubmit={handleSubmit} onReset={() => loginForm.reset()}>
+          <Title order={2} ta="center">
+            Se Connecter
+          </Title>
 
-        <TextInput
-          label="Email"
-          placeholder="exemple@gmail.com"
-          size="md"
-          {...loginForm.getInputProps('email')}
-        />
+          <TextInput
+            label="Email"
+            placeholder="exemple@gmail.com"
+            size="md"
+            {...loginForm.getInputProps('email')}
+          />
 
-        <PasswordInput
-          label="Mot de passe"
-          placeholder="Votre mot de passe"
-          mt="md"
-          size="md"
-          {...loginForm.getInputProps('password')}
-        />
+          <PasswordInput
+            label="Mot de passe"
+            placeholder="Votre mot de passe"
+            mt="md"
+            size="md"
+            {...loginForm.getInputProps('password')}
+          />
+          <Anchor<'a'> fw={700} onClick={toggleResetPasswordRequestModalIsOpen}>
+            Mot de passe oublier ?
+          </Anchor>
 
-        <Button
-          fullWidth
-          mt="xl"
-          size="md"
-          color="#DDAA00"
-          type="submit"
-          disabled={isLoginButtonDisabled}
-          loading={isLoginButtonLoading}>
-          Se connecter
-        </Button>
-      </form>
+          <Button
+            fullWidth
+            size="md"
+            mt="xl"
+            color="#DDAA00"
+            type="submit"
+            disabled={isLoginButtonDisabled}
+            loading={isLoginButtonLoading}>
+            Se connecter
+          </Button>
+        </form>
 
-      <Text ta="center" mt="md">
-        <span>Vous n'avez pas de compte?</span>
-        {/* TODO Space Mantine */}
-        <Space h="xs" />
-        <Anchor<'a'> fw={700} onClick={handleRegisterPage}>
-          Créer un compte
-        </Anchor>
-      </Text>
-    </Container>
+        <Space h="lg" />
+
+        <Stack gap="xs">
+          <Text ta="center" mt="md">
+            <span>Vous n'avez pas de compte?</span>
+            <Space h="xs" />
+            <Anchor<'a'> fw={700} onClick={handleRegisterPage}>
+              Créer un compte
+            </Anchor>
+          </Text>
+        </Stack>
+      </Container>
+      <RequestResetPasswordModal
+        isOpen={resetPasswordRequestModalIsOpen}
+        close={toggleResetPasswordRequestModalIsOpen}
+      />
+    </>
   );
 }
