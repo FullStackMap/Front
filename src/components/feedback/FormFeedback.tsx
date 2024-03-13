@@ -10,8 +10,8 @@ const FormFeedback = () => {
       .min(10, 'le commentaire doit contenir au moins 10 caractères'),
     rating: z
       .number()
-      .min(0.5, 'la note doit etre entre 0.5 et 5')
-      .max(5, 'la note doit etre entre 0 et 5'),
+      .min(0.5, 'la note minimale est de 0.5')
+      .max(5, 'la note maximale est de 5'),
   });
 
   const feedbackForm = useForm({
