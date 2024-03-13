@@ -1,37 +1,54 @@
 import { useForm } from '@mantine/form';
-import { NumberInput, TextInput, Button, Container } from '@mantine/core';
+import {
+  NumberInput,
+  TextInput,
+  Button,
+  Container,
+  Group,
+} from '@mantine/core';
+import { zodResolver } from 'mantine-form-zod-resolver';
+import { z } from 'zod';
 
-const ProfileForm = () => {
-  const form = useForm({
+export const ProfileForm = () => {
+  const profileSchema = z.object({
+    name: z.string().min(2),
+    firstname: z.string().min(2),
+    email: z.string().email(),
+    age: z.number().min(18),
+  });
+
+  const profileform = useForm({
+    validateInputOnChange: true,
     initialValues: {
       name: 'name',
       firstname: 'firstname',
       email: 'email@mail.fr',
-      age: 12,
+      age: 20,
     },
 
-    validate: {
-      name: (value) =>
-        value.length < 2 ? 'Name must have at least 2 letters' : null,
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-      age: (value) =>
-        value < 18 ? 'You must be at least 18 to register' : null,
-    },
+    validate: zodResolver(profileSchema),
   });
+
+  const handleSubmit = (event: React.FormEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    throw new Error('Not implemented');
+  };
+
   return (
     <Container mx="auto">
-      <form onSubmit={form.onSubmit(console.log)}>
+      <form onSubmit={handleSubmit} onReset={() => profileform.reset()}>
         <TextInput
           label="Nom"
           placeholder="Nom"
           required
-          {...form.getInputProps('name')}
+          {...profileform.getInputProps('name')}
         />
         <TextInput
+          mt="sm"
           label="Prénom"
           placeholder="Prénom"
           required
-          {...form.getInputProps('firstname')}
+          {...profileform.getInputProps('firstname')}
         />
         <TextInput
           disabled
@@ -39,7 +56,7 @@ const ProfileForm = () => {
           label="Email"
           placeholder="Email"
           required
-          {...form.getInputProps('email')}
+          {...profileform.getInputProps('email')}
         />
         <NumberInput
           mt="sm"
@@ -50,14 +67,14 @@ const ProfileForm = () => {
           suffix=" ans"
           stepHoldInterval={100}
           stepHoldDelay={500}
-          {...form.getInputProps('age')}
+          {...profileform.getInputProps('age')}
         />
-        <Button type="submit" mt="sm">
-          Sauvegarder
-        </Button>
+        <Group justify="flex-end" mt="md">
+          <Button type="submit" mt="sm" disabled={!profileform.isValid()}>
+            Sauvegarder
+          </Button>
+        </Group>
       </form>
     </Container>
   );
 };
-
-export default ProfileForm;

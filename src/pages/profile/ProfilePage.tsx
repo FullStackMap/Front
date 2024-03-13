@@ -11,10 +11,10 @@ import {
   IconChevronRight,
 } from '@tabler/icons-react';
 import { NavLink, Container, Grid, Paper } from '@mantine/core';
-import ProfileForm from '../../components/profile/profileForm/ProfileForm.tsx';
-import ChangePasswordForm from '../../components/profile/changePasswordForm/ChangePasswordForm.tsx';
-import ChangeEmailForm from '../../components/profile/changeEmailForm/ChangeEmailForm.tsx';
-import DeleteForm from '../../components/profile/DeleteForm /DeleteForm.tsx';
+import { ProfileForm } from '../../components/profile/profileForm/ProfileForm.tsx';
+import { ChangePasswordForm } from '../../components/profile/changePasswordForm/ChangePasswordForm.tsx';
+import { ChangeEmailForm } from '../../components/profile/changeEmailForm/ChangeEmailForm.tsx';
+import { DeleteForm } from '../../components/profile/DeleteForm/DeleteForm.tsx';
 
 const data = [
   { icon: IconUser, label: 'Mon Compte' },

@@ -5,7 +5,7 @@ import { HalfMapLayout } from '../layout/halfMap/HalfMapLayout';
 import LoginLayout from '../layout/login/LoginLayout';
 import { LandingPage } from '../pages/landing/LandingPage';
 import { LoginPage } from '../pages/login/LoginPage';
-import ProfilePage from "../pages/profile/ProfilePage.tsx";
+import ProfilePage from '../pages/profile/ProfilePage.tsx';
 import { RegisterPage } from '../pages/register/RegisterPage';
 import { TripsPage } from '../pages/test/TripsPage';
 import { AuthStore, useAuthStore } from '../store/useAuthStore';
@@ -30,7 +30,16 @@ const Router = () => {
           }
         />
         <Route path="/*" element={<Navigate to="/" />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute
+              // authRequired
+              redirectPath="/login"
+              element={<ProfilePage />}
+            />
+          }
+        />
       </Route>
 
       <Route element={<HalfMapLayout />}></Route>

@@ -1,74 +1,59 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from '@mantine/form';
 import { TextInput, Group, Button, Container } from '@mantine/core';
+import { zodResolver } from 'mantine-form-zod-resolver';
+import { z } from 'zod';
 
-const ChangeEmailForm = () => {
-  const form = useForm({
+export const ChangeEmailForm = () => {
+  const changeEmailSchema = z
+    .object({
+      email: z.string().email(),
+      confirmEmail: z.string().email(),
+    })
+    .refine((data) => data.email === data.confirmEmail, {
+      message: 'Les emails ne correspondent pas',
+      path: ['confirmEmail'],
+    });
+
+  const changeEmalForm = useForm({
+    validateInputOnChange: true,
     initialValues: {
       email: '',
       confirmEmail: '',
     },
-    validate: {
-      confirmEmail: (value, values) =>
-        value !== values.email ? 'Emails do not match' : null,
-    },
+    validate: zodResolver(changeEmailSchema),
   });
 
-  const [emailError, setEmailError] = useState<string>('');
-
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const enteredEmail = event.target.value;
-    form.setFieldValue('email', enteredEmail);
-
-    const isValidEmail = validateEmail(enteredEmail);
-
-    if (!isValidEmail) {
-      setEmailError('Veuillez entrer un email valide');
-    } else {
-      setEmailError('');
-    }
-  };
-
-  const handleConfirmEmailChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const enteredConfirmEmail = event.target.value;
-    form.setFieldValue('confirmEmail', enteredConfirmEmail);
+  const handleSubmit = (event: React.FormEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    throw new Error('Not implemented');
   };
 
   return (
     <Container mx="auto">
-      <form onSubmit={form.onSubmit((values) => console.log(values))}>
+      <form onSubmit={handleSubmit} onReset={() => changeEmalForm.reset()}>
         <TextInput
           label="Email"
           placeholder="Email"
-          value={form.values.email}
-          onChange={handleEmailChange}
-          error={emailError}
           required
+          {...changeEmalForm.getInputProps('email')}
         />
-
         <TextInput
           mt="sm"
           label="Confirm Email"
           placeholder="Confirm Email"
-          value={form.values.confirmEmail}
-          onChange={handleConfirmEmailChange}
-          error={form.errors.confirmEmail}
           required
+          {...changeEmalForm.getInputProps('confirmEmail')}
         />
-
         <Group justify="flex-end" mt="md">
-          <Button type="submit">Send</Button>
+          <Button
+            type="submit"
+            disabled={!changeEmalForm.isValid()}
+            color="teal">
+            Sauvegarder
+          </Button>
         </Group>
       </form>
     </Container>
   );
 };
-
-export default ChangeEmailForm;
