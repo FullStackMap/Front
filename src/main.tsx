@@ -35,7 +35,7 @@ const queryClient = new QueryClient({
       staleTime: 1000 * 60 * 30,
     },
   },
-})
+});
 
 const rootElement = document.getElementById('root')!
 const root = ReactDOM.createRoot(rootElement)
@@ -53,4 +53,4 @@ root.render(
       </MantineProvider>
     </BrowserRouter>
   </React.StrictMode>,
-)
+);
