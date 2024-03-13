@@ -1,4 +1,5 @@
 import { ConfirmMailDto } from '@FullStackMap/from-a2b';
+import { Center, Loader, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import { useEffect } from 'react';
@@ -30,7 +31,7 @@ export const ConfirmMailPage = () => {
           color: 'teal',
           icon: <IconCheck />,
         });
-        navigate('/login');
+        // navigate('/login');
       })
       .catch(error => {
         console.error(error);
@@ -41,9 +42,14 @@ export const ConfirmMailPage = () => {
           color: 'red',
           icon: <IconX />,
         });
-        navigate('/');
+        // navigate('/');
       });
   };
 
-  return <></>;
+  return (
+    <Center>
+      <Loader />
+      <Text size="xl">Confirmation de votre email en cours...</Text>
+    </Center>
+  );
 };

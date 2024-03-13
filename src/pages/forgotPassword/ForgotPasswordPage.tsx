@@ -92,7 +92,6 @@ export const ForgotPasswordPage = () => {
       successNotification();
       navigate('/login');
     } catch (e: any) {
-      console.log('🚀 ~ handleFromSubmit ~ e:', e.response.data);
       disableResetPasswordLoading();
       notifications.show({
         title: "Une erreur s'est produite",

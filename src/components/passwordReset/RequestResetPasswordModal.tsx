@@ -51,7 +51,7 @@ export const RequestResetPasswordModal = (
     notifications.show({
       title: "Une erreur s'est produite",
       message: message,
-      autoClose: 2000,
+      autoClose: 5000,
       color: 'red',
       icon: <IconX />,
     });
@@ -87,7 +87,7 @@ export const RequestResetPasswordModal = (
           notifications.show({
             title: "Une erreur s'est produite",
             message: 'Merci de réessayer plus tard',
-            autoClose: 2000,
+            autoClose: 5000,
             color: 'red',
             icon: <IconX />,
           });
