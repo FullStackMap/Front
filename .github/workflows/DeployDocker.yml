@@ -1,0 +1,149 @@
+name: Docker Image CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - features/*
+  pull_request:
+    branches:
+      - main
+      - develop
+  release:
+    types: [published]
+
+jobs:
+  setup_tag:
+    name: Setup dockerTag
+    runs-on: ubuntu-latest
+    outputs:
+      docker_tag: ${{ steps.setup_docker_tag.outputs.DockerTag }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup dockerTag
+        id: setup_docker_tag
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+          case "${{ github.base_ref }}" in
+            "develop")
+              echo "::set-output name=DockerTag::dev-pr"
+              ;;
+            "main")
+              echo "::set-output name=DockerTag::main-pr"
+              ;;
+          esac
+          else
+            case "${{ github.ref }}" in
+              refs/heads/features/*)
+                echo "::set-output name=DockerTag::alpha"
+                ;;
+              "refs/heads/develop")
+                echo "::set-output name=DockerTag::dev"
+                ;;
+              "refs/heads/main")
+                echo "::set-output name=DockerTag::rc"
+                ;;
+              "refs/tags/*")
+                echo "::set-output name=DockerTag::release"
+                ;;
+            esac
+          fi
+
+  build_app:
+    name: install dependencies and build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+          registry-url: https://npm.pkg.github.com/
+
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        with:
+          version: latest
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Set NPM Token
+        run: echo "//npm.pkg.github.com/:_authToken=${{secrets.GITHUB_TOKEN}}">.npmrc
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build project
+        run: pnpm build
+
+      - name: Archive compiled files
+        uses: actions/upload-artifact@v2
+        with:
+          name: compiled-files
+          path: ./dist/*
+
+  CI:
+    name: Building and deploy Image from-a2b-map
+    runs-on: ubuntu-latest
+    needs:
+      - setup_tag
+      - build_app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Download compiled files artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: compiled-files
+          path: ./dist
+
+      - name: DockerHub login
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build Docker Image
+        run: docker buildx build --platform linux/amd64,linux/arm --file ./Dockerfile.Release --tag ${{ secrets.REGISTRY_NAME }}/from-a2b-map:${{ needs.setup_tag.outputs.docker_tag }} --push ./dist
+
+  # CD:
+  #   name: Update Portainer Service
+  #   runs-on: ubuntu-latest
+  #   needs: CI
+  #   if: ${{ needs.CI.result == 'success' }}
+  #   steps:
+  #     - name: Send POST request to Portainer webhook
+  #       run: |
+  #         case "${{ github.ref }}" in
+  #           "refs/heads/develop")
+  #             curl -X POST -H "Content-Type: application/json" -d '{}' ${{ secrets.FROMA2B_PORTAINER_WEBHOOK_API_DEV }}
+  #             ;;
+  #           "refs/heads/main")
+  #             curl -X POST -H "Content-Type: application/json" -d '{}' ${{ secrets.FROMA2B_PORTAINER_WEBHOOK_STAGING }}
+  #             ;;
+  #           "refs/tags/*")
+  #             curl -X POST -H "Content-Type: application/json" -d '{}' ${{ secrets.FROMA2B_PORTAINER_WEBHOOK_API_RELEASE }}
+  #             ;;
+  #         esac
