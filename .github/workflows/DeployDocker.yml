@@ -108,17 +108,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Download server config files artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: server-files
-          path: ./nginx
+      # - name: Download server config files artifact
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: server-files
+      #     path: ./nginx
 
-      - name: Download compiled files artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: compiled-files
-          path: ./dist
+      # - name: Download compiled files artifact
+      #   uses: actions/download-artifact@v2
+      #   with:
+      #     name: compiled-files
+      #     path: ./dist
 
       - run: ls -R
 
