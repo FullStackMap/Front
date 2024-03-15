@@ -120,6 +120,8 @@ jobs:
           name: compiled-files
           path: ./dist
 
+      - run: ls -R
+
       - name: DockerHub login
         uses: docker/login-action@v1
         with:
