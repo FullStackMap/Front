@@ -10,25 +10,31 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
-import { notifications } from '@mantine/notifications';
-import { IconCheck, IconX } from '@tabler/icons-react';
+import { useMutation } from '@tanstack/react-query';
 import { zodResolver } from 'mantine-form-zod-resolver';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
+import useNotify, { NotifyDto } from '../../hooks/useNotify';
 import { AnoAuthController } from '../../services/BaseApi';
 
 export const RegisterPage = () => {
+  const { SuccessNotify } = useNotify();
   const navigate = useNavigate();
-  const [
-    isRegisterButtonLoading,
-    {
-      toggle: toggleRegisterButtonLoading,
-      close: disableLoadingButtonRegister,
-    },
-  ] = useDisclosure(false);
   const [isRegisterButtonDisabled, { toggle: toggleRegisterButtonDisabled }] =
     useDisclosure(false);
+
+  const registerMutation = useMutation({
+    mutationFn: async (dto: RegisterDto) =>
+      await AnoAuthController.registerPOST(dto).then(() => {
+        SuccessNotify({
+          title: 'Enregistrement réussi',
+          message:
+            'Vous allez recevoir un email de confirmation pour activer votre compte',
+        } as NotifyDto);
+        navigate('/');
+      }),
+  });
 
   const registerSchema = z
     .object({
@@ -88,37 +94,10 @@ export const RegisterPage = () => {
 
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    toggleRegisterButtonLoading();
 
     if (!registerFrom.isValid()) return;
 
-    await AnoAuthController.registerPOST(registerFrom.values as RegisterDto)
-      .then(() => {
-        notifications.show({
-          title: 'Enregistrement réussi',
-          message:
-            'Vous allez recevoir un email de confirmation pour activer votre compte',
-          autoClose: 5000,
-          color: 'teal',
-          icon: <IconCheck />,
-        });
-        navigate('/');
-      })
-      .catch(err => {
-        disableLoadingButtonRegister();
-
-        err.response.data
-          .map((data: any) => data.message)
-          .forEach((message: string) => {
-            notifications.show({
-              title: "Erreur dans l'inscription",
-              message: message,
-              autoClose: 5000,
-              color: 'red',
-              icon: <IconX />,
-            });
-          });
-      });
+    registerMutation.mutate(registerFrom.values as RegisterDto);
   };
 
   return (
@@ -169,7 +148,7 @@ export const RegisterPage = () => {
           mt="xl"
           size="md"
           disabled={isRegisterButtonDisabled}
-          loading={isRegisterButtonLoading}
+          loading={registerMutation.isPending}
           onClick={handleSubmit}>
           S'inscrire
         </Button>

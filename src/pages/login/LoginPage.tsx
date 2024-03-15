@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { LoginDto } from '@FullStackMap/from-a2b';
 import {
   Anchor,
   Button,
@@ -13,27 +14,26 @@ import {
 import '@mantine/core/styles.css';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
-import { notifications } from '@mantine/notifications';
+import { useMutation } from '@tanstack/react-query';
 import { zodResolver } from 'mantine-form-zod-resolver';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { RequestResetPasswordModal } from '../../components/passwordReset/RequestResetPasswordModal';
+import useNotify, { NotifyDto } from '../../hooks/useNotify';
 import { AuthStore, useAuthStore } from '../../store/useAuthStore';
 
 export function LoginPage() {
   const login = useAuthStore((s: AuthStore) => s.login);
   const navigate = useNavigate();
 
+  const { ErrorNotify } = useNotify();
+
   const [
     resetPasswordRequestModalIsOpen,
     { toggle: toggleResetPasswordRequestModalIsOpen },
   ] = useDisclosure(false);
 
-  const [
-    isLoginButtonLoading,
-    { toggle: toggleLoginButtonLoading, close: disableLoadingButtonLogin },
-  ] = useDisclosure(false);
   const [isLoginButtonDisabled, { toggle: toggleLoginButtonDisabled }] =
     useDisclosure(false);
 
@@ -51,45 +51,27 @@ export function LoginPage() {
     validate: zodResolver(loginSchema),
   });
 
+  const loginMutation = useMutation({
+    mutationFn: async (dto: LoginDto) =>
+      await login(dto).catch(() => {
+        ErrorNotify({
+          title: 'Erreur de connexion',
+          message: 'Votre mot de passe ou identifiant sont incorrect!',
+        } as NotifyDto);
+      }),
+  });
+
   useEffect(() => {
     toggleLoginButtonDisabled();
   }, [loginForm.isValid()]);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    toggleLoginButtonLoading();
-    try {
-      await login(loginForm.values);
-    } catch (e: any) {
-      const responseStatus: number | undefined = e.response.status;
-      switch (responseStatus) {
-        case 400:
-          console.log('caca');
-          break;
-        case 401:
-          throwErrorNotification();
-          break;
-        default:
-          console.error(
-            "Impossible de se connecter au serveur d'authentification",
-          );
-          break;
-      }
-      disableLoadingButtonLogin();
-    }
+    loginMutation.mutate(loginForm.values);
   };
 
   const handleRegisterPage = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     navigate('/register');
-  };
-  const throwErrorNotification = () => {
-    notifications.show({
-      title: 'Erreur de connexion',
-      message: 'Votre mot de passe ou identifiant sont incorrect!',
-      color: 'red',
-      icon: 'X',
-      autoClose: 5000,
-    });
   };
   return (
     <>
@@ -124,7 +106,7 @@ export function LoginPage() {
             color="#DDAA00"
             type="submit"
             disabled={isLoginButtonDisabled}
-            loading={isLoginButtonLoading}>
+            loading={loginMutation.isPending}>
             Se connecter
           </Button>
         </form>

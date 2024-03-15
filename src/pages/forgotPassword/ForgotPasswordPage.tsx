@@ -2,28 +2,22 @@
 import { ResetPasswordDto } from '@FullStackMap/from-a2b';
 import { Button, PasswordInput, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { useDisclosure } from '@mantine/hooks';
-import { notifications } from '@mantine/notifications';
-import { IconCheck, IconX } from '@tabler/icons-react';
+import { useMutation } from '@tanstack/react-query';
 import { zodResolver } from 'mantine-form-zod-resolver';
 import { useEffect } from 'react';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
+import useNotify, { NotifyDto } from '../../hooks/useNotify';
 import { useQueryParams } from '../../hooks/useQueryParams';
 import { AnoAuthController } from '../../services/BaseApi';
 
 export const ForgotPasswordPage = () => {
   const navigate: NavigateFunction = useNavigate();
   const queryParams = useQueryParams() as { Token: string; Email: string };
-
+  const { ErrorNotify, SuccessNotify } = useNotify();
   useEffect(() => {
     if (!queryParams.Token || !queryParams.Email) navigate('/');
   }, [queryParams]);
-
-  const [
-    isResetPasswordButtonLoading,
-    { toggle: toggleResetPasswordLoading, close: disableResetPasswordLoading },
-  ] = useDisclosure(false);
 
   const resetPasswordSchema = z
     .object({
@@ -70,37 +64,26 @@ export const ForgotPasswordPage = () => {
     validate: zodResolver(resetPasswordSchema),
   });
 
-  const successNotification = () => {
-    notifications.show({
-      message: 'Votre mot de passe à bien été mis à jour.',
-      autoClose: 5000,
-      color: 'teal',
-      icon: <IconCheck />,
-    });
-  };
+  const resetPasswordMutation = useMutation({
+    mutationFn: async (dto: ResetPasswordDto) =>
+      await AnoAuthController.resetPasswordPOST(dto)
+        .then(() => {
+          SuccessNotify({
+            title: 'Votre mot de passe à bien été mis à jour.',
+            message: '',
+            autoClose: 5000,
+          } as NotifyDto);
+          navigate('/login');
+        })
+        .catch(() => {
+          ErrorNotify({} as NotifyDto);
+        }),
+  });
 
   const handleFromSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!resetPasswordForm.isValid()) return;
-    console.log(resetPasswordForm.values as ResetPasswordDto);
-
-    toggleResetPasswordLoading();
-    try {
-      await AnoAuthController.resetPasswordPOST(
-        resetPasswordForm.values as ResetPasswordDto,
-      );
-      successNotification();
-      navigate('/login');
-    } catch (e: any) {
-      disableResetPasswordLoading();
-      notifications.show({
-        title: "Une erreur s'est produite",
-        message: 'Merci de réessayer plus tard',
-        autoClose: 5000,
-        color: 'red',
-        icon: <IconX />,
-      });
-    }
+    resetPasswordMutation.mutate(resetPasswordForm.values as ResetPasswordDto);
   };
 
   return (
@@ -121,7 +104,7 @@ export const ForgotPasswordPage = () => {
         />
         <Button
           type="submit"
-          loading={isResetPasswordButtonLoading}
+          loading={resetPasswordMutation.isPending}
           disabled={!resetPasswordForm.isValid()}>
           Réinitialiser
         </Button>
