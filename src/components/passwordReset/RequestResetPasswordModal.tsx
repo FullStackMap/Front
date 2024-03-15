@@ -1,11 +1,10 @@
 import { ForgotPasswordDto } from '@FullStackMap/from-a2b';
 import { Button, Modal, Space, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { useDisclosure } from '@mantine/hooks';
-import { notifications } from '@mantine/notifications';
-import { IconCheck, IconX } from '@tabler/icons-react';
+import { useMutation } from '@tanstack/react-query';
 import { zodResolver } from 'mantine-form-zod-resolver';
 import { z } from 'zod';
+import useNotify, { NotifyDto } from '../../hooks/useNotify';
 import { AnoAuthController } from '../../services/BaseApi';
 
 export interface RequestResetPasswordModalProps {
@@ -16,14 +15,6 @@ export interface RequestResetPasswordModalProps {
 export const RequestResetPasswordModal = (
   props: RequestResetPasswordModalProps,
 ) => {
-  const [
-    isRequestResetPasswordButtonLoading,
-    {
-      toggle: toggleRequestResetPasswordLoading,
-      close: disableRequestResetPasswordLoading,
-    },
-  ] = useDisclosure(false);
-
   const resetPasswordRequestSchema = z.object({
     email: z.string().email('Un email valide est requis'),
   });
@@ -36,67 +27,28 @@ export const RequestResetPasswordModal = (
     validate: zodResolver(resetPasswordRequestSchema),
   });
 
-  const successNotification = () => {
-    notifications.show({
-      title: 'Votre requête a bien été prise en compte',
-      message:
-        'Si un compte est associé à cet email, vous recevrez un email de réinitialisation de mot de passe.',
-      autoClose: 5000,
-      color: 'teal',
-      icon: <IconCheck />,
-    });
-  };
+  const { SuccessNotify } = useNotify();
 
-  const errorNotification = (message: string) =>
-    notifications.show({
-      title: "Une erreur s'est produite",
-      message: message,
-      autoClose: 5000,
-      color: 'red',
-      icon: <IconX />,
-    });
+  const forgotPasswordMutation = useMutation({
+    mutationFn: async (dto: ForgotPasswordDto) =>
+      await AnoAuthController.forgotPasswordPOST(dto),
+    onSuccess: () => {
+      SuccessNotify({
+        title: 'Votre requête a bien été prise en compte',
+        message:
+          'Si un compte est associé à cet email, vous recevrez un email de réinitialisation de mot de passe.',
+      } as NotifyDto);
+      props.close();
+    },
+    onSettled: () => resetPasswordRequestForm.reset(),
+  });
 
   const handleFromSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!resetPasswordRequestForm.isValid()) return;
-    toggleRequestResetPasswordLoading();
-    try {
-      await AnoAuthController.forgotPasswordPOST(
-        resetPasswordRequestForm.values as ForgotPasswordDto,
-      );
-      successNotification();
-      props.close();
-    } catch (e: any) {
-      const responseStatus: number | undefined = e.response.status;
-      switch (responseStatus) {
-        case 400:
-          e.response.data
-            .map((data: any) => data.message)
-            .forEach((message: string) => {
-              errorNotification(message);
-            });
-          break;
-        case 404:
-          successNotification();
-          props.close();
-          break;
-        default:
-          console.error(
-            "Impossible de se connecter au serveur d'authentification",
-          );
-          notifications.show({
-            title: "Une erreur s'est produite",
-            message: 'Merci de réessayer plus tard',
-            autoClose: 5000,
-            color: 'red',
-            icon: <IconX />,
-          });
-          break;
-      }
-    } finally {
-      disableRequestResetPasswordLoading();
-      resetPasswordRequestForm.reset();
-    }
+    forgotPasswordMutation.mutate(
+      resetPasswordRequestForm.values as ForgotPasswordDto,
+    );
   };
 
   return (
@@ -117,7 +69,7 @@ export const RequestResetPasswordModal = (
         <Space h={10} />
         <Button
           type="submit"
-          loading={isRequestResetPasswordButtonLoading}
+          loading={forgotPasswordMutation.isPending}
           disabled={!resetPasswordRequestForm.isValid()}
           fullWidth>
           Envoyer

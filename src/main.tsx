@@ -3,6 +3,7 @@ import '@mantine/core/styles.css';
 import { Notifications } from '@mantine/notifications';
 import '@mantine/notifications/styles.css';
 import {
+  MutationCache,
   QueryCache,
   QueryClient,
   QueryClientProvider,
@@ -38,9 +39,13 @@ const queryClient = new QueryClient({
     queries: {
       refetchOnWindowFocus: false,
       staleTime: 1000 * 60 * 30, // 1000ms * 60s * 30m
+      retry: 2,
     },
   },
   queryCache: new QueryCache({
+    onError: (e: Error) => ErrorHandler(e),
+  }),
+  mutationCache: new MutationCache({
     onError: (e: Error) => ErrorHandler(e),
   }),
 });

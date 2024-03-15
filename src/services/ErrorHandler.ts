@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import useNotify, { ErrorNotify } from '../hooks/useNotify';
+import useNotify, { NotifyDto } from '../hooks/useNotify';
 
 const ErrorHandler = (error: any) => {
   const { ErrorNotify, NotifyMultipleErrors } = useNotify();
@@ -7,10 +7,9 @@ const ErrorHandler = (error: any) => {
 
   switch (response.status) {
     case 400: {
-      const errors: ErrorNotify[] = response.data?.map((error: any) => {
-        return { title: undefined, message: error.message } as ErrorNotify;
+      const errors: NotifyDto[] = response.data?.map((error: any) => {
+        return { title: undefined, message: error.message } as NotifyDto;
       });
-      console.log('🚀 ~ ErrorHandler ~ errors:', errors);
       NotifyMultipleErrors(errors);
       break;
     }
@@ -18,20 +17,20 @@ const ErrorHandler = (error: any) => {
       ErrorNotify({
         message:
           "Vous n'êtes pas autorisé à accéder à cette ressource. Veuillez vous connecter.",
-      } as ErrorNotify);
+      } as NotifyDto);
       break;
     case 403:
       ErrorNotify({
         message: "Vous n'êtes pas autorisé à accéder à cette ressource.",
-      } as ErrorNotify);
+      } as NotifyDto);
       break;
     case 404:
       ErrorNotify({
         message: "La ressource demandée n'a pas été trouvée.",
-      } as ErrorNotify);
+      } as NotifyDto);
       break;
     default:
-      ErrorNotify({} as ErrorNotify);
+      ErrorNotify({} as NotifyDto);
       break;
   }
 };

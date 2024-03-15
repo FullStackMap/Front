@@ -11,7 +11,7 @@ export type AuthStore = {
   expire: number;
   user: AuthUser | undefined;
 
-  login: (userInfo: LoginDto) => void;
+  login: (userInfo: LoginDto) => Promise<void>;
   loadUser: () => void;
   logOut: () => void;
   isLogged: () => boolean;
@@ -55,7 +55,7 @@ export const useAuthStore: UseBoundStore<StoreApi<AuthStore>> =
             expire: -1,
             user: undefined,
           });
-            throw err;
+          throw err;
         });
     },
     loadUser: () => {
