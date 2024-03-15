@@ -86,6 +86,12 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: Archive server config files
+        uses: actions/upload-artifact@v2
+        with:
+          name: server-files
+          path: ./nginx/*
+
       - name: Archive compiled files
         uses: actions/upload-artifact@v2
         with:
@@ -101,6 +107,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Download server config files artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: server-files
+          path: ./nginx
 
       - name: Download compiled files artifact
         uses: actions/download-artifact@v2
