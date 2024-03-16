@@ -1,23 +1,25 @@
 import { useDocumentTitle } from '@mantine/hooks';
+import { IconPinnedFilled } from '@tabler/icons-react';
 import React, { useMemo } from 'react';
-import { Map, Marker } from 'react-map-gl';
-import Pin from '../../components/mapPin/Pin';
+import { GeolocateControl, Map, Marker, ScaleControl } from 'react-map-gl';
 const TestPage = () => {
   useDocumentTitle('From A2B - Test');
 
   const [viewState, setViewState] = React.useState({
-    latitude: 48.8588443,
-    longitude: 2.2943506,
-    zoom: 2,
-    pitch: 30,
+    latitude: 45.73050608112574,
+    longitude: 4.860200783597507,
+    zoom: 22,
+    // zoom: 2,
+    pitch: 0,
+    // pitch: 30,
     bearing: 0,
   });
 
   const steps = useMemo(
     () => [
       {
-        latitude: 48.8588443,
-        longitude: 2.2943506,
+        latitude: 45.73050608112574,
+        longitude: 4.860200783597507,
       },
       {
         latitude: 51.5073219,
@@ -31,23 +33,21 @@ const TestPage = () => {
     [],
   );
 
-  const pins = useMemo(
-    () =>
-      steps.map((step, index) => (
+  const pins = useMemo(() => {
+    return steps.map((step, index) => {
+      return (
         <Marker
           key={`stepMarker-${index}`}
           draggable={false}
           latitude={step.latitude ?? 0}
           longitude={step.longitude ?? 0}
-          // The offset in pixels as a PointLike object to apply relative to the element's center. Negatives indicate left and up (on the x and y axes, respectively). cf :https://visgl.github.io/react-map-gl/docs/api-reference/marker#offset
-          // offset={[12, -10]}
-          // popup={<Text>I'm popup</Text>}
+          pitchAlignment="viewport"
           rotationAlignment="viewport">
-          <Pin />
+          <IconPinnedFilled color="teal" size={32} stroke={2} />
         </Marker>
-      )),
-    [steps],
-  );
+      );
+    });
+  }, [steps]);
 
   return (
     <>
@@ -56,14 +56,16 @@ const TestPage = () => {
         onMove={evt => setViewState(evt.viewState)}
         minZoom={2}
         dragRotate={true}
-        mapStyle="mapbox://styles/dercraker/cltuclkfe00fg01p75s7xcndk"
-        mapboxAccessToken="pk.eyJ1IjoiZGVyY3Jha2VyIiwiYSI6ImNscnVlNzdpbjAzNDkyam14c2ptN2dwcHMifQ.dT47tVLMu2pu117-dyNXSQ"
+        mapStyle="mapbox://styles/mapbox/streets-v12"
+        mapboxAccessToken="pk.eyJ1IjoiZGVyY3Jha2VyIiwiYSI6ImNsdHVnczc4dTB6N2QyanFwZDR1N2c2eHoifQ.arP7tBErlINY3-uiwfb7Ww"
         attributionControl={true}
         style={{
-          height: '100vh',
+          height: '80vh',
           width: '100vw',
         }}>
-        {/* {pins} */}
+        <GeolocateControl />
+        <ScaleControl />
+        {pins}
       </Map>
     </>
   );
