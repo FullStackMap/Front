@@ -12,7 +12,6 @@ import {
 } from '@tabler/icons-react';
 import { NavLink, Container, Grid, Paper } from '@mantine/core';
 import { ProfileForm } from '../../components/profile/profileForm/ProfileForm.tsx';
-import { ChangePasswordForm } from '../../components/profile/changePasswordForm/ChangePasswordForm.tsx';
 import { ChangeEmailForm } from '../../components/profile/changeEmailForm/ChangeEmailForm.tsx';
 import { DeleteForm } from '../../components/profile/DeleteForm/DeleteForm.tsx';
 
@@ -39,6 +38,11 @@ const ProfilePage = () => {
     navigate('/cgu');
   };
 
+  const navigateToChangePassword = () => {
+    setActualForm(1);
+    navigate('/forgotPassword');
+  };
+
   const items = data.map((item, index) => (
     <NavLink
       key={item.label}
@@ -46,7 +50,15 @@ const ProfilePage = () => {
       label={item.label}
       leftSection={<item.icon size={18} />}
       rightSection={<IconChevronRight size={18} />}
-      onClick={index === 3 ? navigateToCGU : () => selectForm(index)}
+      onClick={() => {
+        if (index === 3) {
+          navigateToCGU();
+        } else if (index === 1) {
+          navigateToChangePassword();
+        } else {
+          selectForm(index);
+        }
+      }}
       autoContrast
     />
   ));
@@ -68,7 +80,6 @@ const ProfilePage = () => {
           </Grid.Col>
           <Grid.Col span={9}>
             {actualForm === 0 && <ProfileForm />}
-            {actualForm === 1 && <ChangePasswordForm />}
             {actualForm === 2 && <ChangeEmailForm />}
             {actualForm === 4 && <DeleteForm />}
           </Grid.Col>

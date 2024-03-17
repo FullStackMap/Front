@@ -20,6 +20,21 @@ export const TripControllerFunc = () => {
   return client.TripApiFactory(configLogged);
 };
 
+export const UserUpdateControllerFunc = () => {
+  const configLogged = new client.Configuration({
+    basePath: basePath,
+    baseOptions: {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  });
+
+  return client.UserApiFactory(configLogged);
+};
+
 export const TripController = TripControllerFunc();
 
 export const AnoAuthController = client.AuthApiFactory(configAno);
+
+export const UserUpdateController = UserUpdateControllerFunc();
