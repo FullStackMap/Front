@@ -1,16 +1,18 @@
 import { useDocumentTitle } from '@mantine/hooks';
 import { IconPinnedFilled } from '@tabler/icons-react';
-import type { FeatureCollection } from 'geojson';
-import React, { useMemo } from 'react';
-import type { CircleLayer } from 'react-map-gl';
+import { FeatureCollection, Position } from 'geojson';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   GeolocateControl,
   Layer,
+  LayerProps,
   Map,
   Marker,
   ScaleControl,
   Source,
 } from 'react-map-gl';
+import { calculateRoad } from '../../services/api/MapboxController';
+import { RoadPositionDto } from '../../services/api/Models/MapBoxDirections/RoadPositionDto';
 
 const TestPage = () => {
   useDocumentTitle('From A2B - Test');
@@ -63,43 +65,59 @@ const TestPage = () => {
     });
   }, [steps]);
 
-  // const [geo, setGeo] = React.useState({});
+  const [coords, setCoords] = useState<Position[]>([]);
 
-  // async function getRoute() {
+  useEffect(() => {
+    const dto: RoadPositionDto[] = [
+      {
+        start: [4.860200783597507, 45.73050608112574],
+        end: [5.023607756386476, 45.68705246320726],
+      },
+      {
+        start: [4.860200783597507, 45.73050608112574],
+        end: [5.023607756386476, 45.68705246320726],
+      },
+    ];
+    calculateRoad('driving', dto);
+  }, []);
+
+  // const calculateRoad = async () => {
   //   const query = await fetch(
-  //     `https://api.mapbox.com/directions/v5/mapbox/driving/4.860200783597507,45.73050608112574;5.023607756386476,45.68705246320726/?access_token=pk.eyJ1IjoiZGVyY3Jha2VyIiwiYSI6ImNsdHVnczc4dTB6N2QyanFwZDR1N2c2eHoifQ.arP7tBErlINY3-uiwfb7Ww`,
+  //     `https://api.mapbox.com/directions/v5/mapbox/driving/4.860200783597507,45.73050608112574;5.023607756386476,45.68705246320726/?geometries=geojson&overview=full&access_token=pk.eyJ1IjoiZGVyY3Jha2VyIiwiYSI6ImNsdHVnczc4dTB6N2QyanFwZDR1N2c2eHoifQ.arP7tBErlINY3-uiwfb7Ww`,
   //     { method: 'GET' },
   //   );
   //   const json = await query.json();
+  //   console.log('🚀 ~ getRoute ~ json:', json);
   //   const data = json.routes[0];
-  //   const route = data.geometry.coordinates;
-  //   const geojson = {
-  //     type: 'Feature',
-  //     properties: {},
-  //     geometry: {
-  //       type: 'LineString',
-  //       coordinates: route,
-  //     },
-  //   };
-  //   setGeo(geojson);
-  // }
+  //   const coords = data.geometry.coordinates;
+  //   setCoords(coords);
+  // };
 
   const geojson: FeatureCollection = {
     type: 'FeatureCollection',
     features: [
       {
         type: 'Feature',
-        geometry: { type: 'Point', coordinates: [-122.4, 37.8] },
+        geometry: {
+          type: 'LineString',
+          coordinates: coords,
+        },
+        properties: {},
       },
     ],
   };
 
-  const layerStyle: CircleLayer = {
-    id: 'point',
-    type: 'circle',
+  const routeLineStyle: LayerProps = {
+    id: 'roadLayer',
+    type: 'line',
+    layout: {
+      'line-join': 'round',
+      'line-cap': 'round',
+    },
     paint: {
-      'circle-radius': 10,
-      'circle-color': '#007cbf',
+      'line-color': '#3887be',
+      'line-width': 5,
+      'line-opacity': 0.75,
     },
   };
 
@@ -116,34 +134,14 @@ const TestPage = () => {
         style={{
           height: '80vh',
           width: '100vw',
-        }}
-        // onLoad={() => getRoute}
-      >
+        }}>
+        {pins}
+        <Source id="routeSource" type="geojson" data={geojson}>
+          <Layer {...routeLineStyle} />
+        </Source>
+
         <GeolocateControl />
         <ScaleControl />
-        {pins}
-        <Source id="my-data" type="geojson" data={geojson}>
-          <Layer {...layerStyle} />
-        </Source>
-        {/* <Source id="route" type="geojson" data={geo}>
-          <Layer
-            id="route"
-            type="line"
-            source={{
-              type: 'geojson',
-              data: geo,
-            }}
-            layout={{
-              'line-join': 'round',
-              'line-cap': 'round',
-            }}
-            paint={{
-              'line-color': '#3887be',
-              'line-width': 5,
-              'line-opacity': 0.75,
-            }}
-          />
-        </Source> */}
       </Map>
     </>
   );
