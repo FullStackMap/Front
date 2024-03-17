@@ -73,6 +73,7 @@ export const FormContact = () => {
           placeholder="Merci de nous laisser un message"
           minRows={3}
           resize="both"
+          required
           {...contactForm.getInputProps('message')}
         />
         <Group justify="flex-end" mt="md">
