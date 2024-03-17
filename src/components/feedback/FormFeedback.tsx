@@ -1,7 +1,8 @@
-import { Button, Center, Title, Textarea, Rating } from '@mantine/core';
+import { Button, Center, Title, Textarea } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { zodResolver } from 'mantine-form-zod-resolver';
 import { z } from 'zod';
+import { StarLikeComponent } from '../starComponent/StarLikeComponent';
 
 const FormFeedback = () => {
   const feedbackSchema = z.object({
@@ -10,7 +11,7 @@ const FormFeedback = () => {
       .min(10, 'le commentaire doit contenir au moins 10 caractères'),
     rating: z
       .number()
-      .min(0.5, 'la note minimale est de 0.5')
+      .min(1, 'la note minimale est de 1')
       .max(5, 'la note maximale est de 5'),
   });
 
@@ -31,6 +32,10 @@ const FormFeedback = () => {
     throw new Error('Not implemented');
   };
 
+  const handleChangeRating = (rating: number) => {
+    feedbackForm.setValues({ ...feedbackForm.values, rating });
+  };
+
   return (
     <form onSubmit={handleSubmit} onReset={() => feedbackForm.reset()}>
       <Title order={2} mt="xl" ta="center">
@@ -45,13 +50,7 @@ const FormFeedback = () => {
         {...feedbackForm.getInputProps('comment')}
       />
       <Center mt="sm">
-        <Rating
-          fractions={2}
-          color="teal"
-          size={50}
-          title="Votre note"
-          {...feedbackForm.getInputProps('rating')}
-        />
+        <StarLikeComponent ChangeRating={handleChangeRating} />
       </Center>
       <Center mt="xl">
         <Button
