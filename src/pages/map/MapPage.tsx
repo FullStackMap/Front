@@ -14,7 +14,7 @@ import {
 import { calculateRoad } from '../../services/api/MapboxController';
 import { RoadPositionDto } from '../../services/api/Models/MapBoxDirections/RoadPositionDto';
 
-const TestPage = () => {
+const MapPage = () => {
   useDocumentTitle('From A2B - Test');
 
   //Point de vu de l'utilisateur sur la carte, les valeurs renseignées seront l'endroit où la carte se positionnera au chargement de la page
@@ -73,23 +73,10 @@ const TestPage = () => {
       //l'ensemble des itinéraires sont stockés dans la base de données
       const roads = await calculateRoad('driving', dto);
       setRoads(roads);
-      setGeojson({
-        ...geojson,
-        features: [
-          {
-            type: 'Feature',
-            geometry: {
-              type: 'LineString',
-              coordinates: roads,
-            },
-            properties: {},
-          },
-        ],
-      });
     })();
   }, []);
 
-  const [geojson, setGeojson] = useState<FeatureCollection>({
+  const geojson: FeatureCollection = {
     type: 'FeatureCollection',
     features: [
       {
@@ -101,7 +88,7 @@ const TestPage = () => {
         properties: {},
       },
     ],
-  });
+  };
 
   const routeLineStyle: LayerProps = {
     id: 'roadLayer',
@@ -143,4 +130,4 @@ const TestPage = () => {
   );
 };
 
-export default TestPage;
+export default MapPage;
