@@ -68,17 +68,21 @@ const TestPage = () => {
   const [coords, setCoords] = useState<Position[]>([]);
 
   useEffect(() => {
-    const dto: RoadPositionDto[] = [
-      {
-        start: [4.860200783597507, 45.73050608112574],
-        end: [5.023607756386476, 45.68705246320726],
-      },
-      {
-        start: [4.860200783597507, 45.73050608112574],
-        end: [5.023607756386476, 45.68705246320726],
-      },
-    ];
-    calculateRoad('driving', dto);
+    (async () => {
+      const dto: RoadPositionDto[] = [
+        {
+          start: [4.860200783597507, 45.73050608112574],
+          end: [5.023607756386476, 45.68705246320726],
+        },
+        {
+          start: [4.860200783597507, 45.73050608112574],
+          end: [5.023607756386476, 45.68705246320726],
+        },
+      ];
+      const roads = await calculateRoad('driving', dto);
+      setCoords(roads);
+      console.log('🚀 ~ useEffect ~ roads:', roads);
+    })();
   }, []);
 
   // const calculateRoad = async () => {
@@ -133,7 +137,7 @@ const TestPage = () => {
         attributionControl={true}
         style={{
           height: '80vh',
-          width: '100vw',
+          width: '80vw',
         }}>
         {pins}
         <Source id="routeSource" type="geojson" data={geojson}>

@@ -1,3 +1,4 @@
+import { Position } from 'geojson';
 import { MapboxClient } from '../BaseApi';
 import { RoadPositionDto } from './Models/MapBoxDirections/RoadPositionDto';
 
@@ -17,7 +18,8 @@ export const calculateRoad = async (
   const response = await MapboxClient.get(
     `/directions/v5/mapbox/${directionMode}/${positionsString}/?geometries=geojson&overview=full&access_token=${mapBoxToken}`,
   );
-  const json = response.data.json();
-  const data = json.routes[0];
-  const coords = data.geometry.coordinates;
+  const data = response.data.routes[0];
+  const coords: Position[] = data.geometry.coordinates;
+
+  return coords;
 };
