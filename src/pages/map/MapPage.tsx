@@ -12,11 +12,12 @@ import {
   Source,
 } from 'react-map-gl';
 import { calculateRoad } from '../../services/api/MapboxController';
-import { RoadPositionDto } from '../../services/api/Models/MapBoxDirections/RoadPositionDto';
+import RoadPositionDto from '../../services/api/Models/MapBoxDirections/RoadPositionDto';
 
 const MapPage = () => {
-  useDocumentTitle('From A2B - Test');
+  useDocumentTitle('From A2B - Map');
 
+  //#region States
   //Point de vu de l'utilisateur sur la carte, les valeurs renseignées seront l'endroit où la carte se positionnera au chargement de la page
   const [viewState, setViewState] = React.useState({
     longitude: 4.860200783597507,
@@ -25,6 +26,29 @@ const MapPage = () => {
     pitch: 30,
     bearing: 0,
   });
+
+  const [roads, setRoads] = useState<Position[]>([]);
+  //#endregion
+
+  //#region Effects
+  useEffect(() => {
+    (async () => {
+      const dto: RoadPositionDto[] = [
+        {
+          start: [4.860200783597507, 45.73050608112574],
+          end: [5.079252160492843, 45.71892384847893],
+        },
+      ];
+      //Calcul de l'itinéraire entre les points de passage
+      //Doit être utilisé que si nécessaire, car il y a un quota de requêtes
+      //l'ensemble des itinéraires sont stockés dans la base de données
+      const roads: Position[] = await calculateRoad('driving', dto);
+      setRoads(roads);
+    })();
+  }, []);
+  //#endregion
+
+  //#region Memos
 
   //Ensemble des points de passage du voyage
   const steps = useMemo(
@@ -58,23 +82,9 @@ const MapPage = () => {
     });
   }, [steps]);
 
-  const [roads, setRoads] = useState<Position[]>([]);
+  //#endregion
 
-  useEffect(() => {
-    (async () => {
-      const dto: RoadPositionDto[] = [
-        {
-          start: [4.860200783597507, 45.73050608112574],
-          end: [5.079252160492843, 45.71892384847893],
-        },
-      ];
-      //Calcul de l'itinéraire entre les points de passage
-      //Doit être utilisé que si nécessaire, car il y a un quota de requêtes
-      //l'ensemble des itinéraires sont stockés dans la base de données
-      const roads = await calculateRoad('driving', dto);
-      setRoads(roads);
-    })();
-  }, []);
+  //#region Variables
 
   const geojson: FeatureCollection = {
     type: 'FeatureCollection',
@@ -103,6 +113,8 @@ const MapPage = () => {
       'line-opacity': 0.75,
     },
   };
+
+  //#endregion
 
   return (
     <>
