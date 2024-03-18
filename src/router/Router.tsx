@@ -27,7 +27,7 @@ const Router = () => {
           path="/profile"
           element={
             <PrivateRoute
-              // authRequired
+              authRequired
               redirectPath="/login"
               element={<ProfilePage />}
             />

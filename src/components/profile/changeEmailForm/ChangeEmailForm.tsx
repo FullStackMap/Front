@@ -5,14 +5,17 @@ import { zodResolver } from 'mantine-form-zod-resolver';
 import { z } from 'zod';
 import useNotify, { NotifyDto } from '../../../hooks/useNotify';
 import { useQueryParams } from '../../../hooks/useQueryParams';
-import { UserUpdateController } from '../../../services/BaseApi';
+import { UserController } from '../../../services/BaseApi';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
-import { UpdateUserMail } from '../../../services/api/Models/User/UpdateUserMailDto';
+import { UpdateUserMailDto } from '@FullStackMap/from-a2b';
+import { AuthStore, useAuthStore } from '../../../store/useAuthStore';
 
 export const ChangeEmailForm = () => {
   const navigate: NavigateFunction = useNavigate();
-  const { SuccessNotify, ErrorNotify } = useNotify();
+  const { SuccessNotify } = useNotify();
+  const userId = useAuthStore((state: AuthStore) => state.user?.Id);
+
   const queryParams = useQueryParams() as { Token: string; Email: string };
   useEffect(() => {
     if (!queryParams.Token || !queryParams.Email) navigate('/');
@@ -40,24 +43,24 @@ export const ChangeEmailForm = () => {
   });
 
   const changeEmailMutation = useMutation({
-    mutationFn: async (dto: UpdateUserMail) =>
-      await UserUpdateController.updateUserMail(dto)
-        .then(() => {
-          SuccessNotify({
-            title: 'Email modifié',
-            message: 'Votre email a été modifié avec succès',
-            autoClose: 5000,
-          } as NotifyDto);
-        })
-        .catch(() => {
-          ErrorNotify({} as NotifyDto);
-        }),
+    mutationFn: async ([id, dto]: [string, UpdateUserMailDto]) =>
+      await UserController.updateUserMailAsyncPATCH(id, dto),
+    onSuccess: () => {
+      SuccessNotify({
+        title: 'Email modifié',
+        message: 'Votre email a été modifié avec succès',
+        autoClose: 5000,
+      } as NotifyDto);
+    },
   });
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!changeEmalForm.isValid()) return;
-    changeEmailMutation.mutate(changeEmalForm.values as UpdateUserMail);
+    changeEmailMutation.mutate([
+      userId!,
+      changeEmalForm.values.confirmEmail as UpdateUserMailDto,
+    ]);
   };
 
   return (

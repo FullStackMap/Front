@@ -8,7 +8,7 @@ const configAno = new client.Configuration({
   basePath: basePath,
 });
 
-export const TripControllerFunc = () => {
+const TripControllerFunc = () => {
   const configLogged = new client.Configuration({
     basePath: basePath,
     baseOptions: {
@@ -20,7 +20,7 @@ export const TripControllerFunc = () => {
   return client.TripApiFactory(configLogged);
 };
 
-export const UserUpdateControllerFunc = () => {
+const UserControllerFunc = () => {
   const configLogged = new client.Configuration({
     basePath: basePath,
     baseOptions: {
@@ -37,4 +37,4 @@ export const TripController = TripControllerFunc();
 
 export const AnoAuthController = client.AuthApiFactory(configAno);
 
-export const UserUpdateController = UserUpdateControllerFunc();
+export const UserController = UserControllerFunc();
