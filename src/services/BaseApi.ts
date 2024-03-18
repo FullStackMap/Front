@@ -1,16 +1,14 @@
 import * as client from '@FullStackMap/from-a2b';
-import { AuthStore, useAuthStore } from '../store/useAuthStore';
+import Cookies from 'js-cookie';
 
 const basePath: string = 'http://localhost:32769';
+const token : string | undefined = Cookies.get('Auth-Token');
 
 const configAno = new client.Configuration({
   basePath: basePath,
 });
 
-export const TripController = () => {
-  const token: string | undefined = useAuthStore(
-    (state: AuthStore) => state.token,
-  );
+export const TripControllerFunc = () => {
 
   const configLogged = new client.Configuration({
     basePath: basePath,
@@ -22,5 +20,7 @@ export const TripController = () => {
   });
   return client.TripApiFactory(configLogged);
 };
+
+export const TripController = TripControllerFunc();
 
 export const AnoAuthController = client.AuthApiFactory(configAno);

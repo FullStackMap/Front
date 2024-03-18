@@ -5,11 +5,17 @@ import {
   IconSquareRoundedPlus,
   IconUserFilled,
 } from '@tabler/icons-react';
-import { useCallback } from 'react';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
+
+import { useCallback } from 'react';
 import { AuthStore, useAuthStore } from '../../store/useAuthStore';
+import { useCallCreateModal } from '../../store/useCallCreateModal';
+
 import ProfileMenu from '../profileMenu/ProfileMenu';
 import SwitchThemeIcon from '../switchThemeIcon/SwitchThemeIcon';
+import CreateTravelModal from '../../components/createTravelModal/CreateTravelModal';
+
+
 
 interface DefaultHeaderProps {
   burgerOpened: boolean;
@@ -20,6 +26,7 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
   const isLogged: () => boolean = useAuthStore((s: AuthStore) => s.isLogged);
   const logOut = useAuthStore((s: AuthStore) => s.logOut);
   const navigate: NavigateFunction = useNavigate();
+  const setIsModalOpen = useCallCreateModal(state=> state.setStatus);
 
   const logOutUser = useCallback(async () => {
     await logOut();
@@ -30,8 +37,7 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
   };
 
   const handleCreateTrip = () => {
-    //TODO: Redirect to create trip page
-    throw new Error('CreateTrip Not implemented');
+    setIsModalOpen(true);
   };
 
   const handleAccount = () => {
@@ -66,7 +72,7 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
         />
         <Group>
           <Group visibleFrom="sm">
-            {isLogged && (
+            {isLogged() && (
               <>
                 <Button
                   leftSection={<IconSquareRoundedPlus size={20} />}
@@ -111,6 +117,7 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
         </Button>
         <SwitchThemeIcon asButton />
       </AppShell.Navbar>
+      <CreateTravelModal />
     </>
   );
 };
