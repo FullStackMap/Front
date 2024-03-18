@@ -25,11 +25,11 @@ const Router = () => {
       <Route element={<DefaultLayout />}>
         <Route path="/" element={<LandingPage />} />
         <Route path="/test" element={<TestPage />} />
-        <Route path="/*" element={<Navigate to="/" />} />
         <Route path="/feedback" element={<FeedbackPage />} />
         <Route path="/cgu" element={<CguPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/faq" element={<FaqPage />} />
+        <Route path="/*" element={<Navigate to="/" />} />
       </Route>
 
       <Route element={<HalfMapLayout />}></Route>

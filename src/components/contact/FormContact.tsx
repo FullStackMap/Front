@@ -12,6 +12,8 @@ import { z } from 'zod';
 
 export const FormContact = () => {
   const contactSchema = z.object({
+    name: z.string().min(2, 'le nom doit contenir au moins 2 caractères'),
+    subject: z.string().min(5, 'le sujet doit contenir au moins 5 caractères'),
     email: z.string().email("l'email n'est pas valide"),
     message: z
       .string()
@@ -30,9 +32,7 @@ export const FormContact = () => {
     validate: zodResolver(contactSchema),
   });
 
-  const isContactButtonDisabled = !contactForm.isValid();
-
-  const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     throw new Error('Not implemented');
   };
@@ -80,7 +80,7 @@ export const FormContact = () => {
           <Button
             className="contact__control"
             type="submit"
-            disabled={isContactButtonDisabled}>
+            disabled={!contactForm.isValid()}>
             Envoyer
           </Button>
         </Group>

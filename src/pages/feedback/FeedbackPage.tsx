@@ -18,14 +18,14 @@ const reviews = [
     pseudo: 'John Doe',
     date: '2023-02-01',
     comment: 'La plateforme est très intuitive, je suis très satisfait !',
-    rating: 5,
+    rating: 1,
   },
   {
     pseudo: 'Jane Doe',
     date: '2023-01-15',
     comment:
       'J’ai eu un problème avec ma réservation, mais le service client a été très réactif et m’a aidé à trouver une solution.',
-    rating: 4,
+    rating: 1,
   },
   {
     pseudo: 'Bob Smith',
@@ -50,6 +50,9 @@ const reviews = [
   },
 ];
 
+const averageRating =
+  reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length;
+
 const FeedbackPage = () => {
   const autoplay = useRef(Autoplay({ delay: 5000 }));
 
@@ -63,9 +66,8 @@ const FeedbackPage = () => {
       </Text>
       <Center mt="xl">
         <Rating
-          value={4.5}
+          value={averageRating}
           readOnly
-          fractions={2}
           color="teal"
           size={60}
           title="Note moyenne"

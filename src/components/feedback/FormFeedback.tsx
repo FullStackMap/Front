@@ -25,7 +25,6 @@ const FormFeedback = () => {
     validate: zodResolver(feedbackSchema),
   });
 
-  const isButtonDisabled = !feedbackForm.isValid();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -55,7 +54,7 @@ const FormFeedback = () => {
       <Center mt="xl">
         <Button
           type="submit"
-          disabled={isButtonDisabled}
+          disabled={!feedbackForm.isValid()}
           variant="filled"
           mb="lg">
           Envoyer
