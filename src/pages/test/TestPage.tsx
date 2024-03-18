@@ -17,16 +17,16 @@ import { RoadPositionDto } from '../../services/api/Models/MapBoxDirections/Road
 const TestPage = () => {
   useDocumentTitle('From A2B - Test');
 
+  //Point de vu de l'utilisateur sur la carte, les valeurs renseignées seront l'endroit où la carte se positionnera au chargement de la page
   const [viewState, setViewState] = React.useState({
     longitude: 4.860200783597507,
     latitude: 45.73050608112574,
-    zoom: 8,
-    // zoom: 2,
-    pitch: 0,
-    // pitch: 30,
+    zoom: 2,
+    pitch: 30,
     bearing: 0,
   });
 
+  //Ensemble des points de passage du voyage
   const steps = useMemo(
     () => [
       {
@@ -34,21 +34,14 @@ const TestPage = () => {
         latitude: 45.73050608112574,
       },
       {
-        longitude: 5.023607756386476,
-        latitude: 45.68705246320726,
-      },
-      {
-        longitude: -0.1276474,
-        latitude: 51.5073219,
-      },
-      {
-        longitude: -74.005974,
-        latitude: 40.712776,
+        longitude: 5.079252160492843,
+        latitude: 45.71892384847893,
       },
     ],
     [],
   );
 
+  //Création des pins sur la carte pour chaque étape du voyage
   const pins = useMemo(() => {
     return steps.map((step, index) => {
       return (
@@ -65,51 +58,50 @@ const TestPage = () => {
     });
   }, [steps]);
 
-  const [coords, setCoords] = useState<Position[]>([]);
+  const [roads, setRoads] = useState<Position[]>([]);
 
   useEffect(() => {
     (async () => {
       const dto: RoadPositionDto[] = [
         {
           start: [4.860200783597507, 45.73050608112574],
-          end: [5.023607756386476, 45.68705246320726],
-        },
-        {
-          start: [4.860200783597507, 45.73050608112574],
-          end: [5.023607756386476, 45.68705246320726],
+          end: [5.079252160492843, 45.71892384847893],
         },
       ];
+      //Calcul de l'itinéraire entre les points de passage
+      //Doit être utilisé que si nécessaire, car il y a un quota de requêtes
+      //l'ensemble des itinéraires sont stockés dans la base de données
       const roads = await calculateRoad('driving', dto);
-      setCoords(roads);
-      console.log('🚀 ~ useEffect ~ roads:', roads);
+      setRoads(roads);
+      setGeojson({
+        ...geojson,
+        features: [
+          {
+            type: 'Feature',
+            geometry: {
+              type: 'LineString',
+              coordinates: roads,
+            },
+            properties: {},
+          },
+        ],
+      });
     })();
   }, []);
 
-  // const calculateRoad = async () => {
-  //   const query = await fetch(
-  //     `https://api.mapbox.com/directions/v5/mapbox/driving/4.860200783597507,45.73050608112574;5.023607756386476,45.68705246320726/?geometries=geojson&overview=full&access_token=pk.eyJ1IjoiZGVyY3Jha2VyIiwiYSI6ImNsdHVnczc4dTB6N2QyanFwZDR1N2c2eHoifQ.arP7tBErlINY3-uiwfb7Ww`,
-  //     { method: 'GET' },
-  //   );
-  //   const json = await query.json();
-  //   console.log('🚀 ~ getRoute ~ json:', json);
-  //   const data = json.routes[0];
-  //   const coords = data.geometry.coordinates;
-  //   setCoords(coords);
-  // };
-
-  const geojson: FeatureCollection = {
+  const [geojson, setGeojson] = useState<FeatureCollection>({
     type: 'FeatureCollection',
     features: [
       {
         type: 'Feature',
         geometry: {
           type: 'LineString',
-          coordinates: coords,
+          coordinates: roads,
         },
         properties: {},
       },
     ],
-  };
+  });
 
   const routeLineStyle: LayerProps = {
     id: 'roadLayer',
