@@ -1,7 +1,7 @@
 import * as client from '@FullStackMap/from-a2b';
 import Cookies from 'js-cookie';
 
-const basePath: string = 'http://localhost:32769';
+const basePath: string = 'http://api-dev.from-a2b.fr';
 const token : string | undefined = Cookies.get('Auth-Token');
 
 const configAno = new client.Configuration({

@@ -1,0 +1,17 @@
+@import '../../variables.scss';
+
+.img-modal {
+  position: relative;
+  background-image: url("./../../../header-backgroud.png");
+  background-size: cover;
+  background-position: center;
+  height: 200px;
+}
+
+.mantine-Modal-body {
+  padding: 0;
+}
+
+.form {
+  padding: var(--mantine-spacing-sm);
+}
