@@ -28,6 +28,9 @@ jobs:
         run: |
           if [[ "${{ github.event_name }}" == "pull_request" && "${{ github.event }}" != "closed" ]]; then
           case "${{ github.base_ref }}" in
+            refs/heads/features/*)
+                echo "::set-output name=DockerTag::alpha-pr"
+                ;;
             "develop")
               echo "::set-output name=DockerTag::dev-pr"
               ;;
@@ -55,6 +58,8 @@ jobs:
   build_app:
     name: install dependencies and build
     runs-on: ubuntu-latest
+    needs:
+      - setup_tag
 
     steps:
       - name: Checkout repo
