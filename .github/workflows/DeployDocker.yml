@@ -1,15 +1,11 @@
 name: Docker Image CI/CD
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-      - features/*
   pull_request:
     branches:
       - main
       - develop
+    types: [opened, closed, synchronize]
   release:
     types: [published]
 
