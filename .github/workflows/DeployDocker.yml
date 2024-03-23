@@ -22,7 +22,7 @@ jobs:
       - name: Setup dockerTag
         id: setup_docker_tag
         run: |
-          if [[ "${{ github.event_name }}" == "pull_request" && "${{ github.event }}" != "closed" ]]; then
+          if [[ "${{ github.event_name }}" == "pull_request" && "${{ github.event.action }}" != "closed" ]]; then
           case "${{ github.base_ref }}" in
             refs/heads/features/*)
                 echo "::set-output name=DockerTag::alpha-pr"
@@ -139,7 +139,7 @@ jobs:
     steps:
       - name: Send POST request to Portainer webhook
         run: |
-          if [[ "${{ github.event_name }}" == "pull_request" && "${{ github.event_name }}" != "closed"]]; then
+          if [[ "${{ github.event_name }}" == "pull_request" && "${{ github.event.action }}" == "closed" ]]; then
             case "${{ github.ref }}" in
               "refs/heads/develop")
                 curl -X POST -H "Content-Type: application/json" -d '{}' ${{ secrets.FROMA2B_PORTAINER_WEBHOOK_MAP_DEV }}
