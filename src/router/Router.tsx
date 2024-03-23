@@ -7,8 +7,8 @@ import { ConfirmMailPage } from '../pages/confirmMail/ConfirmMailPage';
 import { ForgotPasswordPage } from '../pages/forgotPassword/ForgotPasswordPage';
 import { LandingPage } from '../pages/landing/LandingPage';
 import { LoginPage } from '../pages/login/LoginPage';
+import MapPage from '../pages/map/MapPage';
 import { RegisterPage } from '../pages/register/RegisterPage';
-import TestPage from '../pages/test/TestPage';
 import { AuthStore, useAuthStore } from '../store/useAuthStore';
 import { PrivateRoute } from './PrivateRoute';
 
@@ -20,7 +20,7 @@ const Router = () => {
     <Routes>
       <Route element={<DefaultLayout />}>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/test" element={<TestPage />} />
+        <Route path="/map" element={<MapPage />} />
         <Route path="/*" element={<Navigate to="/" />} />
       </Route>
 

@@ -1,4 +1,5 @@
 import * as client from '@FullStackMap/from-a2b';
+import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const basePath: string = 'http://localhost:32769';
@@ -8,7 +9,7 @@ const configAno = new client.Configuration({
   basePath: basePath,
 });
 
-export const TripControllerFunc = () => {
+const TripControllerFunc = () => {
   const configLogged = new client.Configuration({
     basePath: basePath,
     baseOptions: {
@@ -19,6 +20,21 @@ export const TripControllerFunc = () => {
   });
   return client.TripApiFactory(configLogged);
 };
+
+export const AnoAxiosClient = axios.create({
+  baseURL: basePath,
+});
+
+export const AxiosClient = axios.create({
+  baseURL: basePath,
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
+
+export const MapboxClient = axios.create({
+  baseURL: 'https://api.mapbox.com',
+});
 
 export const TripController = TripControllerFunc();
 
