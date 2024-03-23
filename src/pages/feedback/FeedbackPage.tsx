@@ -11,7 +11,7 @@ import {
 } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 import Autoplay from 'embla-carousel-autoplay';
-import FormFeedback from '../../components/feedback/FormFeedback';
+import { FormFeedback } from '../../components/feedback/FormFeedback';
 
 const reviews = [
   {
@@ -64,15 +64,6 @@ const FeedbackPage = () => {
       <Text mt="sm" ta="center" c="teal" fw={700}>
         Découvrez ce que nos clients disent à propos de nous.
       </Text>
-      <Center mt="xl">
-        <Rating
-          value={averageRating}
-          readOnly
-          color="teal"
-          size={60}
-          title="Note moyenne"
-        />
-      </Center>
       <Carousel
         slideSize="70%"
         plugins={[autoplay.current]}
@@ -109,6 +100,18 @@ const FeedbackPage = () => {
           </Carousel.Slide>
         ))}
       </Carousel>
+      <Title order={3} mt="xl" ta="center">
+        La note attribuée par nos clients
+      </Title>
+      <Center mt="md" mb="xl">
+        <Rating
+          value={averageRating}
+          readOnly
+          color="teal"
+          size={50}
+          title="Note moyenne"
+        />
+      </Center>
       <FormFeedback />
     </Container>
   );

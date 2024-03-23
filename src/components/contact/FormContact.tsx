@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
   Button,
   Group,
@@ -11,13 +12,16 @@ import { zodResolver } from 'mantine-form-zod-resolver';
 import { z } from 'zod';
 
 export const FormContact = () => {
+  const MAX_CHARS = 500;
+  const [charCount, setCharCount] = useState(0);
+
   const contactSchema = z.object({
-    name: z.string().min(2, 'le nom doit contenir au moins 2 caractères'),
-    subject: z.string().min(5, 'le sujet doit contenir au moins 5 caractères'),
-    email: z.string().email("l'email n'est pas valide"),
+    name: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
+    subject: z.string().min(5, 'Le sujet doit contenir au moins 5 caractères'),
+    email: z.string().email("L'email n'est pas valide"),
     message: z
       .string()
-      .min(10, 'le message doit contenir au moins 10 caractères'),
+      .min(10, 'Le message doit contenir au moins 10 caractères'),
   });
 
   const contactForm = useForm({
@@ -28,9 +32,20 @@ export const FormContact = () => {
       subject: '',
       message: '',
     },
-
     validate: zodResolver(contactSchema),
   });
+
+  const handleMessageChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const message = event.target.value;
+    setCharCount(message.length);
+    if (message.length > MAX_CHARS) {
+      event.target.value = message.slice(0, MAX_CHARS);
+      setCharCount(MAX_CHARS);
+    }
+    contactForm.setFieldValue('message', message.slice(0, MAX_CHARS));
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -41,7 +56,10 @@ export const FormContact = () => {
     <form
       className="contact__form"
       onSubmit={handleSubmit}
-      onReset={() => contactForm.reset()}>
+      onReset={() => {
+        contactForm.reset();
+        setCharCount(0);
+      }}>
       <Text className="contact__title" fz="lg" fw={700}>
         Envoyez-nous un message
       </Text>
@@ -75,7 +93,15 @@ export const FormContact = () => {
           resize="both"
           required
           {...contactForm.getInputProps('message')}
+          onChange={handleMessageChange}
         />
+        <Text
+          size="sm"
+          mt="sm"
+          ta="end"
+          c={charCount > MAX_CHARS ? 'red' : undefined}>
+          {charCount} / {MAX_CHARS} caractères
+        </Text>
         <Group justify="flex-end" mt="md">
           <Button
             className="contact__control"

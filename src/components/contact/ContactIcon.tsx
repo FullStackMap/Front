@@ -4,9 +4,9 @@ import './ContactIcons.scss';
 
 interface ContactIconProps
   extends Omit<React.ComponentPropsWithoutRef<'div'>, 'title'> {
-  icon: typeof IconSun;
   title: React.ReactNode;
   description: React.ReactNode;
+  icon: typeof IconSun;
 }
 
 export const ContactIcon = (props : ContactIconProps) => {

@@ -1,18 +1,23 @@
-import { Button, Center, Title, Textarea } from '@mantine/core';
+import React, { useState } from 'react';
+import { Button, Center, Title, Textarea, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { zodResolver } from 'mantine-form-zod-resolver';
 import { z } from 'zod';
 import { StarLikeComponent } from '../starComponent/StarLikeComponent';
 
-const FormFeedback = () => {
+export const FormFeedback = () => {
+  const MAX_CHARS = 500;
+
+  const [charCount, setCharCount] = useState(0);
+
   const feedbackSchema = z.object({
     comment: z
       .string()
-      .min(10, 'le commentaire doit contenir au moins 10 caractères'),
+      .min(10, 'Le commentaire doit contenir au moins 10 caractères'),
     rating: z
       .number()
-      .min(1, 'la note minimale est de 1')
-      .max(5, 'la note maximale est de 5'),
+      .min(1, 'La note minimale est de 1')
+      .max(5, 'La note maximale est de 5'),
   });
 
   const feedbackForm = useForm({
@@ -21,10 +26,8 @@ const FormFeedback = () => {
       comment: '',
       rating: 0,
     },
-
     validate: zodResolver(feedbackSchema),
   });
-
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -35,9 +38,21 @@ const FormFeedback = () => {
     feedbackForm.setValues({ ...feedbackForm.values, rating });
   };
 
+  const handleCommentChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const comment = event.target.value;
+    setCharCount(comment.length);
+    if (comment.length > MAX_CHARS) {
+      event.target.value = comment.slice(0, MAX_CHARS);
+      setCharCount(MAX_CHARS);
+    }
+    feedbackForm.setFieldValue('comment', comment.slice(0, MAX_CHARS));
+  };
+
   return (
     <form onSubmit={handleSubmit} onReset={() => feedbackForm.reset()}>
-      <Title order={2} mt="xl" ta="center">
+      <Title order={2} mt={50} ta="center">
         Laissez votre avis
       </Title>
       <Textarea
@@ -47,7 +62,15 @@ const FormFeedback = () => {
         required
         placeholder='Ex: "J’ai adoré mon séjour, je recommande vivement !"'
         {...feedbackForm.getInputProps('comment')}
+        onChange={handleCommentChange}
       />
+      <Text
+        size="sm"
+        mt="sm"
+        ta="end"
+        c={charCount > MAX_CHARS ? 'red' : undefined}>
+        {charCount} / {MAX_CHARS} caractères
+      </Text>
       <Center mt="sm">
         <StarLikeComponent ChangeRating={handleChangeRating} />
       </Center>
@@ -63,5 +86,3 @@ const FormFeedback = () => {
     </form>
   );
 };
-
-export default FormFeedback;
