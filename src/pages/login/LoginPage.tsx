@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { LoginDto } from '@FullStackMap/from-a2b';
 import {
   Anchor,
@@ -27,7 +26,7 @@ export function LoginPage() {
   const login = useAuthStore((s: AuthStore) => s.login);
   const navigate = useNavigate();
 
-  const { ErrorNotify } = useNotify();
+  const { ErrorNotify, SuccessNotify } = useNotify();
 
   const [
     resetPasswordRequestModalIsOpen,
@@ -59,6 +58,12 @@ export function LoginPage() {
           message: 'Votre mot de passe ou identifiant sont incorrect!',
         } as NotifyDto);
       }),
+    onSuccess: () => {
+      SuccessNotify({
+        title: 'Connexion réussie',
+        message: 'Vous êtes maintenant connecté!',
+      } as NotifyDto);
+    },
   });
 
   useEffect(() => {
