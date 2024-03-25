@@ -14,7 +14,7 @@ import { PrivateRoute } from './PrivateRoute';
 
 const Router = () => {
   const loadUser: () => void = useAuthStore((s: AuthStore) => s.loadUser);
-  useEffect(() => loadUser(), []);
+  useEffect(() => loadUser(), [loadUser]);
 
   return (
     <Routes>

@@ -66,7 +66,7 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
         />
         <Group>
           <Group visibleFrom="sm">
-            {isLogged && (
+            {isLogged() && (
               <>
                 <Button
                   leftSection={<IconSquareRoundedPlus size={20} />}

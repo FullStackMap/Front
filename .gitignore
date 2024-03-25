@@ -26,7 +26,6 @@ dist-ssr
 # lock files
 package-lock.json
 yarn.lock
-pnpm-lock.yaml
 
 # Environment variables
 .env
@@ -36,3 +35,5 @@ pnpm-lock.yaml
 .env.production
 
 .npmrc
+
+.VSCodeCounter/

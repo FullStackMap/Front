@@ -7,7 +7,7 @@ export type StarLikeComponentProps = {
 
 export const StarLikeComponent = (props: StarLikeComponentProps) => {
   const updateRating = (e: FormEvent<HTMLFormElement>) => {
-    props.ChangeRating(e.target.value);
+    props.ChangeRating((e.target as any).value);
   };
 
   const ratings = [
