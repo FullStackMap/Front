@@ -1,4 +1,4 @@
-import { AppShell, Burger, Button, Group, Image } from '@mantine/core';
+import { AppShell, Burger, Button, Group } from '@mantine/core';
 import {
   IconLogout,
   IconMapPins,
@@ -29,12 +29,24 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
     navigate('/');
   };
 
+  const handleCloseNavbar = () => {
+    props.toggleBurgerState();
+  };
+
   const handleCreateTrip = () => {
+    handleCloseNavbar();
     //TODO: Redirect to create trip page
     throw new Error('CreateTrip Not implemented');
   };
 
+  const handleAccount = () => {
+    handleCloseNavbar();
+    //TODO: Redirect to account page
+    throw new Error('handleAccount Not implemented');
+  };
+
   const handleTrips = () => {
+    handleCloseNavbar();
     //TODO: Redirect to Trips list page
     throw new Error('handleTrips Not implemented');
   };
@@ -53,15 +65,15 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
           hiddenFrom="sm"
           size="sm"
         />
-        <Image
-          src="/public/vite.svg"
+        <img
+          src="/vite.svg"
           alt="Logo du site"
           onClick={handleClickLogo}
           className="cursor-pointer"
         />
         <Group>
           <Group visibleFrom="sm">
-            {isLogged && (
+            {isLogged() && (
               <>
                 <Button
                   leftSection={<IconSquareRoundedPlus size={20} />}
@@ -87,7 +99,7 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
           mt="xs"
           leftSection={<IconUserFilled size={14} />}
           variant="subtle"
-          onClick={()=>navigate('profile')}>
+          onClick={handleAccount}>
           Mon compte
         </Button>
         <Button

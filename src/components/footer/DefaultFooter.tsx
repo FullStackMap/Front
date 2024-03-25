@@ -8,43 +8,42 @@ const data = [
   {
     title: 'Voyages',
     links: [
-      { label: 'Planifiez votre voyage', link: '#' },
-      { label: 'Avis', link: '#' },
+      { label: 'Planifiez votre voyage', url: '#' },
+      { label: 'Avis', url: '/feedback' },
     ],
   },
   {
     title: 'Votre compte',
     links: [
-      { label: 'Voire mon profile', link: '#' },
-      { label: 'Mes voyages', link: '#' },
-      { label: 'CGU', link: '#' },
+      { label: 'Voir mon profil', url: '/profile' },
+      { label: 'Mes voyages', url: '#' },
+      { label: 'CGU', url: '/cgu' },
     ],
   },
   {
     title: 'Support',
     links: [
-      { label: 'Nous contacter', link: '#' },
-      { label: 'FAQ', link: '#' },
+      { label: 'Nous contacter', url: '/contact' },
+      { label: 'FAQ', url: '/faq' },
     ],
   },
 ];
 
 const DefaultFooter = () => {
-  const Navigate = useNavigate();
-  const isMobile = useMediaQuery('(max-width: 768px)'); // Définissez la largeur maximale pour le format mobile
+  const navigate = useNavigate();
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   const handleGoLandingPage = () => {
-    Navigate('/');
+    navigate('/');
   };
 
   const groups = data.map((group) => {
     const links = group.links.map((link, index) => (
-      <Text<'a'>
+      <Text
         key={index}
         className="footer__link"
-        href={link.link}
         pt={5}
-        onClick={(event) => event.preventDefault()}>
+        onClick={() => navigate(link.url)}>
         {link.label}
       </Text>
     ));
@@ -62,7 +61,7 @@ const DefaultFooter = () => {
       <Group className="footer" py={20}>
         <Container>
           <Image
-            src="/public/vite.svg"
+            src="/vite.svg"
             alt="Logo du site"
             onClick={handleGoLandingPage}
             className="cursor-pointer"

@@ -10,22 +10,9 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Outlet } from 'react-router-dom';
-import { LoginDto } from '../../Models/Auth/LoginDto';
-import { useAuthStore } from '../../store/useAuthStore';
 import classes from './HeaderMegaMenu.module.css';
 
 const HomeLayout = () => {
-  const authStore = useAuthStore();
-
-  const handleClickLogin: () => Promise<void> = async () => {
-    const loginDto: LoginDto = {
-      Username: 'Dercraker',
-      Password: 'NMdRx$HqyT8jX6',
-    };
-
-    authStore.login(loginDto);
-  };
-
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   return (
@@ -47,9 +34,7 @@ const HomeLayout = () => {
             </Group>
 
             <Group visibleFrom="sm">
-              <Button variant="default" onClick={handleClickLogin}>
-                Se connecter
-              </Button>
+              <Button variant="default">Se connecter</Button>
             </Group>
 
             <Burger
