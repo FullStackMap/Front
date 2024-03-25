@@ -29,7 +29,7 @@ export const ProfileForm = () => {
     validate: zodResolver(profileSchema),
   });
 
-  const handleSubmit = (event: React.FormEvent<HTMLButtonElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     throw new Error('Not implemented');
   };
