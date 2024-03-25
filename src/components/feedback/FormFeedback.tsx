@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useMediaQuery } from '@mantine/hooks';
 import { Button, Center, Title, Textarea, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { zodResolver } from 'mantine-form-zod-resolver';
@@ -9,6 +10,7 @@ export const FormFeedback = () => {
   const MAX_CHARS = 500;
 
   const [charCount, setCharCount] = useState(0);
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   const feedbackSchema = z.object({
     comment: z
@@ -58,7 +60,7 @@ export const FormFeedback = () => {
       <Textarea
         label="Votre commentaire"
         minRows={4}
-        resize="both"
+        resize={!isMobile ? 'vertical' : 'none'}
         required
         placeholder='Ex: "J’ai adoré mon séjour, je recommande vivement !"'
         {...feedbackForm.getInputProps('comment')}

@@ -1,5 +1,5 @@
 import HeroImageBackground from './HeroHeader';
-import Content from './Content';
+import Content from '../../components/landing/Content';
 
 export const LandingPage = () => {
   return (

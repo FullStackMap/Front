@@ -1,4 +1,4 @@
-import { AppShell, Burger, Button, Group, Image } from '@mantine/core';
+import { AppShell, Burger, Button, Group } from '@mantine/core';
 import {
   IconLogout,
   IconMapPins,
@@ -29,17 +29,24 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
     navigate('/');
   };
 
+  const handleCloseNavbar = () => {
+    props.toggleBurgerState();
+  };
+
   const handleCreateTrip = () => {
+    handleCloseNavbar();
     //TODO: Redirect to create trip page
     throw new Error('CreateTrip Not implemented');
   };
 
   const handleAccount = () => {
+    handleCloseNavbar();
     //TODO: Redirect to account page
     throw new Error('handleAccount Not implemented');
   };
 
   const handleTrips = () => {
+    handleCloseNavbar();
     //TODO: Redirect to Trips list page
     throw new Error('handleTrips Not implemented');
   };
@@ -58,7 +65,7 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
           hiddenFrom="sm"
           size="sm"
         />
-        <Image
+        <img
           src="/vite.svg"
           alt="Logo du site"
           onClick={handleClickLogo}

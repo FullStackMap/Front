@@ -20,7 +20,7 @@ import {
   IconDownload,
   IconTimeline,
 } from '@tabler/icons-react';
-import { FeatureCard } from '../../components/cardCustom/featureCard/FeatureCard';
+import { FeatureCard } from '../cardCustom/featureCard/FeatureCard';
 
 const Content = () => {
   return (

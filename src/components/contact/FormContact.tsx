@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useMediaQuery } from '@mantine/hooks';
 import {
   Button,
   Group,
@@ -14,6 +15,7 @@ import { z } from 'zod';
 export const FormContact = () => {
   const MAX_CHARS = 500;
   const [charCount, setCharCount] = useState(0);
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   const contactSchema = z.object({
     name: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
@@ -90,7 +92,7 @@ export const FormContact = () => {
           label="Message"
           placeholder="Merci de nous laisser un message"
           minRows={3}
-          resize="both"
+          resize={!isMobile ? 'vertical' : 'none'}
           required
           {...contactForm.getInputProps('message')}
           onChange={handleMessageChange}
