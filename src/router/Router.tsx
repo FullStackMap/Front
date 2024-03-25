@@ -9,6 +9,10 @@ import { LandingPage } from '../pages/landing/LandingPage';
 import { LoginPage } from '../pages/login/LoginPage';
 import MapPage from '../pages/map/MapPage';
 import { RegisterPage } from '../pages/register/RegisterPage';
+import FeedbackPage from '../pages/feedback/FeedbackPage';
+import CguPage from '../pages/cgu/CguPage';
+import FaqPage from '../pages/faq/FaqPage';
+import ContactPage from '../pages/contact/ContactPage';
 import { AuthStore, useAuthStore } from '../store/useAuthStore';
 import { PrivateRoute } from './PrivateRoute';
 
@@ -20,6 +24,10 @@ const Router = () => {
     <Routes>
       <Route element={<DefaultLayout />}>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/feedback" element={<FeedbackPage />} />
+        <Route path="/cgu" element={<CguPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/faq" element={<FaqPage />} />
         <Route path="/map" element={<MapPage />} />
         <Route path="/*" element={<Navigate to="/" />} />
       </Route>

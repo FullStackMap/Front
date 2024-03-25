@@ -1,18 +1,14 @@
 import React from 'react';
 import { Card, Group, Text } from '@mantine/core';
-import './DestinationCard.scss';
+import './FeatureCard.scss';
 
-interface DestinationCardProps {
+interface FeatureCardProps {
   icon: React.ReactNode;
   title: string;
   description: string;
 }
 
-export function DestinationCard({
-  icon,
-  title,
-  description,
-}: DestinationCardProps) {
+export const FeatureCard = (props: FeatureCardProps)  => {  
   return (
     <Card
       shadow="sm"
@@ -21,11 +17,11 @@ export function DestinationCard({
       withBorder
       className="card-hover">
       <Group mb="xs">
-        {icon}
-        <Text>{title}</Text>
+        {props.icon}
+        <Text>{props.title}</Text>
       </Group>
       <Text size="sm" color="dimmed">
-        {description}
+        {props.description}
       </Text>
     </Card>
   );
