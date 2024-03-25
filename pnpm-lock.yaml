@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@FullStackMap/from-a2b':
-    specifier: 0.5.6-Alpha
-    version: 0.5.6-Alpha
+    specifier: 0.8.0-Beta
+    version: 0.8.0-Beta
   '@mantine/carousel':
     specifier: ^7.6.2
     version: 7.6.2(@mantine/core@7.6.2)(@mantine/hooks@7.6.2)(embla-carousel-react@7.1.0)(react-dom@18.2.0)(react@18.2.0)
@@ -146,8 +146,8 @@ dependencies:
 
 packages:
 
-  /@FullStackMap/from-a2b@0.5.6-Alpha:
-    resolution: {integrity: sha512-3RRox4b31Q7RXWEo/4jPZs/Mugl4KSbcsOUheBYIm6mRkn0UCSQAdBVzStDMqmzxaqaz/764/YqUN1Ij/kgewA==, tarball: https://npm.pkg.github.com/download/@FullStackMap/from-a2b/0.5.6-Alpha/fbbe94dec2c8e7abbc17619b3e5963b643d4a573}
+  /@FullStackMap/from-a2b@0.8.0-Beta:
+    resolution: {integrity: sha512-kE5M8+gdmHejDhk/tM3Kq34ZnBrcT/leeGRsHaVaq3h33nJ95V3ExYItGtG749e0kQX7wgYuontlO/6sbTMnlw==, tarball: https://npm.pkg.github.com/download/@FullStackMap/from-a2b/0.8.0-Beta/f249354b1e9399da8ee44ad8c2900c25e30bf5dd}
     dependencies:
       axios: 1.6.8
     transitivePeerDependencies:

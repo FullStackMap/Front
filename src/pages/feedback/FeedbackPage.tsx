@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import {
   Container,
   Title,
@@ -12,49 +12,52 @@ import {
 import { Carousel } from '@mantine/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import { FormFeedback } from '../../components/feedback/FormFeedback';
-
-const reviews = [
-  {
-    pseudo: 'John Doe',
-    date: '2023-02-01',
-    comment: 'La plateforme est très intuitive, je suis très satisfait !',
-    rating: 1,
-  },
-  {
-    pseudo: 'Jane Doe',
-    date: '2023-01-15',
-    comment:
-      'J’ai eu un problème avec ma réservation, mais le service client a été très réactif et m’a aidé à trouver une solution.',
-    rating: 1,
-  },
-  {
-    pseudo: 'Bob Smith',
-    date: '2022-12-20',
-    comment:
-      'Je suis un peu déçu par la qualité des services proposés, mais le rapport qualité-prix est correct.',
-    rating: 3,
-  },
-  {
-    pseudo: 'Alice Smith',
-    date: '2022-12-01',
-    comment:
-      'Je recommande vivement cette plateforme, j’ai passé un excellent séjour !',
-    rating: 5,
-  },
-  {
-    pseudo: 'Eva Brown',
-    date: '2022-11-15',
-    comment:
-      'Je suis très satisfaite de ma réservation, je n’hésiterai pas à revenir !',
-    rating: 5,
-  },
-];
-
-const averageRating =
-  reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length;
+import { AnoTestimonialsController } from '../../services/BaseApi';
+import { useMutation } from '@tanstack/react-query';
 
 const FeedbackPage = () => {
   const autoplay = useRef(Autoplay({ delay: 5000 }));
+
+  const testimonialsMutation = useMutation({
+    mutationFn: async () => AnoTestimonialsController.getAllTestimonialGET(),
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        testimonialsMutation.mutate();
+      } catch (error) {
+        console.error(
+          "Une erreur s'est produite lors de la récupération des données :",
+          error
+        );
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (testimonialsMutation.error) {
+    return (
+      <div>
+        Une erreur s'est produite : {testimonialsMutation.error.message}
+      </div>
+    );
+  }
+
+  const reviews = testimonialsMutation.data;
+  let averageRating = 0;
+
+  if (reviews?.data) {
+    const validReviews = reviews.data.filter(
+      (review) => typeof review.rate === 'number' && review.rate !== undefined
+    );
+    if (validReviews.length > 0) {
+      averageRating =
+        validReviews.reduce((acc, review) => acc + review.rate!, 0) /
+        validReviews.length;
+    }
+  }
 
   return (
     <Container size="md">
@@ -74,24 +77,24 @@ const FeedbackPage = () => {
         loop
         mt="md"
         mb="md">
-        {reviews.map((review) => (
-          <Carousel.Slide key={review.pseudo}>
+        {reviews?.data.map((review) => (
+          <Carousel.Slide key={review.userId}>
             <Card shadow="sm" radius="md" withBorder h={190}>
               <Card.Section mah="70%">
                 <Text size="md" m={20}>
-                  {review.comment}
+                  {review.feedBack}
                 </Text>
               </Card.Section>
               <Group mt="auto" justify="space-between">
                 <Group>
-                  <Badge bg="dark">{review.pseudo}</Badge>
+                  <Badge bg="dark">{review.userId}</Badge>
                   <Text size="sm" c="dimmed">
-                    {new Date(review.date).toLocaleDateString()}
+                    {review.testimonialDate}
                   </Text>
                 </Group>
                 <Rating
                   color="teal"
-                  value={review.rating}
+                  value={review.rate || 0}
                   readOnly
                   title="Note attribuée par le client"
                 />
