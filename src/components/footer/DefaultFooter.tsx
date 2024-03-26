@@ -37,7 +37,7 @@ const DefaultFooter = () => {
     navigate('/');
   };
 
-  const groups = data.map((group) => {
+  const groups = data.map(group => {
     const links = group.links.map((link, index) => (
       <Text
         key={index}
@@ -61,7 +61,7 @@ const DefaultFooter = () => {
       <Group className="footer" py={20}>
         <Container>
           <Image
-            src="/vite.svg"
+            src="/logo.svg"
             alt="Logo du site"
             onClick={handleGoLandingPage}
             className="cursor-pointer"

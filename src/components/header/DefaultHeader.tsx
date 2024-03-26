@@ -1,4 +1,4 @@
-import { AppShell, Burger, Button, Group } from '@mantine/core';
+import { AppShell, Burger, Button, Group, Image } from '@mantine/core';
 import {
   IconLogout,
   IconMapPins,
@@ -65,11 +65,13 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
           hiddenFrom="sm"
           size="sm"
         />
-        <img
-          src="/vite.svg"
+        <Image
+          src="/logo.svg"
           alt="Logo du site"
           onClick={handleClickLogo}
           className="cursor-pointer"
+          height={50}
+          width={50}
         />
         <Group>
           <Group visibleFrom="sm">
