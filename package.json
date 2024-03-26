@@ -9,7 +9,7 @@
     "build": "tsc && vite build",
     "generate-pwa-assets": "pwa-assets-generator --preset minimal-2023 public/logo.svg",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives",
-    "preview": "vite preview",
+    "preview": "vite preview --host",
     "updateClientApiLatest": "pnpm update @FullStackMap/from-a2b@latest",
     "updateClientApi": "pnpm update @FullStackMap/from-a2b"
   },

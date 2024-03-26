@@ -8,6 +8,7 @@ import {
 import { useCallback } from 'react';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { AuthStore, useAuthStore } from '../../store/useAuthStore';
+import { OfflineComponent } from '../offline/OfflineComponent';
 import ProfileMenu from '../profileMenu/ProfileMenu';
 import SwitchThemeIcon from '../switchThemeIcon/SwitchThemeIcon';
 
@@ -18,7 +19,7 @@ interface DefaultHeaderProps {
 
 const DefaultHeader = (props: DefaultHeaderProps) => {
   const isLogged: () => boolean = useAuthStore((s: AuthStore) => s.isLogged);
-  const logOut = useAuthStore((s: AuthStore) => s.logOut);
+  const logOut: () => void = useAuthStore((s: AuthStore) => s.logOut);
   const navigate: NavigateFunction = useNavigate();
 
   const logOutUser = useCallback(async () => {
@@ -74,6 +75,7 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
           width={50}
         />
         <Group>
+          <OfflineComponent />
           <Group visibleFrom="sm">
             {isLogged() && (
               <>
@@ -85,6 +87,7 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
                 </Button>
               </>
             )}
+
             <SwitchThemeIcon />
             <ProfileMenu />
           </Group>
