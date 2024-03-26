@@ -11,6 +11,7 @@ import MapPage from '../pages/map/MapPage';
 import { RegisterPage } from '../pages/register/RegisterPage';
 import { AuthStore, useAuthStore } from '../store/useAuthStore';
 import { PrivateRoute } from './PrivateRoute';
+import { EditTravel } from '../pages/showTravels/editTravel/editTravel.tsx'
 
 const Router = () => {
   const loadUser: () => void = useAuthStore((s: AuthStore) => s.loadUser);
@@ -20,6 +21,16 @@ const Router = () => {
     <Routes>
       <Route element={<DefaultLayout />}>
         <Route path="/" element={<LandingPage />} />
+        <Route
+        path="/editTravel"
+        element={
+          <PrivateRoute
+            authRequired
+            redirectPath="/login"
+            element={<EditTravel/>}
+          />
+        }
+        />
         <Route path="/map" element={<MapPage />} />
         <Route path="/*" element={<Navigate to="/" />} />
       </Route>

@@ -14,7 +14,7 @@ import {
 import { calculateRoad } from '../../services/api/MapboxController';
 
 
-const MapPage = () => {
+export const MapStepEditor = () => {
   useDocumentTitle('From A2B - Map');
 
   //#region States
@@ -49,12 +49,12 @@ const MapPage = () => {
       //l'ensemble des itinéraires sont stockés dans la base de données
       console.log("les dto pour le road", dto[dto.length-1])
       if (dto.length > 0) {
-      const lastDto = [dto[dto.length-1]]
-      const road: Position[] = await calculateRoad('driving', lastDto);
+        const lastDto = [dto[dto.length-1]]
+        const road: Position[] = await calculateRoad('driving', lastDto);
         console.log("road", road)
-      setRoads(prevRoads => prevRoads.concat(road));
-      console.log("roads", roads)
-    }
+        setRoads(prevRoads => prevRoads.concat(road));
+        console.log("roads", roads)
+      }
       // const road: Position[] = await calculateRoad('driving', dto);
       // setRoads(road);
       // console.log("roads", roads)
@@ -125,10 +125,11 @@ const MapPage = () => {
     setSteps([...steps, { latitude: evt.lngLat.lat, longitude: evt.lngLat.lng }])
     console.log("steps", steps)
     // @ts-ignore
-      if (steps.length > 0){
-        setDto([...dto, { start: [steps[steps.length-1].longitude, steps[steps.length-1].latitude], end: [evt.lngLat.lng, evt.lngLat.lat] }])
-        console.log("ddto", dto)
-      }
+    if (steps.length > 0){
+      // @ts-ignore
+      setDto([...dto, { start: [steps[steps.length-1].longitude, steps[steps.length-1].latitude], end: [evt.lngLat.lng, evt.lngLat.lat] }])
+      console.log("ddto", dto)
+    }
   }
 
 
@@ -160,5 +161,3 @@ const MapPage = () => {
     </>
   );
 };
-
-export default MapPage;
