@@ -12,7 +12,7 @@ const LoginHeader = () => {
     <>
       <Group h="100%" mx="50%">
         <img
-          src="/public/vite.svg"
+          src="/logo.svg"
           alt="Logo du site"
           onClick={handleClickLogo}
           className="cursor-pointer"

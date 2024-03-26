@@ -1,8 +1,8 @@
 export const useQueryParams = (url: string | null = null) => {
   const paramsObj = new URLSearchParams(url ? url : window.location.search);
-  const newObj = {};
+  const newObj: { [key: string]: string } = {};
   for (const [key, value] of paramsObj) {
     newObj[key] = value;
   }
-  return newObj as unknown;
+  return newObj;
 };

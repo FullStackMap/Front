@@ -2,7 +2,7 @@ import * as client from '@FullStackMap/from-a2b';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const basePath: string = 'http://localhost:32771';
+const basePath: string = import.meta.env.VITE_API_URL as string;
 const token: string | undefined = Cookies.get('Auth-Token');
 
 const configAno = new client.Configuration({

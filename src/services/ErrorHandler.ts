@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import useNotify, { NotifyDto } from '../hooks/useNotify';
 
 const ErrorHandler = (error: any) => {

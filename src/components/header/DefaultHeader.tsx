@@ -8,6 +8,7 @@ import {
 import { useCallback } from 'react';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { AuthStore, useAuthStore } from '../../store/useAuthStore';
+import { OfflineComponent } from '../offline/OfflineComponent';
 import ProfileMenu from '../profileMenu/ProfileMenu';
 import SwitchThemeIcon from '../switchThemeIcon/SwitchThemeIcon';
 
@@ -18,7 +19,7 @@ interface DefaultHeaderProps {
 
 const DefaultHeader = (props: DefaultHeaderProps) => {
   const isLogged: () => boolean = useAuthStore((s: AuthStore) => s.isLogged);
-  const logOut = useAuthStore((s: AuthStore) => s.logOut);
+  const logOut: () => void = useAuthStore((s: AuthStore) => s.logOut);
   const navigate: NavigateFunction = useNavigate();
 
   const logOutUser = useCallback(async () => {
@@ -29,17 +30,24 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
     navigate('/');
   };
 
+  const handleCloseNavbar = () => {
+    props.toggleBurgerState();
+  };
+
   const handleCreateTrip = () => {
+    handleCloseNavbar();
     //TODO: Redirect to create trip page
     throw new Error('CreateTrip Not implemented');
   };
 
   const handleAccount = () => {
+    handleCloseNavbar();
     //TODO: Redirect to account page
     throw new Error('handleAccount Not implemented');
   };
 
   const handleTrips = () => {
+    handleCloseNavbar();
     //TODO: Redirect to Trips list page
     throw new Error('handleTrips Not implemented');
   };
@@ -59,12 +67,15 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
           size="sm"
         />
         <Image
-          src="/public/vite.svg"
+          src="/logo.svg"
           alt="Logo du site"
           onClick={handleClickLogo}
           className="cursor-pointer"
+          height={50}
+          width={50}
         />
         <Group>
+          <OfflineComponent />
           <Group visibleFrom="sm">
             {isLogged() && (
               <>
@@ -76,6 +87,7 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
                 </Button>
               </>
             )}
+
             <SwitchThemeIcon />
             <ProfileMenu />
           </Group>

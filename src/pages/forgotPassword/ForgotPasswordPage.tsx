@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ResetPasswordDto } from '@FullStackMap/from-a2b';
 import { Button, PasswordInput, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
@@ -17,7 +16,7 @@ export const ForgotPasswordPage = () => {
   const { ErrorNotify, SuccessNotify } = useNotify();
   useEffect(() => {
     if (!queryParams.Token || !queryParams.Email) navigate('/');
-  }, [queryParams]);
+  }, [queryParams, navigate]);
 
   const resetPasswordSchema = z
     .object({

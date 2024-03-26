@@ -1,28 +1,28 @@
 import {
+  Badge,
   Container,
-  Text,
+  Paper,
   SimpleGrid,
+  Text,
   Timeline,
   TimelineItem,
-  Paper,
   Title,
-  Badge,
 } from '@mantine/core';
 import {
-  IconPhoto,
-  IconMapPin,
   IconCalendar,
   IconCheck,
+  IconCompass,
+  IconDownload,
   IconGlobe,
   IconMap,
-  IconCompass,
+  IconMapPin,
+  IconPhoto,
   IconTicket,
-  IconDownload,
   IconTimeline,
 } from '@tabler/icons-react';
-import { DestinationCard } from '../../components/cardCustom/DestinationCard';
+import { FeatureCard } from '../cardCustom/featureCard/FeatureCard';
 
-const Content = () =>  {
+const Content = () => {
   return (
     <Container size="lg" py="xl" mt={50} ta="center">
       <Badge variant="filled" size="xl" mb={50}>
@@ -80,32 +80,32 @@ const Content = () =>  {
         prochain voyage.
       </Text>
       <SimpleGrid mt={20} cols={3} spacing="lg">
-        <DestinationCard
+        <FeatureCard
           icon={<IconGlobe color="teal" size={24} />}
           title="Un voyage sur mesure"
           description="Trouvez des destinations pour votre prochain voyage"
         />
-        <DestinationCard
+        <FeatureCard
           icon={<IconMap color="teal" size={24} />}
           title="Planifiez votre itinéraire"
           description="Créez votre itinéraire de bout en bout"
         />
-        <DestinationCard
+        <FeatureCard
           icon={<IconCompass color="teal" size={24} />}
           title="Proposition d'activités"
           description="Recevez des propositions d'activités en fonction de vos préférences"
         />
-        <DestinationCard
+        <FeatureCard
           icon={<IconTimeline color="teal" size={24} />}
           title="Calcul de l'estimation du temps"
           description="Calculez l'estimation du temps pour chaque activité"
         />
-        <DestinationCard
+        <FeatureCard
           icon={<IconTicket color="teal" size={24} />}
           title="Réservez vos billets"
           description="Réservez vos billets d'avion, de train ou de bus"
         />
-        <DestinationCard
+        <FeatureCard
           icon={<IconDownload color="teal" size={24} />}
           title="Téléchargez votre itinéraire"
           description="Téléchargez votre itinéraire pour l'utiliser hors ligne"
@@ -113,6 +113,6 @@ const Content = () =>  {
       </SimpleGrid>
     </Container>
   );
-}
+};
 
 export default Content;
