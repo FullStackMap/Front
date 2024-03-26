@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import {
   Container,
   Title,
@@ -8,44 +8,32 @@ import {
   Center,
   Card,
   Badge,
+  Loader,
 } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import { FormFeedback } from '../../components/feedback/FormFeedback';
 import { AnoTestimonialsController } from '../../services/BaseApi';
-import { useMutation } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
+import useNotify, { NotifyDto } from '../../hooks/useNotify';
 
 const FeedbackPage = () => {
   const autoplay = useRef(Autoplay({ delay: 5000 }));
+  const { ErrorNotify } = useNotify();
 
-  const testimonialsMutation = useMutation({
-    mutationFn: async () => AnoTestimonialsController.getAllTestimonialGET(),
+  const { isPending, isError, data, error } = useQuery({
+    queryKey: ['testimonials'],
+    queryFn: AnoTestimonialsController.getAllTestimonialGET,
   });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        testimonialsMutation.mutate();
-      } catch (error) {
-        console.error(
-          "Une erreur s'est produite lors de la récupération des données :",
-          error
-        );
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (testimonialsMutation.error) {
-    return (
-      <div>
-        Une erreur s'est produite : {testimonialsMutation.error.message}
-      </div>
-    );
+  if (error) {
+    ErrorNotify({
+      title: 'Erreur',
+      message: 'Impossible de récupérer les avis',
+    } as NotifyDto);
   }
 
-  const reviews = testimonialsMutation.data;
+  const reviews = data;
   let averageRating = 0;
 
   if (reviews?.data) {
@@ -67,42 +55,55 @@ const FeedbackPage = () => {
       <Text mt="sm" ta="center" c="teal" fw={700}>
         Découvrez ce que nos clients disent à propos de nous.
       </Text>
-      <Carousel
-        slideSize="70%"
-        plugins={[autoplay.current]}
-        onMouseEnter={autoplay.current.stop}
-        onMouseLeave={autoplay.current.reset}
-        height={200}
-        slideGap="md"
-        loop
-        mt="md"
-        mb="md">
-        {reviews?.data.map((review) => (
-          <Carousel.Slide key={review.userId}>
-            <Card shadow="sm" radius="md" withBorder h={190}>
-              <Card.Section mah="70%">
-                <Text size="md" m={20}>
-                  {review.feedBack}
-                </Text>
-              </Card.Section>
-              <Group mt="auto" justify="space-between">
-                <Group>
-                  <Badge bg="dark">{review.userId}</Badge>
-                  <Text size="sm" c="dimmed">
-                    {review.testimonialDate}
+      {isPending && (
+        <Center>
+          <Loader size="xl" mt="xl" />
+        </Center>
+      )}
+      {isError && <Text ta="center">Une erreur est survenue</Text>}
+      {reviews && reviews.data.length === 0 && (
+        <Text ta="center" pt="lg">
+          Soyez le premier à donner votre avis !
+        </Text>
+      )}
+      {!isPending && reviews && reviews.data.length > 0 && (
+        <Carousel
+          slideSize="70%"
+          plugins={[autoplay.current]}
+          onMouseEnter={autoplay.current.stop}
+          onMouseLeave={autoplay.current.reset}
+          height={200}
+          slideGap="md"
+          loop
+          mt="md"
+          mb="md">
+          {reviews?.data.map((review: any) => (
+            <Carousel.Slide key={review.userId}>
+              <Card shadow="sm" radius="md" withBorder h={190}>
+                <Card.Section mah="70%">
+                  <Text size="md" m={20}>
+                    {review.feedBack}
                   </Text>
+                </Card.Section>
+                <Group mt="auto" justify="space-between">
+                  <Group>
+                    <Badge bg="dark">{review.user?.userName}</Badge>
+                    <Text size="sm" c="dimmed">
+                      {review.testimonialDate}
+                    </Text>
+                  </Group>
+                  <Rating
+                    color="teal"
+                    value={review.rate || 0}
+                    readOnly
+                    title="Note attribuée par le client"
+                  />
                 </Group>
-                <Rating
-                  color="teal"
-                  value={review.rate || 0}
-                  readOnly
-                  title="Note attribuée par le client"
-                />
-              </Group>
-            </Card>
-          </Carousel.Slide>
-        ))}
-      </Carousel>
+              </Card>
+            </Carousel.Slide>
+          ))}
+        </Carousel>
+      )}
       <Title order={3} mt="xl" ta="center">
         La note attribuée par nos clients
       </Title>

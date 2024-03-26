@@ -23,7 +23,7 @@ export const FormFeedback = () => {
     feedBack: z
       .string()
       .min(10, 'Le commentaire doit contenir au moins 10 caractères'),
-    rating: z
+    rate: z
       .number()
       .min(1, 'La note minimale est de 1')
       .max(5, 'La note maximale est de 5'),
@@ -33,7 +33,8 @@ export const FormFeedback = () => {
     validateInputOnChange: true,
     initialValues: {
       feedBack: '',
-      rating: 0,
+      rate: 0,
+      testimonialDate: new Date().toISOString().split('T')[0],
     },
     validate: zodResolver(feedbackSchema),
   });
@@ -47,6 +48,7 @@ export const FormFeedback = () => {
         message: 'Votre avis a bien été envoyé, merci !',
         autoClose: 5000,
       } as NotifyDto);
+      feedbackForm.reset();
     },
   });
 
@@ -56,8 +58,8 @@ export const FormFeedback = () => {
     sendTestimonialMutation.mutate([userId!, feedbackForm.values]);
   };
 
-  const handleChangeRating = (rating: number) => {
-    feedbackForm.setValues({ ...feedbackForm.values, rating });
+  const handleChangeRating = (rate: number) => {
+    feedbackForm.setValues({ ...feedbackForm.values, rate });
   };
 
   const handleCommentChange = (
@@ -73,7 +75,7 @@ export const FormFeedback = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} onReset={() => feedbackForm.reset()}>
+    <form onSubmit={handleSubmit}>
       <Title order={2} mt={50} ta="center">
         Laissez votre avis
       </Title>
