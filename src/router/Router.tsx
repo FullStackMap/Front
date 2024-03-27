@@ -15,7 +15,7 @@ import FaqPage from '../pages/faq/FaqPage';
 import ContactPage from '../pages/contact/ContactPage';
 import { AuthStore, useAuthStore } from '../store/useAuthStore';
 import { PrivateRoute } from './PrivateRoute';
-import { EditTravel } from '../pages/showTravels/editTravel/editTravel.tsx'
+import { EditTravel } from '../pages/editTravel/EditTravel.tsx'
 
 const Router = () => {
   const loadUser: () => void = useAuthStore((s: AuthStore) => s.loadUser);
