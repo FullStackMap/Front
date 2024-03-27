@@ -1,11 +1,12 @@
-import { Button } from '@mantine/core';
+import { MapStepEditor } from '../../components/mapStepEditor/MapStepEditor';
+import { CreateStepModal} from '../../components/createStepModal/CreateStepModal.tsx'
 
 export const EditTravel = () => {
 
   return (
       <div>
-
-        <Button variant="outline" color="yellow" size="lg" radius="xl">ADD</Button>
+        <MapStepEditor />
+        <CreateStepModal/>
       </div>
     );
 

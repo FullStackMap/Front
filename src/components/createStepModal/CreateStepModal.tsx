@@ -18,7 +18,7 @@ export const CreateStepModal=()=> {
   const stepSchema = z.object({
     title: z.string().min(3, 'Le titre doit contenir au moins 3 caractères').max(50, 'Le titre doit contenir au maximum 50 caractères'),
     description: z.string(),
-    destination: z.object({ place: z.string(), coordinates: z.array(z.number()) }),
+    // destination: z.object({ place: z.string(), coordinates: z.array(z.number()) }),
   });
 
   const stepForm = useForm({
@@ -36,7 +36,7 @@ export const CreateStepModal=()=> {
         opened={isOpen}
         onClose={() => close(false)}
         centered
-        title="Créer un voyage"
+        title="Créer une étape de vôtre voyage"
         className="mantine-Modal-header"
         closeOnClickOutside={false}
         closeButtonProps={{
@@ -49,7 +49,7 @@ export const CreateStepModal=()=> {
         <div className="img-modal"></div>
         <form onReset={() => stepForm.reset()} className="form">
           <TextInput
-            label="Titre de votre voyage"
+            label="Titre de votre étape"
             placeholder="Titre"
             required
             data-autofocus
@@ -65,25 +65,20 @@ export const CreateStepModal=()=> {
           <TextInput
             label="Destination"
             defaultValue={value}
-            onChange={(event) => setValue(event.currentTarget.value)}
+            onChange={(event) => {
+              setValue(event.currentTarget.value);
+              console.log(value);
+            }}
           />
 
 
           <Group justify="flex-end" mt="md">
+            <Button mt="sm" onClick={()=>close(false)}>Annuler</Button>
             <Button
               type="submit"
               mt="sm"
               disabled={!stepForm.isValid()}
-              onClick={(event) => {
-                event.preventDefault();
-                createTravel.mutate({
-                  name: travelForm.values.title,
-                  description: travelForm.values.description,
-                  userId: userId,
-                  startDate: travelForm.values.dates[0] as unknown as string,
-                  endDate: travelForm.values.dates[1] as unknown as string,
-                });
-              }}>
+              onClick={()=>console.log("sending")}>
               Sauvegarder
             </Button>
           </Group>

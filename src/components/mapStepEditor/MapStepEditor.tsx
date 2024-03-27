@@ -1,6 +1,14 @@
-import { StepDto } from '@FullStackMap/from-a2b';
+import {
+  StepDto,
+  StepDtoList,
+  TravelDtoList,
+  TripDto,
+  UpdateStepLocationDto,
+} from '@FullStackMap/from-a2b';
 import { useDocumentTitle } from '@mantine/hooks';
 import { IconPinnedFilled } from '@tabler/icons-react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
 import { FeatureCollection, Position } from 'geojson';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
@@ -9,13 +17,63 @@ import {
   LayerProps,
   Map,
   Marker,
+  MarkerDragEvent,
   ScaleControl,
   Source,
 } from 'react-map-gl';
+import { StepController, TripController } from '../../services/BaseApi';
 import { calculateRoad } from '../../services/api/MapboxController';
+import { Button } from '@mantine/core'
+
+import { useCreateStepModalStore } from '../../store/useTripDetailsStore.ts'
+
+interface updateStepLocationMutationProps {
+  stepId: number;
+  updateStateLocationDto: UpdateStepLocationDto;
+}
 
 export const MapStepEditor = () => {
   useDocumentTitle('From A2B - Map');
+
+  const setIsStepModalOpen = useCreateStepModalStore((state) => state.setStatus);
+
+  const handleCreateStep = ()=>{
+    setIsStepModalOpen(true);
+  }
+
+  //#region UseQuery
+
+  const queryClient = useQueryClient();
+
+  const tripId = 'E92913FE-5115-46BB-7A9C-08DC4E850E01';
+  const { data: trips } = useQuery({
+    queryKey: ['Trip', tripId],
+    queryFn: async () =>
+      await TripController.getTripByIdGET(tripId).then(
+        (res: AxiosResponse<TripDto, any>) => res.data,
+      ),
+  });
+
+  // const deleteStepMutation = useMutation({
+  //   mutationFn: async (stepId: number) =>
+  //     await StepController.deleteStepByIdAsyncDELETE(stepId),
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({ queryKey: ['Trip', tripId] });
+  //   },
+  // });
+
+  const updateStepLocationMutation = useMutation({
+    mutationFn: async (args: updateStepLocationMutationProps) =>
+      await StepController.updateStepLocationAsyncPATCH(
+        args.stepId,
+        args.updateStateLocationDto,
+      ).catch(err => console.error(err)),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['Trip', tripId] });
+    },
+  });
+
+  //#endregion
 
   //#region States
   //Point de vu de l'utilisateur sur la carte, les valeurs renseignées seront l'endroit où la carte se positionnera au chargement de la page
@@ -28,86 +86,8 @@ export const MapStepEditor = () => {
   });
 
   //Ensemble des points de passage du voyage
-  const [steps, setSteps] = useState<StepDto[]>([
-    {
-      stepId: '1',
-      tripId: '1',
-      latitude: 45.73050608112574,
-      longitude: 4.860200783597507,
-    },
-    {
-      stepId: '2',
-      tripId: '1',
-      latitude: 46.123456,
-      longitude: 4.56789,
-    },
-    {
-      stepId: '3',
-      tripId: '1',
-      latitude: 47.234567,
-      longitude: 3.456789,
-    },
-    {
-      stepId: '4',
-      tripId: '1',
-      latitude: 48.345678,
-      longitude: 2.345678,
-    },
-    {
-      stepId: '5',
-      tripId: '1',
-      latitude: 49.456789,
-      longitude: 1.234567,
-    },
-    {
-      stepId: '6',
-      tripId: '1',
-      latitude: 50.56789,
-      longitude: 0.123456,
-    },
-    {
-      stepId: '7',
-      tripId: '1',
-      latitude: 51.678901,
-      longitude: -0.987654,
-    },
-    {
-      stepId: '8',
-      tripId: '1',
-      latitude: 52.789012,
-      longitude: -1.876543,
-    },
-    {
-      stepId: '9',
-      tripId: '1',
-      latitude: 53.890123,
-      longitude: -2.765432,
-    },
-    {
-      stepId: '10',
-      tripId: '1',
-      latitude: 54.901234,
-      longitude: -3.654321,
-    },
-    {
-      stepId: '11',
-      tripId: '1',
-      latitude: 55.912345,
-      longitude: -4.54321,
-    },
-    {
-      stepId: '12',
-      tripId: '1',
-      latitude: 56.923456,
-      longitude: -5.432109,
-    },
-    {
-      stepId: '13',
-      tripId: '1',
-      latitude: 57.934567,
-      longitude: -6.321098,
-    },
-  ]);
+  const [steps, setSteps] = useState<StepDto[]>([]);
+  const [roads, setRoads] = useState<TravelDtoList[]>([]);
 
   const [dto, setDto] = useState([
     // {
@@ -117,10 +97,19 @@ export const MapStepEditor = () => {
     // Ajoutez d'autres coordonnées initiales ici si nécessaire
   ]);
 
-  const [roads, setRoads] = useState<Position[]>([]);
   //#endregion
 
   //#region Effects
+  useEffect(() => {
+    if (!trips) return;
+    setSteps(
+      trips.steps?.sort(
+        (a: StepDtoList, b: StepDtoList) => a.order! - b.order!,
+      ) as StepDto[],
+    );
+    setRoads(trips.travels as TravelDtoList[]);
+  }, [trips]);
+
   useEffect(() => {
     (async () => {
       //Calcul de l'itinéraire entre les points de passage
@@ -143,8 +132,20 @@ export const MapStepEditor = () => {
 
   //#region Memos
 
-  let removePoint = (index: number) => {
+  const removePoint = (index: number) => {
     console.log('remove', index);
+  };
+
+  const handleMoveMarker = (evt: MarkerDragEvent, stepId: number) => {
+    const updateStateLocationDto: UpdateStepLocationDto = {
+      latitude: evt.lngLat.lat,
+      longitude: evt.lngLat.lng,
+    };
+
+    updateStepLocationMutation.mutate({
+      stepId: stepId,
+      updateStateLocationDto,
+    });
   };
 
   //Création des pins sur la carte pour chaque étape du voyage
@@ -152,8 +153,11 @@ export const MapStepEditor = () => {
     return steps.map((step, index) => {
       return (
         <Marker
-          key={`stepMarker-${index}`}
-          draggable={false}
+          key={step.stepId}
+          draggable
+          onDragEnd={(evn: MarkerDragEvent) =>
+            handleMoveMarker(evn, step.stepId as number)
+          }
           latitude={step.latitude ?? 0}
           longitude={step.longitude ?? 0}
           pitchAlignment="viewport"
@@ -180,7 +184,9 @@ export const MapStepEditor = () => {
         type: 'Feature',
         geometry: {
           type: 'LineString',
-          coordinates: roads,
+          coordinates: roads.flatMap(road =>
+            JSON.parse(road.travelRoad?.roadCoordinates as string),
+          ),
         },
         properties: {},
       },
@@ -201,38 +207,45 @@ export const MapStepEditor = () => {
     },
   };
 
-  let addPoint = (evt: any) => {
-    console.log('hello', evt.lngLat);
-    // @ts-ignore
-    setSteps([
-      ...steps,
-      { latitude: evt.lngLat.lat, longitude: evt.lngLat.lng },
-    ]);
-    console.log('steps', steps);
-    // @ts-ignore
-    if (steps.length > 0) {
-      // @ts-ignore
-      setDto([
-        ...dto,
-        {
-          start: [
-            steps[steps.length - 1].longitude,
-            steps[steps.length - 1].latitude,
-          ],
-          end: [evt.lngLat.lng, evt.lngLat.lat],
-        },
-      ]);
-      console.log('ddto', dto);
-    }
-  };
+  // const addPoint = (evt: any) => {
+  //   console.log('hello', evt.lngLat);
+  //   // @ts-ignore
+  //   setSteps([
+  //     ...steps,
+  //     { latitude: evt.lngLat.lat, longitude: evt.lngLat.lng },
+  //   ]);
+  //   console.log('steps', steps);
+  //   // @ts-ignore
+  //   if (steps.length > 0) {
+  //     setDto([
+  //       ...dto,
+  //       {
+  //         start: [
+  //           steps[steps.length - 1].longitude,
+  //           steps[steps.length - 1].latitude,
+  //         ],
+  //         end: [evt.lngLat.lng, evt.lngLat.lat],
+  //       },
+  //     ]);
+  //     console.log('ddto', dto);
+  //   }
+  // };
 
   //#endregion
   return (
     <>
+      <ul>
+        {steps.map(step => (
+          <li key={step.stepId}>
+            {step.stepId} - {step.name} - {step.latitude} - {step.longitude}
+          </li>
+        ))}
+      </ul>
+
       <Map
         {...viewState}
         onMove={evt => setViewState(evt.viewState)}
-        onClick={addPoint}
+        // onClick={addPoint}
         minZoom={2}
         dragRotate={true}
         mapStyle="mapbox://styles/mapbox/streets-v12"
@@ -250,6 +263,7 @@ export const MapStepEditor = () => {
         <GeolocateControl />
         <ScaleControl />
       </Map>
+      <Button variant="outline" color="yellow" size="lg" radius="xl" onClick={handleCreateStep}>ADD</Button>
     </>
   );
 };
