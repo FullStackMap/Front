@@ -39,3 +39,6 @@ export const MapboxClient = axios.create({
 export const TripController = TripControllerFunc();
 
 export const AnoAuthController = client.AuthApiFactory(configAno);
+
+export const AnoTestimonialsController = client.TestimonialApiFactory(configAno);
+

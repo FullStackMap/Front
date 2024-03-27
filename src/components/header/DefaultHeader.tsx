@@ -59,7 +59,7 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
 
   return (
     <>
-      <Group py={10} mx={10} justify="space-between">
+      <Group py={10} mx={2} justify="space-between">
         <Burger
           opened={props.burgerOpened}
           onClick={props.toggleBurgerState}
@@ -71,8 +71,8 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
           alt="Logo du site"
           onClick={handleClickLogo}
           className="cursor-pointer"
-          height={50}
-          width={50}
+          height={40}
+          width={40}
         />
         <Group>
           <OfflineComponent />

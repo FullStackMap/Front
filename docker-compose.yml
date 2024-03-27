@@ -11,4 +11,5 @@ services:
     ports:
       - '3000:3000'
     environment:
-      VITE_API_URL: http://localhost:32769
+      VITE_API_URL: http://api-dev.from-a2b.fr
+
