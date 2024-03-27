@@ -1,3 +1,4 @@
+import { StepDto } from '@FullStackMap/from-a2b';
 import { useDocumentTitle } from '@mantine/hooks';
 import { IconPinnedFilled } from '@tabler/icons-react';
 import { FeatureCollection, Position } from 'geojson';
@@ -13,7 +14,6 @@ import {
 } from 'react-map-gl';
 import { calculateRoad } from '../../services/api/MapboxController';
 
-
 export const MapStepEditor = () => {
   useDocumentTitle('From A2B - Map');
 
@@ -28,8 +28,87 @@ export const MapStepEditor = () => {
   });
 
   //Ensemble des points de passage du voyage
-  const [steps, setSteps] = useState([
+  const [steps, setSteps] = useState<StepDto[]>([
+    {
+      stepId: '1',
+      tripId: '1',
+      latitude: 45.73050608112574,
+      longitude: 4.860200783597507,
+    },
+    {
+      stepId: '2',
+      tripId: '1',
+      latitude: 46.123456,
+      longitude: 4.56789,
+    },
+    {
+      stepId: '3',
+      tripId: '1',
+      latitude: 47.234567,
+      longitude: 3.456789,
+    },
+    {
+      stepId: '4',
+      tripId: '1',
+      latitude: 48.345678,
+      longitude: 2.345678,
+    },
+    {
+      stepId: '5',
+      tripId: '1',
+      latitude: 49.456789,
+      longitude: 1.234567,
+    },
+    {
+      stepId: '6',
+      tripId: '1',
+      latitude: 50.56789,
+      longitude: 0.123456,
+    },
+    {
+      stepId: '7',
+      tripId: '1',
+      latitude: 51.678901,
+      longitude: -0.987654,
+    },
+    {
+      stepId: '8',
+      tripId: '1',
+      latitude: 52.789012,
+      longitude: -1.876543,
+    },
+    {
+      stepId: '9',
+      tripId: '1',
+      latitude: 53.890123,
+      longitude: -2.765432,
+    },
+    {
+      stepId: '10',
+      tripId: '1',
+      latitude: 54.901234,
+      longitude: -3.654321,
+    },
+    {
+      stepId: '11',
+      tripId: '1',
+      latitude: 55.912345,
+      longitude: -4.54321,
+    },
+    {
+      stepId: '12',
+      tripId: '1',
+      latitude: 56.923456,
+      longitude: -5.432109,
+    },
+    {
+      stepId: '13',
+      tripId: '1',
+      latitude: 57.934567,
+      longitude: -6.321098,
+    },
   ]);
+
   const [dto, setDto] = useState([
     // {
     //   start: [4.860200783597507, 45.73050608112574],
@@ -47,18 +126,17 @@ export const MapStepEditor = () => {
       //Calcul de l'itinéraire entre les points de passage
       //Doit être utilisé que si nécessaire, car il y a un quota de requêtes
       //l'ensemble des itinéraires sont stockés dans la base de données
-      console.log("les dto pour le road", dto[dto.length-1])
+      console.log('les dto pour le road', dto[dto.length - 1]);
       if (dto.length > 0) {
-        const lastDto = [dto[dto.length-1]]
+        const lastDto = [dto[dto.length - 1]];
         const road: Position[] = await calculateRoad('driving', lastDto);
-        console.log("road", road)
+        console.log('road', road);
         setRoads(prevRoads => prevRoads.concat(road));
-        console.log("roads", roads)
+        console.log('roads', roads);
       }
       // const road: Position[] = await calculateRoad('driving', dto);
       // setRoads(road);
       // console.log("roads", roads)
-
     })();
   }, [dto]);
   //#endregion
@@ -66,8 +144,8 @@ export const MapStepEditor = () => {
   //#region Memos
 
   let removePoint = (index: number) => {
-    console.log("remove", index)
-  }
+    console.log('remove', index);
+  };
 
   //Création des pins sur la carte pour chaque étape du voyage
   const pins = useMemo(() => {
@@ -75,13 +153,17 @@ export const MapStepEditor = () => {
       return (
         <Marker
           key={`stepMarker-${index}`}
-
           draggable={false}
           latitude={step.latitude ?? 0}
           longitude={step.longitude ?? 0}
           pitchAlignment="viewport"
           rotationAlignment="viewport">
-          <IconPinnedFilled color="teal" size={32} stroke={2} onClick={()=>removePoint(index)} />
+          <IconPinnedFilled
+            color="teal"
+            size={32}
+            stroke={2}
+            onClick={() => removePoint(index)}
+          />
         </Marker>
       );
     });
@@ -120,19 +202,29 @@ export const MapStepEditor = () => {
   };
 
   let addPoint = (evt: any) => {
-    console.log("hello", evt.lngLat)
+    console.log('hello', evt.lngLat);
     // @ts-ignore
-    setSteps([...steps, { latitude: evt.lngLat.lat, longitude: evt.lngLat.lng }])
-    console.log("steps", steps)
+    setSteps([
+      ...steps,
+      { latitude: evt.lngLat.lat, longitude: evt.lngLat.lng },
+    ]);
+    console.log('steps', steps);
     // @ts-ignore
-    if (steps.length > 0){
+    if (steps.length > 0) {
       // @ts-ignore
-      setDto([...dto, { start: [steps[steps.length-1].longitude, steps[steps.length-1].latitude], end: [evt.lngLat.lng, evt.lngLat.lat] }])
-      console.log("ddto", dto)
+      setDto([
+        ...dto,
+        {
+          start: [
+            steps[steps.length - 1].longitude,
+            steps[steps.length - 1].latitude,
+          ],
+          end: [evt.lngLat.lng, evt.lngLat.lat],
+        },
+      ]);
+      console.log('ddto', dto);
     }
-  }
-
-
+  };
 
   //#endregion
   return (
