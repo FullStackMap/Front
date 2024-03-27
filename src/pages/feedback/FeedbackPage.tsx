@@ -17,27 +17,33 @@ import { useEffect, useRef, useState } from 'react';
 import { FormFeedback } from '../../components/feedback/FormFeedback';
 import useNotify, { NotifyDto } from '../../hooks/useNotify';
 import { AnoTestimonialsController } from '../../services/BaseApi';
+import { AuthStore, useAuthStore } from '../../store/useAuthStore';
 
 const FeedbackPage = () => {
   const autoplay = useRef(Autoplay({ delay: 5000 }));
   const { ErrorNotify } = useNotify();
+  const isLogged: () => boolean = useAuthStore((s: AuthStore) => s.isLogged);
 
-  const {
-    isPending,
-    isError,
-    data: reviews,
-  } = useQuery({
+  const fetchTestimonials = async () => {
+    try {
+      const response = await AnoTestimonialsController.getAllTestimonialGET();
+      return response.data;
+    } catch (error) {
+      handleError();
+    }
+  };
+
+  const { isPending, data: reviews } = useQuery({
     queryKey: ['Testimonials'],
-    queryFn: async () =>
-      await AnoTestimonialsController.getAllTestimonialGET()
-        .then(res => res.data)
-        .catch(() => {
-          ErrorNotify({
-            title: 'Erreur',
-            message: 'Impossible de récupérer les avis',
-          } as NotifyDto);
-        }),
+    queryFn: fetchTestimonials,
   });
+
+  const handleError = () => {
+    ErrorNotify({
+      title: 'Erreur',
+      message: 'Impossible de récupérer les avis',
+    } as NotifyDto);
+  };
 
   const [averageRating, setAverageRating] = useState(0);
 
@@ -47,7 +53,7 @@ const FeedbackPage = () => {
     const avgRating: number =
       reviews.reduce(
         (acc: number, review: TestimonialDto) => acc + review.rate!,
-        0,
+        0
       ) / reviews.length;
 
     setAverageRating(avgRating);
@@ -66,7 +72,6 @@ const FeedbackPage = () => {
           <Loader size="xl" mt="xl" />
         </Center>
       )}
-      {isError && <Text ta="center">Une erreur est survenue</Text>}
       {reviews && reviews.length === 0 ? (
         <>
           <Text ta="center" pt="lg">
@@ -111,7 +116,11 @@ const FeedbackPage = () => {
             </Carousel.Slide>
           ))}
         </Carousel>
-      ) : null}
+      ) : (
+        <Center>
+          <Loader size="xl" mt="xl" />
+        </Center>
+      )}
       <Title order={3} mt="xl" ta="center">
         La note attribuée par nos clients
       </Title>
@@ -124,7 +133,13 @@ const FeedbackPage = () => {
           title="Note moyenne"
         />
       </Center>
-      <FormFeedback />
+      {isLogged() ? (
+        <FormFeedback />
+      ) : (
+        <Text ta="center" c="teal" fw="bold">
+          Connectez-vous pour donner votre avis
+        </Text>
+      )}
     </Container>
   );
 };
