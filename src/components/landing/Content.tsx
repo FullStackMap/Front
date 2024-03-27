@@ -1,23 +1,23 @@
 import {
+  Badge,
   Container,
-  Text,
+  Paper,
   SimpleGrid,
+  Text,
   Timeline,
   TimelineItem,
-  Paper,
   Title,
-  Badge,
 } from '@mantine/core';
 import {
-  IconPhoto,
-  IconMapPin,
   IconCalendar,
   IconCheck,
+  IconCompass,
+  IconDownload,
   IconGlobe,
   IconMap,
-  IconCompass,
+  IconMapPin,
+  IconPhoto,
   IconTicket,
-  IconDownload,
   IconTimeline,
 } from '@tabler/icons-react';
 import { FeatureCard } from '../cardCustom/featureCard/FeatureCard';

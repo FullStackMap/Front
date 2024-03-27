@@ -1,4 +1,4 @@
-import { AppShell, Burger, Button, Group } from '@mantine/core';
+import { AppShell, Burger, Button, Group, Image } from '@mantine/core';
 import {
   IconLogout,
   IconMapPins,
@@ -8,6 +8,7 @@ import {
 import { useCallback } from 'react';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { AuthStore, useAuthStore } from '../../store/useAuthStore';
+import { OfflineComponent } from '../offline/OfflineComponent';
 import ProfileMenu from '../profileMenu/ProfileMenu';
 import SwitchThemeIcon from '../switchThemeIcon/SwitchThemeIcon';
 
@@ -18,7 +19,7 @@ interface DefaultHeaderProps {
 
 const DefaultHeader = (props: DefaultHeaderProps) => {
   const isLogged: () => boolean = useAuthStore((s: AuthStore) => s.isLogged);
-  const logOut = useAuthStore((s: AuthStore) => s.logOut);
+  const logOut: () => void = useAuthStore((s: AuthStore) => s.logOut);
   const navigate: NavigateFunction = useNavigate();
 
   const logOutUser = useCallback(async () => {
@@ -58,20 +59,23 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
 
   return (
     <>
-      <Group py={10} mx={10} justify="space-between">
+      <Group py={10} mx={2} justify="space-between">
         <Burger
           opened={props.burgerOpened}
           onClick={props.toggleBurgerState}
           hiddenFrom="sm"
           size="sm"
         />
-        <img
-          src="/vite.svg"
+        <Image
+          src="/logo.svg"
           alt="Logo du site"
           onClick={handleClickLogo}
           className="cursor-pointer"
+          height={40}
+          width={40}
         />
         <Group>
+          <OfflineComponent />
           <Group visibleFrom="sm">
             {isLogged() && (
               <>
@@ -83,6 +87,7 @@ const DefaultHeader = (props: DefaultHeaderProps) => {
                 </Button>
               </>
             )}
+
             <SwitchThemeIcon />
             <ProfileMenu />
           </Group>

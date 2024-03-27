@@ -1,4 +1,4 @@
-import { Title, Text, Container, Button, Overlay } from '@mantine/core';
+import { Button, Container, Overlay, Text, Title } from '@mantine/core';
 import './HeroImageBackground.scss';
 
 const HeroImageBackground = () => {
@@ -27,6 +27,6 @@ const HeroImageBackground = () => {
       </div>
     </div>
   );
-}
+};
 
 export default HeroImageBackground;
