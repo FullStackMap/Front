@@ -33,7 +33,7 @@ const FeedbackPage = () => {
     }
   };
 
-  const { isPending, data: reviews } = useQuery({
+  const { data: reviews } = useQuery({
     queryKey: ['Testimonials'],
     queryFn: fetchTestimonials,
   });
@@ -67,11 +67,6 @@ const FeedbackPage = () => {
       <Text mt="sm" ta="center" c="teal" fw={700}>
         Découvrez ce que nos clients disent à propos de nous.
       </Text>
-      {isPending && (
-        <Center>
-          <Loader size="xl" mt="xl" />
-        </Center>
-      )}
       {reviews && reviews.length === 0 ? (
         <>
           <Text ta="center" pt="lg">
@@ -79,7 +74,7 @@ const FeedbackPage = () => {
           </Text>
         </>
       ) : null}
-      {!isPending && reviews && reviews.length > 0 ? (
+      {reviews && reviews.length > 0 ? (
         <Carousel
           slideSize="70%"
           plugins={[autoplay.current]}
