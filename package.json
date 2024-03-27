@@ -14,7 +14,7 @@
     "updateClientApi": "pnpm update @FullStackMap/from-a2b"
   },
   "dependencies": {
-    "@FullStackMap/from-a2b": "0.16.0-Beta",
+    "@FullStackMap/from-a2b": "0.16.1-Alpha",
     "@mantine/carousel": "^7.6.2",
     "@mantine/core": "^7.6.2",
     "@mantine/form": "^7.6.2",

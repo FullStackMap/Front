@@ -9,6 +9,8 @@ const configAno = new client.Configuration({
   basePath: basePath,
 });
 
+export const AnoAuthController = client.AuthApiFactory(configAno);
+
 const TripControllerFunc = () => {
   const configLogged = new client.Configuration({
     basePath: basePath,
@@ -20,22 +22,21 @@ const TripControllerFunc = () => {
   });
   return client.TripApiFactory(configLogged);
 };
+export const TripController = TripControllerFunc();
 
-export const AnoAxiosClient = axios.create({
-  baseURL: basePath,
-});
-
-export const AxiosClient = axios.create({
-  baseURL: basePath,
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-});
+const StepControllerFunc = () => {
+  const configLogged = new client.Configuration({
+    basePath: basePath,
+    baseOptions: {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  });
+  return client.StepApiFactory(configLogged);
+};
+export const StepController = StepControllerFunc();
 
 export const MapboxClient = axios.create({
   baseURL: 'https://api.mapbox.com',
 });
-
-export const TripController = TripControllerFunc();
-
-export const AnoAuthController = client.AuthApiFactory(configAno);
