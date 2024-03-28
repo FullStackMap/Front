@@ -1,37 +1,56 @@
 import { useForm } from '@mantine/form';
-import {
-  NumberInput,
-  TextInput,
-  Button,
-  Container,
-  Group,
-} from '@mantine/core';
+import { TextInput, Button, Container, Group } from '@mantine/core';
 import { zodResolver } from 'mantine-form-zod-resolver';
 import { z } from 'zod';
+import useNotify from '../../../hooks/useNotify';
+import { AuthUser } from '../../../services/api/Models/Auth/AuthUser';
+import { UserController } from '../../../services/BaseApi';
+import { useMutation } from '@tanstack/react-query';
+import { UpdateUserNameDto } from '@FullStackMap/from-a2b';
 
-export const ProfileForm = () => {
+interface ProfileFormProps {
+  user: AuthUser | undefined;
+}
+
+export const ProfileForm = (props: ProfileFormProps) => {
+  const { SuccessNotify } = useNotify();
+
   const profileSchema = z.object({
-    name: z.string().min(2),
-    firstname: z.string().min(2),
+    userName: z.string().min(2),
     email: z.string().email(),
-    age: z.number().min(18),
   });
 
   const profileform = useForm({
     validateInputOnChange: true,
     initialValues: {
-      name: 'name',
-      firstname: 'firstname',
-      email: 'email@mail.fr',
-      age: 20,
+      userName: props.user?.User,
+      email: props.user?.Email,
     },
 
     validate: zodResolver(profileSchema),
   });
 
+  const changeProfileMutation = useMutation({
+    mutationFn: async ([id, dto]: [string, UpdateUserNameDto]) => {
+      await UserController.updateUserNamePATCH(id, dto);
+    },
+    onSuccess: () => {
+      SuccessNotify({
+        title: 'Profil modifié',
+        message: 'Votre profil a été modifié avec succès',
+        autoClose: 5000,
+      });
+    },
+  });
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    throw new Error('Not implemented');
+    if (!profileform.isValid()) return;
+    if(!props.user?.Id) return;
+    changeProfileMutation.mutate([
+      props.user?.Id,
+      { userName: profileform.values.userName } as UpdateUserNameDto,
+    ]);
   };
 
   return (
@@ -41,14 +60,8 @@ export const ProfileForm = () => {
           label="Nom"
           placeholder="Nom"
           required
-          {...profileform.getInputProps('name')}
-        />
-        <TextInput
-          mt="sm"
-          label="Prénom"
-          placeholder="Prénom"
-          required
-          {...profileform.getInputProps('firstname')}
+          value={props.user?.User}
+          {...profileform.getInputProps('userName')}
         />
         <TextInput
           disabled
@@ -56,18 +69,8 @@ export const ProfileForm = () => {
           label="Email"
           placeholder="Email"
           required
+          value={props.user?.Email}
           {...profileform.getInputProps('email')}
-        />
-        <NumberInput
-          mt="sm"
-          label="Age"
-          placeholder="Age"
-          min={0}
-          max={99}
-          suffix=" ans"
-          stepHoldInterval={100}
-          stepHoldDelay={500}
-          {...profileform.getInputProps('age')}
         />
         <Group justify="flex-end" mt="md">
           <Button type="submit" mt="sm" disabled={!profileform.isValid()}>

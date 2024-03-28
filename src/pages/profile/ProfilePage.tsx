@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useMediaQuery } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 
 import {
   IconUser,
@@ -13,7 +13,9 @@ import {
 import { NavLink, Container, Grid, Paper } from '@mantine/core';
 import { ProfileForm } from '../../components/profile/profileForm/ProfileForm.tsx';
 import { ChangeEmailForm } from '../../components/profile/changeEmailForm/ChangeEmailForm.tsx';
-import { DeleteForm } from '../../components/profile/DeleteForm/DeleteForm.tsx';
+import { DeleteFormModal } from '../../components/profile/DeleteForm/DeleteFormModal.tsx';
+import { RequestResetPasswordModal } from '../../components/passwordReset/RequestResetPasswordModal';
+import { AuthStore, useAuthStore } from '../../store/useAuthStore.ts';
 
 const data = [
   { icon: IconUser, label: 'Mon Compte' },
@@ -28,6 +30,13 @@ const ProfilePage = () => {
   const [actualForm, setActualForm] = useState(0);
   const navigate = useNavigate();
 
+  const isLogged = useAuthStore((state: AuthStore) => state.isLogged);
+  useEffect(() => {
+    if (!isLogged) navigate('/login');
+  }, [isLogged, navigate]);
+
+  const user = useAuthStore((state: AuthStore) => state.user);
+
   const selectForm = (index: number) => {
     setActive(index);
     setActualForm(index);
@@ -38,9 +47,22 @@ const ProfilePage = () => {
     navigate('/cgu');
   };
 
-  const navigateToChangePassword = () => {
-    setActualForm(1);
-    navigate('/forgotPassword');
+  const [
+    resetPasswordRequestModalIsOpen,
+    { toggle: toggleResetPasswordRequestModalIsOpen },
+  ] = useDisclosure(false);
+
+  const handleCloseResetPasswordModal = () => {
+    toggleResetPasswordRequestModalIsOpen();
+    selectForm(0);
+  };
+
+  const [deleteFormModalIsOpen, { toggle: toggledeleteFormModalIsOpen }] =
+    useDisclosure(false);
+
+  const handleCloseDeleteModal = () => {
+    toggledeleteFormModalIsOpen();
+    selectForm(0);
   };
 
   const items = data.map((item, index) => (
@@ -54,7 +76,11 @@ const ProfilePage = () => {
         if (index === 3) {
           navigateToCGU();
         } else if (index === 1) {
-          navigateToChangePassword();
+          toggleResetPasswordRequestModalIsOpen();
+          selectForm(1);
+        } else if (index === 4) {
+          toggledeleteFormModalIsOpen();
+          selectForm(4);
         } else {
           selectForm(index);
         }
@@ -79,9 +105,21 @@ const ProfilePage = () => {
             <Container>{items}</Container>
           </Grid.Col>
           <Grid.Col span={9}>
-            {actualForm === 0 && <ProfileForm />}
-            {actualForm === 2 && <ChangeEmailForm />}
-            {actualForm === 4 && <DeleteForm />}
+            {actualForm === 0 && <ProfileForm user={user} />}
+            {actualForm === 1 && (
+              <RequestResetPasswordModal
+                isOpen={resetPasswordRequestModalIsOpen}
+                close={handleCloseResetPasswordModal}
+              />
+            )}
+            {actualForm === 2 && <ChangeEmailForm userId={user?.Id} />}
+            {actualForm === 4 && (
+              <DeleteFormModal
+                userId={user?.Id}
+                isOpen={deleteFormModalIsOpen}
+                close={handleCloseDeleteModal}
+              />
+            )}
           </Grid.Col>
         </Grid>
       </Paper>

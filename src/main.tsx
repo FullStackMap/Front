@@ -65,5 +65,5 @@ root.render(
         </QueryClientProvider>
       </MantineProvider>
     </BrowserRouter>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
