@@ -5,11 +5,12 @@ import {
   TripDto,
   UpdateStepLocationDto,
 } from '@FullStackMap/from-a2b';
+import { Group, Stack } from '@mantine/core';
 import { useDocumentTitle } from '@mantine/hooks';
 import { IconPinnedFilled } from '@tabler/icons-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
-import { FeatureCollection, Position } from 'geojson';
+import { FeatureCollection } from 'geojson';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   GeolocateControl,
@@ -21,8 +22,8 @@ import {
   ScaleControl,
   Source,
 } from 'react-map-gl';
+import { StepCard } from '../../components/stepCard/StepCard';
 import { StepController, TripController } from '../../services/BaseApi';
-import { calculateRoad } from '../../services/api/MapboxController';
 
 interface updateStepLocationMutationProps {
   stepId: number;
@@ -36,7 +37,7 @@ const MapPage = () => {
 
   const queryClient = useQueryClient();
 
-  const tripId = 'E92913FE-5115-46BB-7A9C-08DC4E850E01';
+  const tripId = '075855B5-C93F-4574-7AC8-08DC4E850E01';
   const { data: trips } = useQuery({
     queryKey: ['Trip', tripId],
     queryFn: async () =>
@@ -80,13 +81,13 @@ const MapPage = () => {
   const [steps, setSteps] = useState<StepDto[]>([]);
   const [roads, setRoads] = useState<TravelDtoList[]>([]);
 
-  const [dto, setDto] = useState([
-    // {
-    //   start: [4.860200783597507, 45.73050608112574],
-    //   end: [5.079252160492843, 45.71892384847893],
-    // },
-    // Ajoutez d'autres coordonnées initiales ici si nécessaire
-  ]);
+  // const [dto, setDto] = useState([
+  //   // {
+  //   //   start: [4.860200783597507, 45.73050608112574],
+  //   //   end: [5.079252160492843, 45.71892384847893],
+  //   // },
+  //   // Ajoutez d'autres coordonnées initiales ici si nécessaire
+  // ]);
 
   //#endregion
 
@@ -101,24 +102,24 @@ const MapPage = () => {
     setRoads(trips.travels as TravelDtoList[]);
   }, [trips]);
 
-  useEffect(() => {
-    (async () => {
-      //Calcul de l'itinéraire entre les points de passage
-      //Doit être utilisé que si nécessaire, car il y a un quota de requêtes
-      //l'ensemble des itinéraires sont stockés dans la base de données
-      console.log('les dto pour le road', dto[dto.length - 1]);
-      if (dto.length > 0) {
-        const lastDto = [dto[dto.length - 1]];
-        const road: Position[] = await calculateRoad('driving', lastDto);
-        console.log('road', road);
-        setRoads(prevRoads => prevRoads.concat(road));
-        console.log('roads', roads);
-      }
-      // const road: Position[] = await calculateRoad('driving', dto);
-      // setRoads(road);
-      // console.log("roads", roads)
-    })();
-  }, [dto]);
+  // useEffect(() => {
+  //   (async () => {
+  //     //Calcul de l'itinéraire entre les points de passage
+  //     //Doit être utilisé que si nécessaire, car il y a un quota de requêtes
+  //     //l'ensemble des itinéraires sont stockés dans la base de données
+  //     console.log('les dto pour le road', dto[dto.length - 1]);
+  //     if (dto.length > 0) {
+  //       const lastDto = [dto[dto.length - 1]];
+  //       const road: Position[] = await calculateRoad('driving', lastDto);
+  //       console.log('road', road);
+  //       setRoads(prevRoads => prevRoads.concat(road));
+  //       console.log('roads', roads);
+  //     }
+  //     // const road: Position[] = await calculateRoad('driving', dto);
+  //     // setRoads(road);
+  //     // console.log("roads", roads)
+  //   })();
+  // }, [dto]);
   //#endregion
 
   //#region Memos
@@ -224,14 +225,20 @@ const MapPage = () => {
 
   //#endregion
   return (
-    <>
-      <ul>
-        {steps.map(step => (
-          <li key={step.stepId}>
-            {step.stepId} - {step.name} - {step.latitude} - {step.longitude}
-          </li>
+    <Group justify="space-between">
+      <Stack>
+        {steps.map((step: StepDto) => (
+          <StepCard
+            key={step.stepId}
+            step={step}
+            travel={
+              roads.filter(t => t.destinationStepId == step.stepId)[0]
+            }></StepCard>
+          // <li key={step.stepId}>
+          //   {step.stepId} - {step.name} - {step.latitude} - {step.longitude}
+          // </li>
         ))}
-      </ul>
+      </Stack>
 
       <Map
         {...viewState}
@@ -243,8 +250,8 @@ const MapPage = () => {
         mapboxAccessToken="pk.eyJ1IjoiZGVyY3Jha2VyIiwiYSI6ImNsdHVnczc4dTB6N2QyanFwZDR1N2c2eHoifQ.arP7tBErlINY3-uiwfb7Ww"
         attributionControl={true}
         style={{
-          height: '80vh',
-          width: '80vw',
+          height: '93vh',
+          width: '60vw',
         }}>
         {pins}
         <Source id="routeSource" type="geojson" data={geojson}>
@@ -254,7 +261,7 @@ const MapPage = () => {
         <GeolocateControl />
         <ScaleControl />
       </Map>
-    </>
+    </Group>
   );
 };
 
