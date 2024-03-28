@@ -21,6 +21,19 @@ const TripControllerFunc = () => {
   return client.TripApiFactory(configLogged);
 };
 
+const UserControllerFunc = () => {
+  const configLogged = new client.Configuration({
+    basePath: basePath,
+    baseOptions: {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  });
+
+  return client.UserApiFactory(configLogged);
+};
+
 export const AnoAxiosClient = axios.create({
   baseURL: basePath,
 });
@@ -39,3 +52,5 @@ export const MapboxClient = axios.create({
 export const TripController = TripControllerFunc();
 
 export const AnoAuthController = client.AuthApiFactory(configAno);
+
+export const UserController = UserControllerFunc();

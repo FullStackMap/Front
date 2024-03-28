@@ -20,10 +20,6 @@ const ProfileMenu = () => {
     await logOut();
   }, []);
 
-  const handleAccount = () => {
-    throw new Error('handleAccount Not implemented');
-  };
-
   const handleTrips = () => {
     throw new Error('handleTrips Not implemented');
   };
@@ -54,7 +50,7 @@ const ProfileMenu = () => {
               leftSection={
                 <IconUserFilled style={{ width: rem(14), height: rem(14) }} />
               }
-              onClick={handleAccount}>
+              onClick={() => navigate('/profile')}>
               Mon compte
             </Menu.Item>
             <Menu.Divider />

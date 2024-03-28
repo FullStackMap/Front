@@ -7,6 +7,7 @@ import { ConfirmMailPage } from '../pages/confirmMail/ConfirmMailPage';
 import { ForgotPasswordPage } from '../pages/forgotPassword/ForgotPasswordPage';
 import { LandingPage } from '../pages/landing/LandingPage';
 import { LoginPage } from '../pages/login/LoginPage';
+import ProfilePage from '../pages/profile/ProfilePage.tsx';
 import MapPage from '../pages/map/MapPage';
 import { RegisterPage } from '../pages/register/RegisterPage';
 import FeedbackPage from '../pages/feedback/FeedbackPage';
@@ -30,6 +31,16 @@ const Router = () => {
         <Route path="/faq" element={<FaqPage />} />
         <Route path="/map" element={<MapPage />} />
         <Route path="/*" element={<Navigate to="/" />} />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute
+              authRequired
+              redirectPath="/login"
+              element={<ProfilePage />}
+            />
+          }
+        />
       </Route>
 
       <Route element={<HalfMapLayout />}></Route>
